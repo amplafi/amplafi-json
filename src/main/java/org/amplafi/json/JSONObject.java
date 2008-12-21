@@ -886,7 +886,7 @@ public class JSONObject implements JsonConstruct {
             default:
                 if (c < ' ') {
                     t = "000" + Integer.toHexString(c);
-                    sb.append("\\u" + t.substring(t.length() - 4));
+                    sb.append("\\u").append(t.substring(t.length() - 4));
                 } else {
                     sb.append(c);
                 }
@@ -1084,7 +1084,7 @@ public class JSONObject implements JsonConstruct {
      * @throws JSONException If the value is or contains an invalid number.
      */
     static String valueToString(Object value) throws JSONException {
-        if (value == null || value.equals(null)) {
+        if (value == null || value.equals(null)) { //see JSONObject.NULL
             return "null";
         }
         if (value instanceof Number) {
@@ -1114,7 +1114,7 @@ public class JSONObject implements JsonConstruct {
      */
     static String valueToString(Object value, int indentFactor, int indent)
     throws JSONException {
-        if (value == null || value.equals(null)) {
+        if (value == null || value.equals(null)) { //see JSONObject.NULL
             return "null";
         }
         if (value instanceof Number) {

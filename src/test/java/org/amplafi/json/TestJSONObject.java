@@ -1,9 +1,10 @@
 package org.amplafi.json;
 
-import org.amplafi.json.JSONObject;
 import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 import org.testng.Assert;
+import static org.amplafi.json.JSONObject.quote;
+import static org.amplafi.json.JSONObject.unquote;
 
 import java.io.StringWriter;
 
@@ -21,23 +22,29 @@ public class TestJSONObject extends Assert {
         assertEquals(writer.toString(), "root.a=1;root.b=true;root.c=\"ok\";");
     }
 
+    @Test
+    public void testQuoteBeforeSpaceChars() {
+        String s = new String(new char[]{31,30});
+        assertEquals(quote(s), "\"\\u001f\\u001e\"");
+    }
+
     @Test(dataProvider = "QuoteData")
     public void testQuote(String text) {
-        String quoted = JSONObject.quote(text);
-        assertEquals(JSONObject.unquote(quoted), text);
+        String quoted = quote(text);
+        assertEquals(unquote(quoted), text);
     }
 
     @Test(dataProvider = "QuoteData")
     public void testQuoteExtreme(String text) {
-        String quoted = JSONObject.quote(text);
+        String quoted = quote(text);
 
-        quoted = JSONObject.quote(quoted);
-        quoted = JSONObject.quote(quoted);
+        quoted = quote(quoted);
+        quoted = quote(quoted);
 
-        quoted = JSONObject.unquote(quoted);
-        quoted = JSONObject.unquote(quoted);
+        quoted = unquote(quoted);
+        quoted = unquote(quoted);
         
-        assertEquals(JSONObject.unquote(quoted), text);
+        assertEquals(unquote(quoted), text);
     }
 
     @DataProvider(name = "QuoteData")
@@ -47,7 +54,7 @@ public class TestJSONObject extends Assert {
                 new Object[]{ "hello <b>there</b>" },
                 new Object[]{ "hel\nlo/ \t<b>there</b>" },
                 new Object[]{ "he\bllo\f <b>there</b>\r" },
-                new Object[]{ "hi" + (char)1 + (char)20 + "<img/>" },
+                new Object[]{ "hi" + (char)11 + (char)20 + "<img/>" },
         };
     }
 }
