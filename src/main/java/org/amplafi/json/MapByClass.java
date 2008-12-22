@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
  * @param <V>
  *
  */
-public class MapByClass<V> implements Map<Class<?>, V>{
+public class MapByClass<V> implements ConcurrentMap<Class<?>, V>{
 
     private ConcurrentMap<Class<?>, V> byClassMap = new ConcurrentHashMap<Class<?>, V>();
 
@@ -156,6 +156,34 @@ public class MapByClass<V> implements Map<Class<?>, V>{
         this.byClassMap.putAll(m);
     }
 
+    /**
+     * @see java.util.concurrent.ConcurrentMap#putIfAbsent(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public V putIfAbsent(Class<?> key, V value) {
+        return this.putIfAbsent(key, value);
+    }
+    /**
+     * @see java.util.concurrent.ConcurrentMap#remove(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public boolean remove(Object key, Object value) {
+        return remove(key, value);
+    }
+    /**
+     * @see java.util.concurrent.ConcurrentMap#replace(java.lang.Object, java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public boolean replace(Class<?> key, V oldValue, V newValue) {
+        return replace(key, oldValue, newValue);
+    }
+    /**
+     * @see java.util.concurrent.ConcurrentMap#replace(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    public V replace(Class<?> key, V value) {
+        return replace(key, value);
+    }
     /**
      * @see java.util.Map#remove(java.lang.Object)
      */
