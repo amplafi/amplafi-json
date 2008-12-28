@@ -30,6 +30,8 @@ import org.amplafi.json.renderers.EnumJsonRenderer;
 import org.amplafi.json.renderers.IterableJsonOutputRenderer;
 import org.amplafi.json.renderers.MapJsonRenderer;
 
+import com.sworddance.beans.MapByClass;
+
 /**
  * JSONStringer provides a quick and convenient way of producing JSON text.
  * The texts produced strictly conform to JSON syntax rules. No whitespace is

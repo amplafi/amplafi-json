@@ -8,6 +8,8 @@ import org.amplafi.json.renderers.NumberJsonRenderer;
 import org.amplafi.json.renderers.StringJSONOutputRenderer;
 import org.apache.commons.lang.StringUtils;
 
+import com.sworddance.beans.MapByClass;
+
 
 /*
 Copyright (c) 2006 JSON.org
