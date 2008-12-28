@@ -79,6 +79,7 @@
         <dependency>
             <groupId>org.amplafi</groupId>
             <artifactId>amplafi-sworddance</artifactId>
+            <version>${pom.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
