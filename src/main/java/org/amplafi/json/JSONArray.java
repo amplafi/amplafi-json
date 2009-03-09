@@ -831,7 +831,7 @@ public class JSONArray implements JsonConstruct {
         for(Object object: myArrayList) {
             T inst;
             try {
-                if ( object == null ) {
+                if ( object == null || object instanceof Null) {
                     inst = null;
                 } else if ( clazz.isAssignableFrom(object.getClass())) {
                     inst = (T) object;
@@ -839,7 +839,7 @@ public class JSONArray implements JsonConstruct {
                     inst = clazz.newInstance();
                     inst = (T)((JsonSelfRenderer)inst).fromJson(object);
                 } else {
-                    throw new JSONException(object.getClass()+ " cannot be converted to with "+clazz);
+                    throw new JSONException(object.getClass()+ " cannot be converted to "+clazz);
                 }
                 list.add(inst);
             } catch (InstantiationException e) {
