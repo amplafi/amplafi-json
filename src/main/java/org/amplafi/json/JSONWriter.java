@@ -1,6 +1,7 @@
 package org.amplafi.json;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.io.Writer;
 
 import org.amplafi.json.renderers.BooleanJsonRenderer;
@@ -103,6 +104,9 @@ public class JSONWriter {
      */
     protected Writer writer;
 
+    public JSONWriter() {
+        this(new StringWriter());
+    }
     /**
      * Make a fresh JSONWriter. It can be used to build one JSON text.
      *
@@ -433,7 +437,16 @@ public class JSONWriter {
      * @param key
      * @param value
      */
-    public <T> void keyValue(String key, T value) {
+    public <T> JSONWriter keyValue(String key, T value) {
         this.key(key).value(value);
+        return this;
+    }
+    @Override
+    public String toString() {
+        if (this.writer instanceof StringWriter) {
+            return this.writer.toString();
+        } else {
+            return super.toString();
+        }
     }
 }
