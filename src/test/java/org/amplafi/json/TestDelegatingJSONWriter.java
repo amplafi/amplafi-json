@@ -33,14 +33,18 @@ public class TestDelegatingJSONWriter extends Assert {
         writer.key("3");
         writer.value(calendar);
 
+        innerWriter.keyValueIfNotNullValue("4", calendar);
+
         writer.endObject();
 
         String dateStr = calendar.toString();
         dateStr = dateStr.replaceAll("\"", "\\\\\"");
 
-        assertEquals(writer.toString(), "{\"1\":\"" + dateStr + "\"," +
-            "\"2\":new Date(2009,1,13,11,31)," +
-            "\"3\":\"" + dateStr + "\"}"
+        assertEquals(writer.toString(), "{\"1\":\"" + dateStr + "\"" +
+            ",\"2\":new Date(2009,1,13,11,31)" +
+            ",\"3\":\"" + dateStr + "\"" +
+            ",\"4\":new Date(2009,1,13,11,31)" +
+            "}"
         );
     }
 }

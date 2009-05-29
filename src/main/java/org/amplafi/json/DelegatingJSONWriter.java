@@ -19,23 +19,28 @@ public class DelegatingJSONWriter extends JSONWriter {
     }
 
     public JSONWriter append(String s) throws JSONException {
-        return realWriter.append(s);
+        realWriter.append(s);
+        return this;
     }
 
     public JSONWriter array() throws JSONException {
-        return realWriter.array();
+        realWriter.array();
+        return this;
     }
 
     public JSONWriter endArray() throws JSONException {
-        return realWriter.endArray();
+        realWriter.endArray();
+        return this;
     }
 
     public JSONWriter endObject() throws JSONException {
-        return realWriter.endObject();
+        realWriter.endObject();
+        return this;
     }
 
     public JSONWriter key(String s) throws JSONException {
-        return realWriter.key(s);
+        realWriter.key(s);
+        return this;
     }
 
     public boolean isInKeyMode() {
@@ -43,7 +48,8 @@ public class DelegatingJSONWriter extends JSONWriter {
     }
 
     public JSONWriter object() throws JSONException {
-        return realWriter.object();
+        realWriter.object();
+        return this;
     }
 
     public boolean isInArrayMode() {
@@ -55,27 +61,23 @@ public class DelegatingJSONWriter extends JSONWriter {
     }
 
     public JSONWriter value(boolean b) throws JSONException {
-        return realWriter.value(b);
+        realWriter.value(b);
+        return this;
     }
 
     public JSONWriter value(double d) throws JSONException {
-        return realWriter.value(d);
+        realWriter.value(d);
+        return this;
     }
 
     public JSONWriter value(long l) throws JSONException {
-        return realWriter.value(l);
+        realWriter.value(l);
+        return this;
     }
 
     public JSONWriter keyValueIfNotBlankValue(String key, String value) {
-        return realWriter.keyValueIfNotBlankValue(key, value);
-    }
-
-    public JSONWriter keyValueIfNotNullValue(String key, Object value) {
-        return realWriter.keyValueIfNotNullValue(key, value);
-    }
-
-    public <T> JSONWriter keyValue(String key, T value) {
-        return realWriter.keyValue(key, value);
+        realWriter.keyValueIfNotBlankValue(key, value);
+        return this;
     }
 
     @Override
