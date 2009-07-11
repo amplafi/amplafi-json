@@ -15,7 +15,7 @@ public class SampleJsonData implements JsonSelfRenderer {
         this.age = age;
     }
 
-    public SampleJsonData(Object object) {
+    public SampleJsonData(JSONObject object) {
         fromJson(object);
     }
 
