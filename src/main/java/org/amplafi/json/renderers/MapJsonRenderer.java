@@ -135,7 +135,7 @@ class KeyValuePair<X, Y> implements JsonSelfRenderer {
         try {
             Class<?> forName = Class.forName(className);
             if (JsonSelfRenderer.class.isAssignableFrom(forName)) {
-                Constructor<?> declaredConstructor = forName.getDeclaredConstructor(Object.class);
+                Constructor<?> declaredConstructor = forName.getDeclaredConstructor(JSONObject.class);
                 Object newInstance = declaredConstructor.newInstance(val);
                 return (T) newInstance;
             }
