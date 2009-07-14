@@ -17,7 +17,7 @@ import org.apache.commons.lang.ObjectUtils;
 /**
  * Render a map of objects as a json map. Keys and values of the Map can be JsonSelfRenderer
  * instances also.
- * 
+ *
  * @author Patrick Moore
  */
 @SuppressWarnings("unchecked")
@@ -80,6 +80,11 @@ public class MapJsonRenderer<T, V> implements JsonRenderer<Map<T, V>> {
 
 }
 
+/**
+ * TODO This seems weak.
+ * @param <X>
+ * @param <Y>
+ */
 class KeyValuePair<X, Y> implements JsonSelfRenderer {
 
     private static final String KEY = "key";
@@ -107,10 +112,10 @@ class KeyValuePair<X, Y> implements JsonSelfRenderer {
     @Override
     public <T> T fromJson(Object object) {
         JSONObject json = JSONObject.toJsonObject(object);
-        key = json.opt(KEY);
+        key = (X) json.opt(KEY);
         String keyClassName = json.opt(KEY_CLASS);
         key = keyClassName == null ? key : getDeserializedObject(keyClassName, key);
-        value = json.opt(VALUE);
+        value = (Y) json.opt(VALUE);
         String valClassName = json.opt(VALUE_CLASS);
         value = valClassName == null ? value : getDeserializedObject(valClassName, value);
         return (T) this;
