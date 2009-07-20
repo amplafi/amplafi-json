@@ -7,12 +7,13 @@ package org.amplafi.json.renderers;
 
 import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
+import org.apache.commons.lang.ObjectUtils;
 
 public class BooleanJsonRenderer implements JsonRenderer<Boolean> {
 
     public static final BooleanJsonRenderer INSTANCE = new BooleanJsonRenderer();
     public JSONWriter toJson(JSONWriter jsonWriter, Boolean o) {
-        return jsonWriter.append(o.toString());
+        return jsonWriter.append(ObjectUtils.toString(o));
     }
     @SuppressWarnings("unchecked")
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
