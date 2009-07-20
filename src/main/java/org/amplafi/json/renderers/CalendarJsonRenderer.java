@@ -3,6 +3,7 @@ package org.amplafi.json.renderers;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONObject;
 import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
@@ -40,7 +41,7 @@ public class CalendarJsonRenderer implements JsonRenderer<Calendar> {
     }
 
     @Override
-    public JSONWriter toJson(JSONWriter jsonWriter, Calendar cal) {
+    public IJsonWriter toJson(IJsonWriter jsonWriter, Calendar cal) {
         jsonWriter.object();
         jsonWriter.keyValue(TIME_IN_MILLIS,cal.getTimeInMillis());
         jsonWriter.keyValue(TIMEZONE_ID,cal.getTimeZone().getID());

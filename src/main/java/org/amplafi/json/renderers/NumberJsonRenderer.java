@@ -4,15 +4,15 @@
  */
 package org.amplafi.json.renderers;
 
+import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONObject;
-import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
 
 public class NumberJsonRenderer<T extends Number> implements JsonRenderer<T> {
 
     public static final NumberJsonRenderer INSTANCE = new NumberJsonRenderer();
 
-    public JSONWriter toJson(JSONWriter jsonWriter, Number o) {
+    public IJsonWriter toJson(IJsonWriter jsonWriter, Number o) {
         return jsonWriter.append(JSONObject.numberToString(o));
     }
 

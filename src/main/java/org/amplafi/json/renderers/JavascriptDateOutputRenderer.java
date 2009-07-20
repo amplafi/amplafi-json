@@ -7,7 +7,7 @@ package org.amplafi.json.renderers;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.amplafi.json.JSONWriter;
+import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JsonRenderer;
 
 /**
@@ -18,7 +18,7 @@ import org.amplafi.json.JsonRenderer;
 public class JavascriptDateOutputRenderer implements JsonRenderer {
     public static final JavascriptDateOutputRenderer INSTANCE = new JavascriptDateOutputRenderer();
 
-    public JSONWriter toJson(JSONWriter jsonWriter, Object o) {
+    public IJsonWriter toJson(IJsonWriter jsonWriter, Object o) {
         Calendar cal;
         if ( o instanceof Date ) {
             cal = Calendar.getInstance();

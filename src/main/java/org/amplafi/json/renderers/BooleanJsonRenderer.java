@@ -5,6 +5,7 @@
  */
 package org.amplafi.json.renderers;
 
+import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
 import org.apache.commons.lang.ObjectUtils;
@@ -12,7 +13,7 @@ import org.apache.commons.lang.ObjectUtils;
 public class BooleanJsonRenderer implements JsonRenderer<Boolean> {
 
     public static final BooleanJsonRenderer INSTANCE = new BooleanJsonRenderer();
-    public JSONWriter toJson(JSONWriter jsonWriter, Boolean o) {
+    public IJsonWriter toJson(IJsonWriter jsonWriter, Boolean o) {
         return jsonWriter.append(ObjectUtils.toString(o));
     }
     @SuppressWarnings("unchecked")
