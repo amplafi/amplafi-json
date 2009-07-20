@@ -1,7 +1,7 @@
 package org.amplafi.json.renderers;
 
+import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONObject;
-import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonSelfRenderer;
 
 public class SampleJsonData implements JsonSelfRenderer {
@@ -29,14 +29,14 @@ public class SampleJsonData implements JsonSelfRenderer {
     }
 
     @Override
-    public void toJson(JSONWriter jsonWriter) {
+    public void toJson(IJsonWriter jsonWriter) {
         jsonWriter.object();
         jsonWriter.keyValue("name", this.name);
         jsonWriter.keyValue("age", this.age);
         jsonWriter.endObject();
 
     }
-    
+
     @Override
     public int hashCode() {
         return 17 * age * this.name.hashCode();
@@ -49,7 +49,7 @@ public class SampleJsonData implements JsonSelfRenderer {
         }
         if (obj instanceof SampleJsonData) {
             SampleJsonData sampleJsonData = (SampleJsonData) obj;
-            return this.age == sampleJsonData.age && 
+            return this.age == sampleJsonData.age &&
                 this.name.equals(sampleJsonData.name);
         }
         return false;
