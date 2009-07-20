@@ -19,13 +19,13 @@ public class TestDelegatingJSONWriter extends Assert {
     public void testDelegating() {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         calendar.setTimeInMillis(1234567890000L);
-        
-        JSONWriter writer = new JSONStringer();
+
+        IJsonWriter writer = new JSONStringer();
         writer.object();
         writer.key("1");
         writer.value(calendar);
 
-        JSONWriter innerWriter = new DelegatingJSONWriter(writer);
+        IJsonWriter innerWriter = new DelegatingJSONWriter(writer);
         innerWriter.addRenderer(Calendar.class, new JavascriptDateOutputRenderer());
         innerWriter.key("2");
         innerWriter.value(calendar);
