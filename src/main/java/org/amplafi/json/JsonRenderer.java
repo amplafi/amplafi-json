@@ -11,7 +11,7 @@ package org.amplafi.json;
  * @param <T>
  */
 public interface JsonRenderer<T> {
-    public JSONWriter toJson(JSONWriter jsonWriter, T o);
+    public IJsonWriter toJson(IJsonWriter jsonWriter, T o);
     /**
      *
      * @param <K>

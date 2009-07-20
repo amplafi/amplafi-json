@@ -65,7 +65,7 @@ SOFTWARE.
  * @author JSON.org
  * @version 2
  */
-public class JSONWriter {
+public class JSONWriter implements IJsonWriter {
     private static final int maxdepth = 20;
     private MapByClass<JsonRenderer<?>> renderers;
 
@@ -73,7 +73,7 @@ public class JSONWriter {
      * The comma flag determines if a comma should be output before the next
      * value.
      */
-    private boolean comma;
+    boolean comma;
 
     /**
      * The current mode. Values:
@@ -85,7 +85,7 @@ public class JSONWriter {
      */
     protected char mode;
     private static final char ARRAY_MODE = 'a';
-    private static final char OBJECT_MODE = 'o';
+    static final char OBJECT_MODE = 'o';
     private static final char KEY_MODE = 'k';
     private static final char INITIAL_MODE = 'i';
 
@@ -133,12 +133,9 @@ public class JSONWriter {
     }
 
     /**
-     * Append a value.
-     * @param s A string value.
-     * @return this
-     * @throws JSONException If the value is out of sequence.
+     * @see org.amplafi.json.IJsonWriter#append(java.lang.String)
      */
-    public JSONWriter append(String s) throws JSONException {
+    public IJsonWriter append(String s) throws JSONException {
         if (s == null) {
             throw new JSONException("Null pointer");
         }
@@ -166,20 +163,21 @@ public class JSONWriter {
             }
             comma = true;
             return this;
+        } else if ( isInKeyMode()) {
+            try {
+                writer.write(s);
+            } catch (IOException e) {
+                throw new JSONException(e);
+            }
+            return this;
         }
         throw new JSONException("Value out of sequence.");
     }
 
     /**
-     * Begin appending a new array. All values until the balancing
-     * <code>endArray</code> will be appended to this array. The
-     * <code>endArray</code> method must be called to mark the array's end.
-     * @return this
-     * @throws JSONException If the nesting is too deep, or if the object is
-     * started in the wrong place (for example as a key or after the end of the
-     * outermost array or object).
+     * @see org.amplafi.json.IJsonWriter#array()
      */
-    public JSONWriter array() throws JSONException {
+    public IJsonWriter array() throws JSONException {
         if (mode == INITIAL_MODE || isInObjectMode() || isInArrayMode()) {
             this.push(ARRAY_MODE);
             this.append("[");
@@ -196,7 +194,7 @@ public class JSONWriter {
      * @return this
      * @throws JSONException If unbalanced.
      */
-    private JSONWriter end(char m, char c) throws JSONException {
+    private IJsonWriter end(char m, char c) throws JSONException {
         if (mode != m) {
             throw new JSONException(m == OBJECT_MODE ? "Misplaced endObject." :
             "Misplaced endArray.");
@@ -212,56 +210,113 @@ public class JSONWriter {
     }
 
     /**
-     * End an array. This method most be called to balance calls to
-     * <code>array</code>.
-     * @return this
-     * @throws JSONException If incorrectly nested.
+     * @see org.amplafi.json.IJsonWriter#endArray()
      */
-    public JSONWriter endArray() throws JSONException {
+    public IJsonWriter endArray() throws JSONException {
         return this.end(ARRAY_MODE, ']');
     }
 
     /**
-     * End an object. This method most be called to balance calls to
-     * <code>object</code>.
-     * @return this
-     * @throws JSONException If incorrectly nested.
+     * @see org.amplafi.json.IJsonWriter#endObject()
      */
-    public JSONWriter endObject() throws JSONException {
+    public IJsonWriter endObject() throws JSONException {
         return this.end(KEY_MODE, '}');
     }
 
     /**
-     * Append a key. The key will be associated with the next value. In an
-     * object, every value must be preceded by a key.
-     * @param s A key string.
-     * @return this
-     * @throws JSONException If the key is out of place. For example, keys
-     *  do not belong in arrays or if the key is null.
+     * @see org.amplafi.json.IJsonWriter#key(K)
      */
-    public JSONWriter key(String s) throws JSONException {
-        if (s == null) {
+//    public <K> JSONWriter key(K o) throws JSONException {
+//        if (o == null) {
+//            throw new JSONException("Null key.");
+//        }
+//        String s = ObjectUtils.toString(o);
+//        if (isInKeyMode()) {
+//            try {
+//                if (comma) {
+//                    writer.write(',');
+//                }
+//                writer.write(JSONObject.quote(s));
+//                writer.write(':');
+//                comma = false;
+//                mode = OBJECT_MODE;
+//                return this;
+//            } catch (IOException e) {
+//                throw new JSONException(e);
+//            }
+//        }
+//        throw new JSONException("Misplaced key.");
+//    }
+
+    public <K> IJsonWriter key(K o) throws JSONException {
+        if (o == null) {
             throw new JSONException("Null key.");
-        }
-        if (isInKeyMode()) {
+        } else if ( !isInKeyMode()){
+            throw new JSONException("Misplaced key.");
+        } else {
             try {
                 if (comma) {
                     writer.write(',');
                 }
-                writer.write(JSONObject.quote(s));
-                writer.write(':');
-                comma = false;
-                mode = OBJECT_MODE;
-                return this;
+                JsonRenderer<K> renderer = (JsonRenderer<K>) renderers.getRaw(o.getClass());
+                if ( renderer == null ) {
+                    if ( o instanceof JsonSelfRenderer) {
+                    // we check after looking in map so that it has a chance to have been overridden.
+                        ((JsonSelfRenderer) o).toJson(this);
+                        return this;
+                    } else {
+                        // o.k. go search for a loose match.
+                        renderer = (JsonRenderer<K>) renderers.get(o.getClass());
+                    }
+                }
+                if ( renderer != null ) {
+                    renderer.toJson(this, o);
+                    return this;
+                }
+                return this.append(JSONObject.valueToString(o));
             } catch (IOException e) {
                 throw new JSONException(e);
+            } finally {
+                try {
+                    writer.write(':');
+                } catch (IOException e) {
+                    throw new JSONException(e);
+                }
+                comma = false;
+                mode = OBJECT_MODE;
             }
         }
-        throw new JSONException("Misplaced key.");
+    }
+    /**
+     * @see org.amplafi.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.String, java.lang.String)
+     */
+    public IJsonWriter keyValueIfNotBlankValue(String key, String value) {
+        if ( !StringUtils.isBlank(value)) {
+            this.keyValue(key, value);
+        }
+        return this;
     }
 
     /**
-     * @return true if creating an {@link JSONObject} and expecting a key.
+     * @see org.amplafi.json.IJsonWriter#keyValueIfNotNullValue(java.lang.String, java.lang.Object)
+     */
+    public IJsonWriter keyValueIfNotNullValue(String key, Object value) {
+        if ( value != null) {
+            this.keyValue(key, value);
+        }
+        return this;
+    }
+
+    /**
+     * @see org.amplafi.json.IJsonWriter#keyValue(K, V)
+     */
+    public <K,V> IJsonWriter keyValue(K key, V value) {
+        this.key(key).value(value);
+        return this;
+    }
+
+    /**
+     * @see org.amplafi.json.IJsonWriter#isInKeyMode()
      */
     public boolean isInKeyMode() {
         return mode == KEY_MODE;
@@ -269,13 +324,7 @@ public class JSONWriter {
 
 
     /**
-     * Begin appending a new object. All keys and values until the balancing
-     * <code>endObject</code> will be appended to this object. The
-     * <code>endObject</code> method must be called to mark the object's end.
-     * @return this
-     * @throws JSONException If the nesting is too deep, or if the object is
-     * started in the wrong place (for example as a key or after the end of the
-     * outermost array or object).
+     * @see org.amplafi.json.IJsonWriter#object()
      */
     public JSONWriter object() throws JSONException {
         if (mode == INITIAL_MODE) {
@@ -292,14 +341,14 @@ public class JSONWriter {
     }
 
     /**
-     * @return true if an array is currently being created.
+     * @see org.amplafi.json.IJsonWriter#isInArrayMode()
      */
     public boolean isInArrayMode() {
         return mode == ARRAY_MODE;
     }
 
     /**
-     * @return true if expecting a key for the object.
+     * @see org.amplafi.json.IJsonWriter#isInObjectMode()
      */
     public boolean isInObjectMode() {
         return mode == OBJECT_MODE;
@@ -335,55 +384,39 @@ public class JSONWriter {
 
 
     /**
-     * Append either the value <code>true</code> or the value
-     * <code>false</code>.
-     * @param b A boolean.
-     * @return this
-     * @throws JSONException
+     * @see org.amplafi.json.IJsonWriter#value(boolean)
      */
-    public JSONWriter value(boolean b) throws JSONException {
+    public IJsonWriter value(boolean b) throws JSONException {
         return this.value(Boolean.valueOf(b));
     }
 
     /**
-     * Append a double value.
-     * @param d A double.
-     * @return this
-     * @throws JSONException If the number is not finite.
+     * @see org.amplafi.json.IJsonWriter#value(double)
      */
-    public JSONWriter value(double d) throws JSONException {
+    public IJsonWriter value(double d) throws JSONException {
         return this.value(new Double(d));
     }
 
     /**
-     * Append a long value.
-     * @param l A long.
-     * @return this
-     * @throws JSONException
+     * @see org.amplafi.json.IJsonWriter#value(long)
      */
-    public JSONWriter value(long l) throws JSONException {
+    public IJsonWriter value(long l) throws JSONException {
         return this.value(new Long(l));
     }
 
-    /**
-     * Append an object value.
-     * @param <T> o's type.
-     * @param o The object to append. It can be null, or a Boolean, Number,
-     *   String, JSONObject, or JSONArray.
-     * @return this
-     * @throws JSONException If the value is out of sequence.
-     */
     @SuppressWarnings("unchecked")
-    public <T> JSONWriter value(T o) throws JSONException {
+    public <T> IJsonWriter value(T o) throws JSONException {
         if ( o != null ) {
             JsonRenderer<T> renderer = (JsonRenderer<T>) renderers.getRaw(o.getClass());
-            if ( renderer == null && o instanceof JsonSelfRenderer) {
-                // we check after looking in map so that it has a chance to have been overridden.
-                ((JsonSelfRenderer) o).toJson(this);
-                return this;
-            } else {
-                // o.k. go search for a loose match.
-                renderer = (JsonRenderer<T>) renderers.get(o.getClass());
+            if ( renderer == null) {
+                if (o instanceof JsonSelfRenderer) {
+                    // we check after looking in map so that it has a chance to have been overridden.
+                    ((JsonSelfRenderer) o).toJson(this);
+                    return this;
+                } else {
+                    // o.k. go search for a loose match.
+                    renderer = (JsonRenderer<T>) renderers.get(o.getClass());
+                }
             }
             if ( renderer != null ) {
                 renderer.toJson(this, o);
@@ -395,52 +428,18 @@ public class JSONWriter {
     }
 
     /**
-     * add a renderer to handle different different classes of objects.
-     * @param name
-     * @param renderer
+     * @see org.amplafi.json.IJsonWriter#addRenderer(java.lang.Class, org.amplafi.json.JsonRenderer)
      */
     public void addRenderer(Class<?> name, JsonRenderer<?> renderer) {
         renderers.put(name, renderer);
     }
+    /**
+     * @see org.amplafi.json.IJsonWriter#addRenderer(org.amplafi.json.JsonRenderer)
+     */
     public void addRenderer(JsonRenderer<?> renderer) {
         this.addRenderer(renderer.getClassToRender(), renderer);
     }
 
-    /**
-     * render key(key).value(value) if value is not a blank string.
-     * @param key
-     * @param value
-     * @return this
-     */
-    public JSONWriter keyValueIfNotBlankValue(String key, String value) {
-        if ( !StringUtils.isBlank(value)) {
-            this.keyValue(key, value);
-        }
-        return this;
-    }
-
-    /**
-     * render key(key).value(value) if value is not null.
-     * @param key
-     * @param value
-     * @return this
-     */
-    public JSONWriter keyValueIfNotNullValue(String key, Object value) {
-        if ( value != null) {
-            this.keyValue(key, value);
-        }
-        return this;
-    }
-
-    /**
-     * @param <T>
-     * @param key
-     * @param value
-     */
-    public <T> JSONWriter keyValue(String key, T value) {
-        this.key(key).value(value);
-        return this;
-    }
     @Override
     public String toString() {
         if (this.writer instanceof StringWriter) {
