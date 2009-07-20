@@ -1,5 +1,6 @@
 package org.amplafi.json.renderers;
 
+import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONException;
 import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
@@ -21,7 +22,7 @@ public class EnumJsonRenderer<T extends Enum<T>> implements JsonRenderer<T> {
     }
 
     @Override
-    public JSONWriter toJson(JSONWriter jsonWriter, Enum o) {
+    public IJsonWriter toJson(IJsonWriter jsonWriter, Enum o) {
         return jsonWriter.append(o.name());
     }
 

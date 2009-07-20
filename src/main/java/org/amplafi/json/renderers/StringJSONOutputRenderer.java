@@ -4,8 +4,8 @@
  */
 package org.amplafi.json.renderers;
 
+import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONObject;
-import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
 import org.apache.commons.lang.ObjectUtils;
 
@@ -13,7 +13,7 @@ public class StringJSONOutputRenderer implements JsonRenderer<CharSequence> {
 
     public static StringJSONOutputRenderer INSTANCE = new StringJSONOutputRenderer();
 
-    public JSONWriter toJson(JSONWriter jsonWriter, CharSequence o) {
+    public IJsonWriter toJson(IJsonWriter jsonWriter, CharSequence o) {
         return jsonWriter.append(JSONObject.quote(ObjectUtils.toString(o)));
     }
 

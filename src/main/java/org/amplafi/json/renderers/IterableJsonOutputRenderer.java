@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONArray;
 import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
@@ -38,7 +39,7 @@ public class IterableJsonOutputRenderer<T extends Iterable> implements JsonRende
     }
 
     @Override
-    public JSONWriter toJson(JSONWriter jsonWriter, T iter) {
+    public IJsonWriter toJson(IJsonWriter jsonWriter, T iter) {
         jsonWriter.array();
         for (Object obj : iter) {
             if ( allowNullValues || obj != null ) {

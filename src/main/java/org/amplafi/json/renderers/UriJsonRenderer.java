@@ -6,7 +6,7 @@ package org.amplafi.json.renderers;
 
 import java.net.URI;
 
-import org.amplafi.json.JSONWriter;
+import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JsonRenderer;
 import org.apache.commons.lang.ObjectUtils;
 
@@ -41,7 +41,7 @@ public class UriJsonRenderer implements JsonRenderer<URI> {
      * @see org.amplafi.json.JsonRenderer#toJson(org.amplafi.json.JSONWriter, java.lang.Object)
      */
     @Override
-    public JSONWriter toJson(JSONWriter jsonWriter, URI o) {
+    public IJsonWriter toJson(IJsonWriter jsonWriter, URI o) {
         return jsonWriter.value(ObjectUtils.toString(o, null));
     }
 
