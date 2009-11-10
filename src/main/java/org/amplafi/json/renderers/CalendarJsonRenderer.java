@@ -5,7 +5,6 @@ import java.util.TimeZone;
 
 import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONObject;
-import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
 
 public class CalendarJsonRenderer implements JsonRenderer<Calendar> {
@@ -28,6 +27,7 @@ public class CalendarJsonRenderer implements JsonRenderer<Calendar> {
         }
         JSONObject jsonObject = JSONObject.toJsonObject(value);
         long millis = jsonObject.getLong(TIME_IN_MILLIS);
+        // TODO: shouldn't TimezoneFlowTranslator mean this is not needed?
         String timeZoneId = jsonObject.getString(TIMEZONE_ID);
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(millis);
