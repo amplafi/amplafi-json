@@ -914,4 +914,19 @@ public class JSONArray implements JsonConstruct {
     public boolean isEmpty() {
         return this.myArrayList.isEmpty();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if ( !(o instanceof JSONArray)) {
+            return false;
+        } else {
+            JSONArray other = (JSONArray) o;
+            return other.myArrayList.equals(this.myArrayList);
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return this.myArrayList.hashCode();
+    }
 }
