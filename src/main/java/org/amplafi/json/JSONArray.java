@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.apache.commons.lang.StringUtils.*;
@@ -82,7 +83,7 @@ import static org.apache.commons.lang.StringUtils.*;
  * @author JSON.org
  * @version 2
  */
-public class JSONArray implements JsonConstruct {
+public class JSONArray implements JsonConstruct, Iterable<Object> {
 
 
     /**
@@ -579,6 +580,14 @@ public class JSONArray implements JsonConstruct {
 
 
     /**
+     * @see java.lang.Iterable#iterator()
+     */
+    @Override
+    public Iterator<Object> iterator() {
+        return this.myArrayList.iterator();
+    }
+
+    /**
      * Append an object value. This increases the array's length by one.
      * @param value An object value.  The value should be a
      *  Boolean, Double, Integer, JSONArray, JSObject, Long, or String, or the
@@ -588,6 +597,10 @@ public class JSONArray implements JsonConstruct {
     public JSONArray put(Object value) {
         myArrayList.add(value);
         return this;
+    }
+
+    public Object remove(int index) {
+        return myArrayList.remove(index);
     }
 
 
