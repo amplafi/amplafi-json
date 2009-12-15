@@ -88,6 +88,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
         realWriter.value(l);
         return this;
     }
+    @SuppressWarnings("unchecked")
     public <T> IJsonWriter value(T o) throws JSONException {
         if ( o != null ) {
             JsonRenderer<T> renderer = (JsonRenderer<T>) renderers.getRaw(o.getClass());
@@ -133,6 +134,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
         this.addRenderer(renderer.getClassToRender(), renderer);
     }
 
+    @SuppressWarnings("unchecked")
     public <K> IJsonWriter key(K o) throws JSONException {
         if (o == null) {
             throw new JSONException("Null key.");
@@ -193,7 +195,8 @@ public class DelegatingJSONWriter implements IJsonWriter {
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#keyValue(K, V)
+     *
+     * @see org.amplafi.json.IJsonWriter#keyValue(java.lang.Object, java.lang.Object)
      */
     public <K,V> IJsonWriter keyValue(K key, V value) {
         this.key(key).value(value);

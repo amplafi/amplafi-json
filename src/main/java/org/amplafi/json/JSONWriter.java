@@ -223,31 +223,7 @@ public class JSONWriter implements IJsonWriter {
         return this.end(KEY_MODE, '}');
     }
 
-    /**
-     * @see org.amplafi.json.IJsonWriter#key(K)
-     */
-//    public <K> JSONWriter key(K o) throws JSONException {
-//        if (o == null) {
-//            throw new JSONException("Null key.");
-//        }
-//        String s = ObjectUtils.toString(o);
-//        if (isInKeyMode()) {
-//            try {
-//                if (comma) {
-//                    writer.write(',');
-//                }
-//                writer.write(JSONObject.quote(s));
-//                writer.write(':');
-//                comma = false;
-//                mode = OBJECT_MODE;
-//                return this;
-//            } catch (IOException e) {
-//                throw new JSONException(e);
-//            }
-//        }
-//        throw new JSONException("Misplaced key.");
-//    }
-
+    @SuppressWarnings("unchecked")
     public <K> IJsonWriter key(K o) throws JSONException {
         if (o == null) {
             throw new JSONException("Null key.");
@@ -308,7 +284,8 @@ public class JSONWriter implements IJsonWriter {
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#keyValue(K, V)
+     *
+     * @see org.amplafi.json.IJsonWriter#keyValue(java.lang.Object, java.lang.Object)
      */
     public <K,V> IJsonWriter keyValue(K key, V value) {
         this.key(key).value(value);
