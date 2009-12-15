@@ -33,6 +33,8 @@ import java.util.List;
 
 import static org.apache.commons.lang.StringUtils.*;
 
+import org.apache.commons.collections.list.SetUniqueList;
+
 /**
  * A JSONArray is an ordered sequence of values. Its external text form is a
  * string wrapped in square brackets with commas separating the values. The
@@ -89,7 +91,7 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
     /**
      * The arrayList where the JSONArray's properties are kept.
      */
-    private ArrayList<Object> myArrayList;
+    private List<Object> myArrayList;
 
 
     /**
@@ -917,8 +919,17 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
         } else if ( value instanceof JSONArray) {
             return (JSONArray)value;
         } else {
-            return new JSONArray(value.toString());
+            String string = value.toString();
+            return new JSONArray(string);
         }
+    }
+
+    public static JSONArray toJsonSet(Object value) {
+        JSONArray r =toJsonArray(value);
+        if (r != null) {
+            r.myArrayList = SetUniqueList.decorate(r.myArrayList);
+        }
+        return r;
     }
 
     /**
