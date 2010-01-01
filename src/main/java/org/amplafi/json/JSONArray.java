@@ -697,6 +697,9 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
     /**
      * Produce a JSONObject by combining a JSONArray of names with the values
      * of this JSONArray.
+     *
+     * Example, this: [ 'foo', 'bar' ], names: [ 'first', 'second' ] --> { "first" : "foo", "second": "bar" }
+     *
      * @param names A JSONArray containing a list of key strings. These will be
      * paired with the values.
      * @return A JSONObject, or null if there are no names or if this JSONArray
