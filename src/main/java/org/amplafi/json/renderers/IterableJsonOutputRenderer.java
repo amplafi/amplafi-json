@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONArray;
-import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
 
 /**

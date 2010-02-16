@@ -2,7 +2,6 @@ package org.amplafi.json.renderers;
 
 import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONException;
-import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
 
 /**
