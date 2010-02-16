@@ -6,7 +6,6 @@
 package org.amplafi.json.renderers;
 
 import org.amplafi.json.IJsonWriter;
-import org.amplafi.json.JSONWriter;
 import org.amplafi.json.JsonRenderer;
 import org.apache.commons.lang.ObjectUtils;
 

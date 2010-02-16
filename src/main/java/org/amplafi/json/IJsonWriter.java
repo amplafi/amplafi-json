@@ -159,7 +159,6 @@ public interface IJsonWriter {
      * @return this
      * @throws JSONException If the value is out of sequence.
      */
-    @SuppressWarnings("unchecked")
     public abstract <T> IJsonWriter value(T o) throws JSONException;
 
     /**
