@@ -29,12 +29,12 @@ public class SampleJsonData implements JsonSelfRenderer {
     }
 
     @Override
-    public void toJson(IJsonWriter jsonWriter) {
+    public IJsonWriter toJson(IJsonWriter jsonWriter) {
         jsonWriter.object();
         jsonWriter.keyValue("name", this.name);
         jsonWriter.keyValue("age", this.age);
         jsonWriter.endObject();
-
+        return jsonWriter;
     }
 
     @Override

@@ -6,7 +6,7 @@ package org.amplafi.json;
  *
  */
 public interface JsonSelfRenderer {
-    public void toJson(IJsonWriter jsonWriter);
+    public IJsonWriter toJson(IJsonWriter jsonWriter);
     /**
      * @param <T> class returned.
      * @param object some JSON object. It should be the same kind of object written by the {@link #toJson(IJsonWriter)} method.
