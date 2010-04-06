@@ -605,6 +605,14 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
         return myArrayList.remove(index);
     }
 
+    public boolean remove(Object object) {
+        boolean success = false;
+        while(myArrayList.remove(object)) {
+            success = true;
+        }
+        return success;
+    }
+
 
     /**
      * Put or replace a boolean value in the JSONArray. If the index is greater
