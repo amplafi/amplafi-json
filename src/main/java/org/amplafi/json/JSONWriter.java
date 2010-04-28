@@ -5,6 +5,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 import org.amplafi.json.renderers.BooleanJsonRenderer;
+import org.amplafi.json.renderers.CalendarJsonRenderer;
+import org.amplafi.json.renderers.ClassJsonRenderer;
 import org.amplafi.json.renderers.NumberJsonRenderer;
 import org.amplafi.json.renderers.StringJSONOutputRenderer;
 import org.apache.commons.lang.StringUtils;
@@ -117,6 +119,8 @@ public class JSONWriter implements IJsonWriter {
         this.addRenderer(NumberJsonRenderer.INSTANCE);
         this.addRenderer(StringJSONOutputRenderer.INSTANCE);
         this.addRenderer(BooleanJsonRenderer.INSTANCE);
+        this.addRenderer(ClassJsonRenderer.INSTANCE);
+        this.addRenderer(CalendarJsonRenderer.INSTANCE);
     }
 
     /**
