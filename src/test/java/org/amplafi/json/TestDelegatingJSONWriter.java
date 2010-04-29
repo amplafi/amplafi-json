@@ -37,12 +37,12 @@ public class TestDelegatingJSONWriter extends Assert {
 
         writer.endObject();
 
-        String dateStr = calendar.toString();
-        dateStr = dateStr.replaceAll("\"", "\\\\\"");
+        String dateStr = "{\"timeInMillis\":1234567890000,\"timeZoneID\":\"GMT\"}";
+//        dateStr = dateStr.replaceAll("\"", "\\\\\"");
 
-        assertEquals(writer.toString(), "{\"1\":\"" + dateStr + "\"" +
+        assertEquals(writer.toString(), "{\"1\":" + dateStr + "" +
             ",\"2\":new Date(2009,1,13,11,31)" +
-            ",\"3\":\"" + dateStr + "\"" +
+            ",\"3\":" + dateStr + "" +
             ",\"4\":new Date(2009,1,13,11,31)" +
             "}"
         );
