@@ -37,8 +37,8 @@ public class ClassJsonRenderer implements JsonRenderer<Class<?>> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public Class<? extends Class<?>> getClassToRender() {
-        return (Class<? extends Class<?>>) Class.class;
+    public Class/*<? extends Class<?>>*/ getClassToRender() {
+        return /*(Class<? extends Class<?>>)*/ Class.class;
     }
 
     /**
