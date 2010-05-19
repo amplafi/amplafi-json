@@ -174,8 +174,10 @@ public class DelegatingJSONWriter implements IJsonWriter {
             }
         }
     }
+
     /**
-     * @see org.amplafi.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.String, java.lang.String)
+     *
+     * @see org.amplafi.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.Object, java.lang.String)
      */
     public <K> IJsonWriter keyValueIfNotBlankValue(K key, String value) {
         if ( !StringUtils.isBlank(value)) {
@@ -185,7 +187,8 @@ public class DelegatingJSONWriter implements IJsonWriter {
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#keyValueIfNotNullValue(java.lang.String, java.lang.Object)
+     *
+     * @see org.amplafi.json.IJsonWriter#keyValueIfNotNullValue(java.lang.Object, java.lang.Object)
      */
     public <K,V> IJsonWriter keyValueIfNotNullValue(K key, V value) {
         if ( value != null) {
