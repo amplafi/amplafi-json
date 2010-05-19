@@ -135,8 +135,8 @@ public class DelegatingJSONWriter implements IJsonWriter {
     }
 
     @SuppressWarnings("unchecked")
-    public <K> IJsonWriter key(K o) throws JSONException {
-        if (o == null) {
+    public <K> IJsonWriter key(K key) throws JSONException {
+        if (key == null) {
             throw new JSONException("Null key.");
         } else if ( !isInKeyMode()){
             throw new JSONException("Misplaced key.");
@@ -145,22 +145,22 @@ public class DelegatingJSONWriter implements IJsonWriter {
                 if (realWriter.comma) {
                     realWriter.writer.write(',');
                 }
-                JsonRenderer<K> renderer = (JsonRenderer<K>) renderers.getRaw(o.getClass());
+                JsonRenderer<K> renderer = (JsonRenderer<K>) renderers.getRaw(key.getClass());
                 if ( renderer == null ) {
-                    if ( o instanceof JsonSelfRenderer) {
+                    if ( key instanceof JsonSelfRenderer) {
                     // we check after looking in map so that it has a chance to have been overridden.
-                        ((JsonSelfRenderer) o).toJson(this);
+                        ((JsonSelfRenderer) key).toJson(this);
                         return this;
                     } else {
                         // o.k. go search for a loose match.
-                        renderer = (JsonRenderer<K>) renderers.get(o.getClass());
+                        renderer = (JsonRenderer<K>) renderers.get(key.getClass());
                     }
                 }
                 if ( renderer != null ) {
-                    renderer.toJson(this, o);
+                    renderer.toJson(this, key);
                     return this;
                 }
-                return this.append(JSONObject.valueToString(o));
+                return this.append(JSONObject.valueToString(key));
             } catch (IOException e) {
                 throw new JSONException(e);
             } finally {
@@ -177,7 +177,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.String, java.lang.String)
      */
-    public IJsonWriter keyValueIfNotBlankValue(String key, String value) {
+    public <K> IJsonWriter keyValueIfNotBlankValue(K key, String value) {
         if ( !StringUtils.isBlank(value)) {
             this.keyValue(key, value);
         }
@@ -187,7 +187,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.json.IJsonWriter#keyValueIfNotNullValue(java.lang.String, java.lang.Object)
      */
-    public IJsonWriter keyValueIfNotNullValue(String key, Object value) {
+    public <K,V> IJsonWriter keyValueIfNotNullValue(K key, V value) {
         if ( value != null) {
             this.keyValue(key, value);
         }

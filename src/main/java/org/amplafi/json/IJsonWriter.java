@@ -81,7 +81,7 @@ public interface IJsonWriter {
      * @param value
      * @return this
      */
-    public abstract IJsonWriter keyValueIfNotBlankValue(String key, String value);
+    public abstract <K> IJsonWriter keyValueIfNotBlankValue(K key, String value);
 
     /**
      * render key(key).value(value) if value is not null.
@@ -89,7 +89,7 @@ public interface IJsonWriter {
      * @param value
      * @return this
      */
-    public abstract IJsonWriter keyValueIfNotNullValue(String key, Object value);
+    public abstract <K,V> IJsonWriter keyValueIfNotNullValue(K key, V value);
 
     /**
      * @param <K>
