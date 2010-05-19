@@ -270,7 +270,7 @@ public class JSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.String, java.lang.String)
      */
-    public IJsonWriter keyValueIfNotBlankValue(String key, String value) {
+    public <K> IJsonWriter keyValueIfNotBlankValue(K key, String value) {
         if ( !StringUtils.isBlank(value)) {
             this.keyValue(key, value);
         }
@@ -280,7 +280,7 @@ public class JSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.json.IJsonWriter#keyValueIfNotNullValue(java.lang.String, java.lang.Object)
      */
-    public IJsonWriter keyValueIfNotNullValue(String key, Object value) {
+    public <K,V> IJsonWriter keyValueIfNotNullValue(K key, V value) {
         if ( value != null) {
             this.keyValue(key, value);
         }
