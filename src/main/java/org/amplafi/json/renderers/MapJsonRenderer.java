@@ -9,7 +9,6 @@ import java.util.Map;
 import org.amplafi.json.IJsonWriter;
 import org.amplafi.json.JSONObject;
 import org.amplafi.json.JsonRenderer;
-import org.apache.commons.lang.ObjectUtils;
 
 /**
  * Render a map of objects as a json map. Keys and values of the Map can be JsonSelfRenderer
@@ -49,7 +48,7 @@ public class MapJsonRenderer<T,V> implements JsonRenderer<Map<T,V>> {
                 Object key = ((Map.Entry)entry).getKey();
                 Object value = ((Map.Entry)entry).getValue();
                 if ( allowNullValues || (key != null && value != null)) {
-                    jsonWriter.keyValue(ObjectUtils.toString(key), value);
+                    jsonWriter.keyValue(key, value);
                 }
             }
         }
