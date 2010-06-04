@@ -342,20 +342,20 @@ public class JSONTokener {
      *
      * @return An object.
      */
-    public Object nextValue() throws JSONException {
+    public <T>T nextValue() throws JSONException {
         char c = nextClean();
         String s;
 
         switch (c) {
             case '"':
             case '\'':
-                return nextString(c);
+                return (T) nextString(c);
             case '{':
                 back();
-                return new JSONObject(this);
+                return (T) new JSONObject(this);
             case '[':
                 back();
-                return new JSONArray(this);
+                return (T) new JSONArray(this);
         }
 
         /*
@@ -384,13 +384,13 @@ public class JSONTokener {
             throw syntaxError("Missing value.");
         }
         if (s.equalsIgnoreCase("true")) {
-            return Boolean.TRUE;
+            return (T) Boolean.TRUE;
         }
         if (s.equalsIgnoreCase("false")) {
-            return Boolean.FALSE;
+            return (T) Boolean.FALSE;
         }
         if (s.equalsIgnoreCase("null")) {
-            return JSONObject.NULL;
+            return (T) JSONObject.NULL;
         }
 
         /*
@@ -401,39 +401,40 @@ public class JSONTokener {
          * non-JSON forms as long as it accepts all correct JSON forms.
          */
 
+        int radix = 10;
+        String v = s;
         if ((b >= '0' && b <= '9') || b == '.' || b == '-' || b == '+') {
             if (b == '0') {
-                if (s.length() > 2 &&
-                        (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {
-                    try {
-                        return new Integer(Integer.parseInt(s.substring(2),
-                                16));
-                    } catch (Exception e) {
-                        /* Ignore the error */
-                    }
+                if (s.length() > 2 && (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {
+                    radix = 16;
+                    v = s.substring(2);
                 } else {
-                    try {
-                        return new Integer(Integer.parseInt(s, 8));
-                    } catch (Exception e) {
-                        /* Ignore the error */
-                    }
+                    radix = 8;
                 }
             }
+            long l;
             try {
-                return new Integer(s);
-            } catch (Exception e) {
-                try {
-                    return new Long(s);
-                } catch (Exception f) {
-                    try {
-                        return new Double(s);
-                    }  catch (Exception g) {
-                        return s;
-                    }
+                switch (radix) {
+                case 8:
+                case 16:
+                    l = Long.parseLong(v, radix);
+                    break;
+                default:
+                    l = Long.parseLong(v);
+                    break;
                 }
+                return (T) Long.valueOf(l);
+            } catch (NumberFormatException f) {
+                try {
+                    return (T) new Double(v);
+                }  catch (Exception g) {
+                    return (T) s;
+                }
+            } catch(Exception e) {
+                // ignore?
             }
         }
-        return s;
+        return (T) s;
     }
 
 
