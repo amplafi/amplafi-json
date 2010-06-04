@@ -85,20 +85,20 @@ import org.apache.commons.collections.list.SetUniqueList;
  * @author JSON.org
  * @version 2
  */
-public class JSONArray implements JsonConstruct, Iterable<Object> {
+public class JSONArray<T> implements JsonConstruct, Iterable<T> {
 
 
     /**
      * The arrayList where the JSONArray's properties are kept.
      */
-    private List<Object> myArrayList;
+    private List<T> myArrayList;
 
 
     /**
      * Construct an empty JSONArray.
      */
     public JSONArray() {
-        myArrayList = new ArrayList<Object>();
+        myArrayList = new ArrayList<T>();
     }
 
     /**
@@ -111,7 +111,7 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
         if (x.nextClean() != '[') {
             // single element array that is not surrounded by []
             x.back();
-            myArrayList.add(x.nextValue());
+            myArrayList.add((T)x.nextValue());
             return;
 //            throw x.syntaxError("A JSONArray text must start with '['");
         }
@@ -125,7 +125,7 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
                 myArrayList.add(null);
             } else {
                 x.back();
-                myArrayList.add(x.nextValue());
+                myArrayList.add((T)x.nextValue());
             }
             switch (x.nextClean()) {
             case ';':
@@ -160,8 +160,8 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
      * Construct a JSONArray from a Collection.
      * @param collection     A Collection.
      */
-    public JSONArray(Collection<Object> collection) {
-        myArrayList = new ArrayList<Object>(collection);
+    public JSONArray(Collection<T> collection) {
+        myArrayList = new ArrayList<T>(collection);
     }
 
 
@@ -580,15 +580,6 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
         return this;
     }
 
-
-    /**
-     * @see java.lang.Iterable#iterator()
-     */
-    @Override
-    public Iterator<Object> iterator() {
-        return this.myArrayList.iterator();
-    }
-
     /**
      * Append an object value. This increases the array's length by one.
      * @param value An object value.  The value should be a
@@ -596,7 +587,7 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
      *  JSONObject.NULL object.
      * @return this.
      */
-    public JSONArray put(Object value) {
+    public JSONArray put(T value) {
         myArrayList.add(value);
         return this;
     }
@@ -685,7 +676,7 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
      * @throws JSONException If the index is negative or if the the value is
      *  an invalid number.
      */
-    public JSONArray put(int index, Object value) throws JSONException {
+    public JSONArray<T> put(int index, T value) throws JSONException {
         JSONObject.testValidity(value);
         if (index < 0) {
             throw new JSONException("JSONArray[" + index + "] not found.");
@@ -847,7 +838,7 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
      * Any operations to this will effect the JSONArray.
      * @return JSONArray as a list.
      */
-    public List<Object> asList() {
+    public List<T> asList() {
         return myArrayList;
     }
 
@@ -899,7 +890,7 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
      * @param value
      * @return this
      */
-    public JSONArray add(int index, Object value) {
+    public JSONArray add(int index, T value) {
         JSONObject.testValidity(value);
         if (index < 0) {
             throw new JSONException("JSONArray[" + index + "] not found.");
@@ -924,11 +915,11 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
      * @param value the object to convert.
      * @return null if the given object was null
      */
-    public static JSONArray toJsonArray(Object value) {
+    public static JSONArray<?> toJsonArray(Object value) {
         if ( value == null ) {
             return null;
         } else if ( value instanceof JSONArray) {
-            return (JSONArray)value;
+            return (JSONArray<?>)value;
         } else {
             String string = value.toString();
             return new JSONArray(string);
@@ -964,4 +955,13 @@ public class JSONArray implements JsonConstruct, Iterable<Object> {
     public int hashCode() {
         return this.myArrayList.hashCode();
     }
+
+    /**
+     * @see java.lang.Iterable#iterator()
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return myArrayList.iterator();
+    }
+
 }
