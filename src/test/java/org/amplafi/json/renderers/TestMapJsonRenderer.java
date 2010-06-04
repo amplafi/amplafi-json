@@ -92,17 +92,19 @@ public class TestMapJsonRenderer {
         assertEquals(jsonWriter.toString(), "{}");
     }
 
+    /**
+     * allow null values but not null keys
+     */
     @Test
     public void testAllowNulls() {
         MapJsonRenderer renderer = new MapJsonRenderer(true);
         JSONStringer jsonWriter = new JSONStringer();
         jsonWriter.addRenderer(renderer);
         Map<String, Object> map = new LinkedHashMap<String, Object>();
-        map.put(null, "gg");
         map.put("ff", null);
         jsonWriter.value(map);
 
-        assertEquals(jsonWriter.toString(), "{\"\":\"gg\",\"ff\":null}");
+        assertEquals(jsonWriter.toString(), "{\"ff\":null}");
     }
 
     @Test
