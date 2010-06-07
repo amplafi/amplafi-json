@@ -537,7 +537,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @return this.
      */
     public JSONArray put(boolean value) {
-        put(value ? Boolean.TRUE : Boolean.FALSE);
+        put((T)(value ? Boolean.TRUE : Boolean.FALSE));
         return this;
     }
 
