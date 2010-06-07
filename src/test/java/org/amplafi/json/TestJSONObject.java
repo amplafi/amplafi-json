@@ -1,12 +1,13 @@
 package org.amplafi.json;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.DataProvider;
-import org.testng.Assert;
 import static org.amplafi.json.JSONObject.quote;
 import static org.amplafi.json.JSONObject.unquote;
 
 import java.io.StringWriter;
+
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
  * Tests {@link JSONObject}.
@@ -56,5 +57,16 @@ public class TestJSONObject extends Assert {
                 new Object[]{ "he\bllo\f <b>there</b>\r" },
                 new Object[]{ "hi" + (char)11 + (char)20 + "<img/>" },
         };
+    }
+    
+    @Test
+    public void testNullInput(){
+    	JSONObject o; 
+    	o = JSONObject.toJsonObject(null);
+    	assertTrue(o.isEmpty());
+    	o = JSONObject.toJsonObject("");
+    	assertTrue(o.isEmpty());
+    	o = JSONObject.toJsonObject("null");
+    	assertTrue(o.isEmpty());
     }
 }

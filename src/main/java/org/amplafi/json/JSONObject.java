@@ -90,7 +90,10 @@ import org.apache.commons.lang.StringEscapeUtils;
  */
 public class JSONObject implements JsonConstruct {
 
-    /**
+    private static final String STRINGED_NULL = "null";
+
+
+	/**
      * The hash map where the JSONObject's properties are kept.
      * LinkedHashMap makes testing easier (particularly when converting to strings)
      */
@@ -209,7 +212,7 @@ public class JSONObject implements JsonConstruct {
      * @exception JSONException If there is a syntax error in the source string.
      */
     public JSONObject(String string) throws JSONException {
-        this(new JSONTokener(StringUtils.isBlank(string)?"{}":string));
+        this(new JSONTokener(StringUtils.isBlank(string) || STRINGED_NULL.equals(string)?"{}":string));
     }
 
 
@@ -1044,7 +1047,7 @@ public class JSONObject implements JsonConstruct {
      */
     static String valueToString(Object value) throws JSONException {
         if (value == null || value.equals(null)) { //see JSONObject.NULL
-            return "null";
+            return STRINGED_NULL;
         }
         if (value instanceof Number) {
             return numberToString((Number) value);
@@ -1074,7 +1077,7 @@ public class JSONObject implements JsonConstruct {
     static String valueToString(Object value, int indentFactor, int indent)
     throws JSONException {
         if (value == null || value.equals(null)) { //see JSONObject.NULL
-            return "null";
+            return STRINGED_NULL;
         }
         if (value instanceof Number) {
             return numberToString((Number) value);
