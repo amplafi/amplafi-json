@@ -915,14 +915,15 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @param value the object to convert.
      * @return null if the given object was null
      */
-    public static JSONArray<?> toJsonArray(Object value) {
+    @SuppressWarnings("unchecked")
+    public static <T> JSONArray<T> toJsonArray(Object value) {
         if ( value == null ) {
             return null;
         } else if ( value instanceof JSONArray) {
-            return (JSONArray<?>)value;
+            return (JSONArray<T>)value;
         } else {
             String string = value.toString();
-            return new JSONArray(string);
+            return new JSONArray<T>(string);
         }
     }
 
