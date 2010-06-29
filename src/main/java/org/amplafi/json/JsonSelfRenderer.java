@@ -2,6 +2,11 @@ package org.amplafi.json;
 
 /**
  * implementer will produce a JSON representation of the class in question.
+ *
+ * Roughly equivalent to java.io.Externalizable
+ *
+ * see a bunch of notes on {@link org.amplafi.json.JsonRenderer}.
+ *
  * @author Patrick Moore
  *
  */
