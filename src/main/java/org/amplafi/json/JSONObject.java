@@ -63,7 +63,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  * produces the string <code>{"JSON": "Hello, World"}</code>.
  * <p>
  * The texts produced by the <code>toString</code> methods strictly conform to
- * the JSON sysntax rules.
+ * the JSON syntax rules.
  * The constructors are more forgiving in the texts they will accept:
  * <ul>
  * <li>An extra <code>,</code>&nbsp;<small>(comma)</small> may appear just
@@ -376,7 +376,7 @@ public class JSONObject implements JsonConstruct {
      * @return optional integer
      */
     public Integer optInteger(String key, Integer defaultValue) {
-        Object o = get(key);
+        Object o = opt(key);
         if ( o == null ) {
             return defaultValue;
         } else if ( o instanceof Integer) {

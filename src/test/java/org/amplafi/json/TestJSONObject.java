@@ -69,4 +69,11 @@ public class TestJSONObject extends Assert {
     	o = JSONObject.toJsonObject("null");
     	assertTrue(o.isEmpty());
     }
+    
+    @Test
+    public void testOptInteger() {
+    	JSONObject json = new JSONObject("{a:1}");
+    	assertEquals(json.optInteger("a", 2), Integer.valueOf(1));
+    	assertEquals(json.optInteger("b", 2), Integer.valueOf(2));
+    }
 }
