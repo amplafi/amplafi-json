@@ -4,17 +4,19 @@
  */
 package org.amplafi.json;
 
+import java.io.Serializable;
+
 /**
  * @author patmoore
  *
  */
-public interface JsonConstruct {
+public interface JsonConstruct extends Serializable {
     /**
          * JSONObject.NULL is equivalent to the value that JavaScript calls null,
          * whilst Java's null is equivalent to the value that JavaScript calls
          * undefined.
          */
-        public static final class Null {
+        public static final class Null implements Serializable {
 
             /**
              * There is only intended to be a single instance of the NULL object,
@@ -35,7 +37,9 @@ public interface JsonConstruct {
              */
             @Override
             public boolean equals(Object object) {
-                return object == null || object == this;
+                return object == null || object == this
+                    // to avoid serialization possibly resulting in more than 1 Null
+                    || object instanceof Null;
             }
 
 
