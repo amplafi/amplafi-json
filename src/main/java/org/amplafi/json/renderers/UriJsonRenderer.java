@@ -23,7 +23,6 @@ public class UriJsonRenderer implements JsonRenderer<URI> {
      * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
      */
     @SuppressWarnings("unchecked")
-    @Override
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
         if ( value == null) {
             return null;
@@ -35,12 +34,9 @@ public class UriJsonRenderer implements JsonRenderer<URI> {
     /**
      * @see org.amplafi.json.JsonRenderer#getClassToRender()
      */
-    @Override
     public Class<? extends URI> getClassToRender() {
         return URI.class;
     }
-
-    @Override
     public IJsonWriter toJson(IJsonWriter jsonWriter, URI o) {
         return jsonWriter.value(ObjectUtils.toString(o, null));
     }

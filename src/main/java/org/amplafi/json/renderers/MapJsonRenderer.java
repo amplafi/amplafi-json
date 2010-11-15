@@ -33,14 +33,10 @@ public class MapJsonRenderer<T,V> implements JsonRenderer<Map<T,V>> {
 
     public MapJsonRenderer() {
         this(false);
-    }
-
-    @Override
+    }
     public Class getClassToRender() {
         return Map.class;
-    }
-
-    @Override
+    }
     public IJsonWriter toJson(IJsonWriter jsonWriter, Map map) {
         jsonWriter.object();
         if ( map != null ) {
@@ -58,7 +54,6 @@ public class MapJsonRenderer<T,V> implements JsonRenderer<Map<T,V>> {
     /**
      * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
      */
-    @Override
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
         JSONObject jsonObject = JSONObject.toJsonObject(value);
         return (K) jsonObject.asMap();

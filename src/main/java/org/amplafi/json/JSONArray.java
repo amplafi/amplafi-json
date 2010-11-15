@@ -959,8 +959,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
 
     /**
      * @see java.lang.Iterable#iterator()
-     */
-    @Override
+     */
     public Iterator<T> iterator() {
         return myArrayList.iterator();
     }

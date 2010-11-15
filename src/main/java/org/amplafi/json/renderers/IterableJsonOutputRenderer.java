@@ -31,13 +31,10 @@ public class IterableJsonOutputRenderer<T extends Iterable> implements JsonRende
         this(true);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
+    @SuppressWarnings("unchecked")
     public Class getClassToRender() {
         return Iterable.class;
-    }
-
-    @Override
+    }
     public IJsonWriter toJson(IJsonWriter jsonWriter, T iter) {
         jsonWriter.array();
         for (Object obj : iter) {
@@ -50,8 +47,7 @@ public class IterableJsonOutputRenderer<T extends Iterable> implements JsonRende
 
     /**
      * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
-     */
-    @Override
+     */
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
         JSONArray array = JSONArray.toJsonArray(value);
         K result = null;

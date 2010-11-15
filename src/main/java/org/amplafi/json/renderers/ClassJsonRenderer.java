@@ -19,7 +19,6 @@ public class ClassJsonRenderer implements JsonRenderer<Class<?>> {
      * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, java.lang.Object[])
      */
     @SuppressWarnings("unchecked")
-    @Override
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
         if ( value == null ) {
             return null;
@@ -36,7 +35,6 @@ public class ClassJsonRenderer implements JsonRenderer<Class<?>> {
      * @see org.amplafi.json.JsonRenderer#getClassToRender()
      */
     @SuppressWarnings("unchecked")
-    @Override
     public Class/*<? extends Class<?>>*/ getClassToRender() {
         return /*(Class<? extends Class<?>>)*/ Class.class;
     }
@@ -44,7 +42,6 @@ public class ClassJsonRenderer implements JsonRenderer<Class<?>> {
     /**
      * @see org.amplafi.json.JsonRenderer#toJson(org.amplafi.json.IJsonWriter, java.lang.Object)
      */
-    @Override
     public IJsonWriter toJson(IJsonWriter jsonWriter, Class<?> o) {
         jsonWriter.value(o.getCanonicalName());
         return jsonWriter;

@@ -25,65 +25,43 @@ public class DelegatingJSONWriter implements IJsonWriter {
     public DelegatingJSONWriter(IJsonWriter writer) {
         this.realWriter = (JSONWriter) writer;
     }
-
-    @Override
     public IJsonWriter append(String s) throws JSONException {
         realWriter.append(s);
         return this;
     }
-
-    @Override
     public IJsonWriter array() throws JSONException {
         realWriter.array();
         return this;
     }
-
-    @Override
     public IJsonWriter endArray() throws JSONException {
         realWriter.endArray();
         return this;
     }
-
-    @Override
     public IJsonWriter endObject() throws JSONException {
         realWriter.endObject();
         return this;
     }
-
-    @Override
     public boolean isInKeyMode() {
         return realWriter.isInKeyMode();
     }
-
-    @Override
     public IJsonWriter object() throws JSONException {
         realWriter.object();
         return this;
     }
-
-    @Override
     public boolean isInArrayMode() {
         return realWriter.isInArrayMode();
     }
-
-    @Override
     public boolean isInObjectMode() {
         return realWriter.isInObjectMode();
     }
-
-    @Override
     public IJsonWriter value(boolean b) throws JSONException {
         realWriter.value(b);
         return this;
     }
-
-    @Override
     public IJsonWriter value(double d) throws JSONException {
         realWriter.value(d);
         return this;
     }
-
-    @Override
     public IJsonWriter value(long l) throws JSONException {
         realWriter.value(l);
         return this;

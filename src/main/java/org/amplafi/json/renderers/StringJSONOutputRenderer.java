@@ -25,7 +25,6 @@ public class StringJSONOutputRenderer implements JsonRenderer<CharSequence> {
      * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
      */
     @SuppressWarnings("unchecked")
-    @Override
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
         return (K) ObjectUtils.toString(value);
     }

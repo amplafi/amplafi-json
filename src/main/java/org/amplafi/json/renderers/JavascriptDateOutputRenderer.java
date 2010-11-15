@@ -41,8 +41,7 @@ public class JavascriptDateOutputRenderer implements JsonRenderer {
 
     /**
      * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
-     */
-    @Override
+     */
     public Object fromJson(Class clazz, Object value, Object...parameters) {
         throw new UnsupportedOperationException();
     }

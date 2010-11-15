@@ -13,14 +13,10 @@ import org.amplafi.json.JsonRenderer;
 @SuppressWarnings("unchecked")
 public class EnumJsonRenderer<T extends Enum<T>> implements JsonRenderer<T> {
 
-    public static final EnumJsonRenderer INSTANCE = new EnumJsonRenderer();
-
-    @Override
+    public static final EnumJsonRenderer INSTANCE = new EnumJsonRenderer();
     public Class getClassToRender() {
         return Enum.class;
-    }
-
-    @Override
+    }
     public IJsonWriter toJson(IJsonWriter jsonWriter, Enum o) {
         return jsonWriter.append(o.name());
     }

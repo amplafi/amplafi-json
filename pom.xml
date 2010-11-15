@@ -60,4 +60,22 @@
             </exclusions>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin-build}</version>
+                <configuration>
+                    <source>${android-java-build}</source>
+                    <target>${android-java-build}</target>
+                    <encoding>UTF-8</encoding>
+                    <!--
+                        for when javac crashes
+                        <compilerArgument>-verbose</compilerArgument>
+                    -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>    
 </project>

@@ -20,7 +20,6 @@ public class CalendarJsonRenderer implements JsonRenderer<Calendar> {
     public static final CalendarJsonRenderer INSTANCE = new CalendarJsonRenderer();
 
     @SuppressWarnings("unchecked")
-    @Override
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
         if(value == null) {
             return null;
@@ -33,14 +32,10 @@ public class CalendarJsonRenderer implements JsonRenderer<Calendar> {
         cal.setTimeInMillis(millis);
         cal.setTimeZone(TimeZone.getTimeZone(timeZoneId));
         return (K)cal;
-    }
-
-    @Override
+    }
     public Class<? extends Calendar> getClassToRender() {
         return Calendar.class;
-    }
-
-    @Override
+    }
     public IJsonWriter toJson(IJsonWriter jsonWriter, Calendar cal) {
         jsonWriter.object();
         jsonWriter.keyValue(TIME_IN_MILLIS,cal.getTimeInMillis());

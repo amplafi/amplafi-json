@@ -19,16 +19,13 @@ public class SampleJsonData implements JsonSelfRenderer {
         fromJson(object);
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
+    @SuppressWarnings("unchecked")
     public <T> T fromJson(Object object) {
         JSONObject json = JSONObject.toJsonObject(object);
         this.name = json.getString("name");
         this.age = json.getInt("age");
         return (T) this;
-    }
-
-    @Override
+    }
     public IJsonWriter toJson(IJsonWriter jsonWriter) {
         jsonWriter.object();
         jsonWriter.keyValue("name", this.name);
