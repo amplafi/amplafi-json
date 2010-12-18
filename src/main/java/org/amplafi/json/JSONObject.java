@@ -549,7 +549,7 @@ public class JSONObject implements JsonConstruct {
      * @param key   A string which is the key.
      * @return      An object which is the value.
      */
-    public double optDouble(String key) {
+    public Double optDouble(String key) {
         return optDouble(key, Double.NaN);
     }
 
@@ -564,7 +564,7 @@ public class JSONObject implements JsonConstruct {
      * @param defaultValue     The default.
      * @return      An object which is the value.
      */
-    public double optDouble(String key, double defaultValue) {
+    public Double optDouble(String key, Double defaultValue) {
         try {
             Object o = opt(key);
             return o instanceof Number ? ((Number)o).doubleValue() :
