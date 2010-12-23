@@ -25,7 +25,7 @@
     </licenses>
 
     <scm>
-        <developerConnection>scm:svn:${svn-base}/amplafi-json/trunk</developerConnection>
+        <developerConnection>scm:git:${github-base}${project.artifactId}.git</developerConnection>
     </scm>
     <dependencies>
         <dependency>
