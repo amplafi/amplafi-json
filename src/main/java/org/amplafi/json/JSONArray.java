@@ -31,9 +31,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.apache.commons.lang.StringUtils.*;
-
 import org.apache.commons.collections.list.SetUniqueList;
+
+import static org.apache.commons.lang.StringUtils.*;
 
 /**
  * A JSONArray is an ordered sequence of values. Its external text form is a
@@ -84,6 +84,7 @@ import org.apache.commons.collections.list.SetUniqueList;
 
  * @author JSON.org
  * @version 2
+ * @param <T>
  */
 public class JSONArray<T> implements JsonConstruct, Iterable<T> {
 
@@ -552,7 +553,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
     public JSONArray put(double value) throws JSONException {
         Double d = new Double(value);
         JSONObject.testValidity(d);
-        put(d);
+        put((T)d);
         return this;
     }
 
@@ -564,7 +565,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @return this.
      */
     public JSONArray put(int value) {
-        put(new Integer(value));
+        put((T)Integer.valueOf(value));
         return this;
     }
 
@@ -576,7 +577,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @return this.
      */
     public JSONArray put(long value) {
-        put(new Long(value));
+        put((T)Long.valueOf(value));
         return this;
     }
 
@@ -614,8 +615,8 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @return this.
      * @throws JSONException If the index is negative.
      */
-    public JSONArray put(int index, boolean value) throws JSONException {
-        put(index, value ? Boolean.TRUE : Boolean.FALSE);
+    public JSONArray<T> put(int index, boolean value) throws JSONException {
+        put(index, (T)(value ? Boolean.TRUE : Boolean.FALSE));
         return this;
     }
 
@@ -630,8 +631,8 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @throws JSONException If the index is negative or if the value is
      * not finite.
      */
-    public JSONArray put(int index, double value) throws JSONException {
-        put(index, new Double(value));
+    public JSONArray<T> put(int index, double value) throws JSONException {
+        put(index, (T)new Double(value));
         return this;
     }
 
@@ -646,7 +647,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @throws JSONException If the index is negative.
      */
     public JSONArray put(int index, int value) throws JSONException {
-        put(index, new Integer(value));
+        put(index, (T) Integer.valueOf(value));
         return this;
     }
 
@@ -661,7 +662,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @throws JSONException If the index is negative.
      */
     public JSONArray put(int index, long value) throws JSONException {
-        put(index, new Long(value));
+        put(index, (T)Long.valueOf(value));
         return this;
     }
 

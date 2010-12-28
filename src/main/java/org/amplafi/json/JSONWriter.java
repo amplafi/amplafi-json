@@ -9,9 +9,10 @@ import org.amplafi.json.renderers.CalendarJsonRenderer;
 import org.amplafi.json.renderers.ClassJsonRenderer;
 import org.amplafi.json.renderers.NumberJsonRenderer;
 import org.amplafi.json.renderers.StringJSONOutputRenderer;
-import org.apache.commons.lang.StringUtils;
 
 import com.sworddance.beans.MapByClass;
+
+import org.apache.commons.lang.StringUtils;
 
 
 /*
@@ -385,7 +386,7 @@ public class JSONWriter implements IJsonWriter {
      * @see org.amplafi.json.IJsonWriter#value(long)
      */
     public IJsonWriter value(long l) throws JSONException {
-        return this.value(new Long(l));
+        return this.value(Long.valueOf(l));
     }
 
     @SuppressWarnings("unchecked")

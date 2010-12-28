@@ -24,16 +24,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-import java.util.LinkedHashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * A JSONObject is an unordered collection of name/value pairs. Its
@@ -382,7 +382,7 @@ public class JSONObject implements JsonConstruct {
         } else if ( o instanceof Integer) {
             return (Integer)o;
         } else if ( o instanceof Number) {
-            return new Integer(((Number)o).intValue());
+            return Integer.valueOf(((Number)o).intValue());
         } else {
             try {
                 return Integer.parseInt(o.toString());
@@ -733,7 +733,7 @@ public class JSONObject implements JsonConstruct {
      * @throws JSONException If the key is null.
      */
     public JSONObject put(String key, int value) throws JSONException {
-        put(key, new Integer(value));
+        put(key, Integer.valueOf(value));
         return this;
     }
 
@@ -747,7 +747,7 @@ public class JSONObject implements JsonConstruct {
      * @throws JSONException If the key is null.
      */
     public JSONObject put(String key, long value) throws JSONException {
-        put(key, new Long(value));
+        put(key, Long.valueOf(value));
         return this;
     }
 
