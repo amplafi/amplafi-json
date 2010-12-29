@@ -42,6 +42,11 @@ public interface JsonConstruct extends Serializable {
                     || object instanceof Null;
             }
 
+            @Override
+			public int hashCode() {
+            	return 1;
+            }
+
 
             /**
              * Get the "null" string value.
