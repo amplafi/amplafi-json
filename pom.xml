@@ -4,6 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.amplafi</groupId>
     <artifactId>amplafi-json</artifactId>
+    <version>1.0</version>
     <parent>
         <groupId>org.amplafi</groupId>
         <artifactId>amplafi-opensource-parent</artifactId>
@@ -31,7 +32,7 @@
         <dependency>
             <groupId>org.amplafi</groupId>
             <artifactId>amplafi-sworddance</artifactId>
-            <version>${project.version}</version>
+            <version>${amplafi-sworddance-build}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
