@@ -1098,6 +1098,8 @@ public class JSONObject implements JsonConstruct {
     /**
      * Write the contents of the JSONObject as JSON text to a writer.
      * For compactness, no whitespace is added.
+     *
+     * This defines the json object entirely. So any other keys will lose their values.
      * <p>
      * Warning: This method assumes that the data structure is acyclical.
      * @param writer
@@ -1141,30 +1143,22 @@ public class JSONObject implements JsonConstruct {
      * root object.<p/>
      * So, this method generates <code>root.a=true;root.b='text';</code>.<p/>
      * For compactness, no whitespace is added.
+     *
+     * Note : defines each key as a separate statement so any other keys are not replaced ( different than {@link #write(Writer)} )
      * <p/>
      * Warning: This method assumes that the data structure is acyclical.
      * @param writer
+     * @param onlyIfUndefined TODO
      * @param root
-     *
      * @return The writer.
      * @throws JSONException
      */
-    public Writer writeInitialization(Writer writer, String root) throws JSONException {
+    public Writer writeInitialization(Writer writer, boolean onlyIfUndefined, String root) throws JSONException {
         try {
+        	writePathInitialization(writer, root);
             for (String key : keys()) {
-                writer.write(root);
-                writer.write('.');
-                writer.write(key);
-                writer.write('=');
-                Object value = this.myLinkedHashMap.get(key);
-                if (value instanceof JSONObject) {
-                    ((JSONObject) value).write(writer);
-                } else if (value instanceof JSONArray) {
-                    ((JSONArray) value).write(writer);
-                } else {
-                    writer.write(valueToString(value));
-                }
-                writer.write(';');
+            	Object value = this.myLinkedHashMap.get(key);
+            	writeConditional(writer, onlyIfUndefined, root+"."+key, value);
             }
             return writer;
         } catch (IOException e) {
@@ -1172,7 +1166,52 @@ public class JSONObject implements JsonConstruct {
         }
     }
 
-    public Map<String,Object> asMap() {
+
+	private void writePathInitialization(Writer writer, String root) throws IOException {
+		JSONObject empty = new JSONObject();
+		if ( root != null ) {
+			int dotPos = -1;
+			do {
+				dotPos++;
+				if ( root.charAt(dotPos) == '.') {
+					throw new JSONException("double '.', or leading '.' in position "+dotPos+" in string "+root);
+				}
+				dotPos = root.indexOf('.', dotPos);
+				if ( dotPos < 0 ) {
+					writeConditional(writer, true, root, empty);
+				} else if (dotPos == root.length()-1){
+					throw new JSONException("trailing '.' in position "+dotPos+" in string "+root);
+				} else {
+					writeConditional(writer, true, root.subSequence(0, dotPos).toString(), empty);
+				}
+			} while(dotPos >0);
+		}
+	}
+
+    private void writeConditional(Writer writer, boolean onlyIfUndefined, String variableName, Object value) throws IOException {
+    	if ( onlyIfUndefined) {
+    		writer.write("if(typeof(");
+    		writer.write(variableName);
+    		writer.write(")==\"undefined\"){");
+    	}
+    	writer.write(variableName);
+    	writer.write('=');
+    	if (value instanceof JSONObject) {
+    		((JSONObject) value).write(writer);
+    	} else if (value instanceof JSONArray<?>) {
+    		((JSONArray<?>) value).write(writer);
+    	} else {
+    		writer.write(valueToString(value));
+    	}
+    	writer.write(';');
+       	if ( onlyIfUndefined) {
+       		writer.write("}");
+       	}
+       	writer.write("\n");
+	}
+
+
+	public Map<String,Object> asMap() {
         return this.myLinkedHashMap;
     }
 

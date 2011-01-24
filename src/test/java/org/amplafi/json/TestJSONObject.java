@@ -1,28 +1,37 @@
 package org.amplafi.json;
 
-import static org.amplafi.json.JSONObject.quote;
-import static org.amplafi.json.JSONObject.unquote;
-
 import java.io.StringWriter;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import static org.amplafi.json.JSONObject.*;
+
 /**
  * Tests {@link JSONObject}.
  */
 public class TestJSONObject extends Assert {
-    @Test
-    public void testWriteInitialization() {
+    @Test(dataProvider = "writeInitData")
+    public void testWriteInitialization(boolean onlyIfUndefined, String expected) {
         JSONObject json = new JSONObject("{a:1,b=true,c='ok'}");
 
         StringWriter writer = new StringWriter();
-        json.writeInitialization(writer, "root");
+        json.writeInitialization(writer, onlyIfUndefined, "root");
 
-        assertEquals(writer.toString(), "root.a=1;root.b=true;root.c=\"ok\";");
+        String actual = writer.toString().replace("\n", "");
+		assertEquals(actual, expected);
     }
 
+    @DataProvider(name =  "writeInitData")
+    public Object[][] getWriteInitData() {
+    	return new Object[][] {
+    	    new Object[] { false, "if(typeof(root)==\"undefined\"){root={};}root.a=1;root.b=true;root.c=\"ok\";" },
+    	    new Object[] { true, "if(typeof(root)==\"undefined\"){root={};}if(typeof(root.a)==\"undefined\"){root.a=1;}" +
+    	    		"if(typeof(root.b)==\"undefined\"){root.b=true;}" +
+    	    		"if(typeof(root.c)==\"undefined\"){root.c=\"ok\";}" },
+    	};
+    }
     @Test
     public void testQuoteBeforeSpaceChars() {
         String s = new String(new char[]{31,30});
@@ -44,7 +53,7 @@ public class TestJSONObject extends Assert {
 
         quoted = unquote(quoted);
         quoted = unquote(quoted);
-        
+
         assertEquals(unquote(quoted), text);
     }
 
@@ -58,10 +67,10 @@ public class TestJSONObject extends Assert {
                 new Object[]{ "hi" + (char)11 + (char)20 + "<img/>" },
         };
     }
-    
+
     @Test
     public void testNullInput(){
-    	JSONObject o; 
+    	JSONObject o;
     	o = JSONObject.toJsonObject(null);
     	assertTrue(o.isEmpty());
     	o = JSONObject.toJsonObject("");
@@ -69,7 +78,7 @@ public class TestJSONObject extends Assert {
     	o = JSONObject.toJsonObject("null");
     	assertTrue(o.isEmpty());
     }
-    
+
     @Test
     public void testOptInteger() {
     	JSONObject json = new JSONObject("{a:1}");
