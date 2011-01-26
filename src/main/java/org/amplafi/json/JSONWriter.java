@@ -379,7 +379,7 @@ public class JSONWriter implements IJsonWriter {
      * @see org.amplafi.json.IJsonWriter#value(double)
      */
     public IJsonWriter value(double d) throws JSONException {
-        return this.value(new Double(d));
+        return this.value(Double.valueOf(d));
     }
 
     /**

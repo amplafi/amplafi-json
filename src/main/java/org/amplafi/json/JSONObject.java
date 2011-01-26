@@ -350,8 +350,7 @@ public class JSONObject implements JsonConstruct {
         if (o instanceof JSONObject) {
             return (JSONObject)o;
         }
-        throw new JSONException("JSONObject[" + quote(key) +
-        "] is not a JSONObject.");
+        throw new JSONException("JSONObject[" + quote(key) + "] is not a JSONObject.");
     }
 
 
@@ -385,7 +384,7 @@ public class JSONObject implements JsonConstruct {
             return Integer.valueOf(((Number)o).intValue());
         } else {
             try {
-                return Integer.parseInt(o.toString());
+                return Integer.valueOf(o.toString());
             } catch( NumberFormatException e) {
                 throw new JSONException("JSONObject[" + quote(key) +
                     "] is not a number. value is ="+o, e);
@@ -567,8 +566,13 @@ public class JSONObject implements JsonConstruct {
     public Double optDouble(String key, Double defaultValue) {
         try {
             Object o = opt(key);
-            return o instanceof Number ? ((Number)o).doubleValue() :
-                new Double((String)o).doubleValue();
+            if ( o instanceof Double) {
+            	return (Double)o;
+            } else if (o instanceof Number) {
+            	return Double.valueOf(((Number)o).doubleValue());
+            } else {
+                return Double.valueOf((String)o);
+            }
         } catch (Exception e) {
             return defaultValue;
         }
@@ -646,7 +650,7 @@ public class JSONObject implements JsonConstruct {
      * @return      An object which is the value.
      */
     public long optLong(String key) {
-        return optLong(key, 0L);
+        return optLong(key, Long.valueOf(0L));
     }
 
 
@@ -705,7 +709,7 @@ public class JSONObject implements JsonConstruct {
      * @throws JSONException If the key is null.
      */
     public JSONObject put(String key, boolean value) throws JSONException {
-        put(key, value ? Boolean.TRUE : Boolean.FALSE);
+        put(key, Boolean.valueOf(value));
         return this;
     }
 
@@ -719,7 +723,7 @@ public class JSONObject implements JsonConstruct {
      * @throws JSONException If the key is null or if the number is invalid.
      */
     public JSONObject put(String key, double value) throws JSONException {
-        put(key, new Double(value));
+        put(key, Double.valueOf(value));
         return this;
     }
 
@@ -941,7 +945,7 @@ public class JSONObject implements JsonConstruct {
     public String toString() {
         try {
             Iterator<String>     keys = keys().iterator();
-            StringBuffer sb = new StringBuffer("{");
+            StringBuilder sb = new StringBuilder("{");
 
             while (keys.hasNext()) {
                 if (sb.length() > 1) {
@@ -954,7 +958,7 @@ public class JSONObject implements JsonConstruct {
             }
             sb.append('}');
             return sb.toString();
-        } catch (Exception e) {
+        } catch (JSONException e) {
             return null;
         }
     }

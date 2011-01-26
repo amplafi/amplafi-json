@@ -322,7 +322,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      */
     public String join(String separator) throws JSONException {
         int len = length();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < len; i += 1) {
             if (i > 0) {
@@ -537,8 +537,9 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @param value A boolean value.
      * @return this.
      */
-    public JSONArray put(boolean value) {
-        put((T)(value ? Boolean.TRUE : Boolean.FALSE));
+    @SuppressWarnings("unchecked")
+	public JSONArray put(boolean value) {
+        put((T)Boolean.valueOf(value));
         return this;
     }
 
@@ -550,8 +551,9 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @throws JSONException if the value is not finite.
      * @return this.
      */
-    public JSONArray put(double value) throws JSONException {
-        Double d = new Double(value);
+    @SuppressWarnings("unchecked")
+	public JSONArray put(double value) throws JSONException {
+        Double d = Double.valueOf(value);
         JSONObject.testValidity(d);
         put((T)d);
         return this;
@@ -564,7 +566,8 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @param value An int value.
      * @return this.
      */
-    public JSONArray put(int value) {
+    @SuppressWarnings("unchecked")
+	public JSONArray put(int value) {
         put((T)Integer.valueOf(value));
         return this;
     }
@@ -576,7 +579,8 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @param value A long value.
      * @return this.
      */
-    public JSONArray put(long value) {
+    @SuppressWarnings("unchecked")
+	public JSONArray put(long value) {
         put((T)Long.valueOf(value));
         return this;
     }
@@ -615,8 +619,9 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @return this.
      * @throws JSONException If the index is negative.
      */
-    public JSONArray<T> put(int index, boolean value) throws JSONException {
-        put(index, (T)(value ? Boolean.TRUE : Boolean.FALSE));
+    @SuppressWarnings("unchecked")
+	public JSONArray<T> put(int index, boolean value) throws JSONException {
+        put(index, (T)(Boolean.valueOf(value)));
         return this;
     }
 
@@ -631,8 +636,9 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @throws JSONException If the index is negative or if the value is
      * not finite.
      */
-    public JSONArray<T> put(int index, double value) throws JSONException {
-        put(index, (T)new Double(value));
+    @SuppressWarnings("unchecked")
+	public JSONArray<T> put(int index, double value) throws JSONException {
+        put(index, (T)Double.valueOf(value));
         return this;
     }
 
@@ -646,7 +652,8 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @return this.
      * @throws JSONException If the index is negative.
      */
-    public JSONArray put(int index, int value) throws JSONException {
+    @SuppressWarnings("unchecked")
+	public JSONArray put(int index, int value) throws JSONException {
         put(index, (T) Integer.valueOf(value));
         return this;
     }
@@ -661,7 +668,8 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @return this.
      * @throws JSONException If the index is negative.
      */
-    public JSONArray put(int index, long value) throws JSONException {
+    @SuppressWarnings("unchecked")
+	public JSONArray put(int index, long value) throws JSONException {
         put(index, (T)Long.valueOf(value));
         return this;
     }
@@ -733,7 +741,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
     public String toString() {
         try {
             return '[' + join(",") + ']';
-        } catch (Exception e) {
+        } catch (JSONException e) {
             return null;
         }
     }
@@ -844,18 +852,18 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> List<T> asList(Class<T> clazz) {
-        List<T> list = new ArrayList<T>();
+    public <E> List<E> asList(Class<E> clazz) {
+        List<E> list = new ArrayList<E>();
         for(Object object: myArrayList) {
-            T inst;
+            E inst;
             try {
                 if ( object == null || object instanceof Null) {
                     inst = null;
                 } else if ( clazz.isAssignableFrom(object.getClass())) {
-                    inst = (T) object;
+                    inst = (E) object;
                 } else if (JsonSelfRenderer.class.isAssignableFrom(clazz)) {
                     inst = clazz.newInstance();
-                    inst = (T)((JsonSelfRenderer)inst).fromJson(object);
+                    inst = (E)((JsonSelfRenderer)inst).fromJson(object);
                 } else {
                     throw new JSONException(object.getClass()+ " cannot be converted to "+clazz);
                 }
@@ -870,10 +878,10 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> List<T> asList(JsonRenderer renderer, Class<T> clazz) {
-        List<T> list = new ArrayList<T>();
+    public <E> List<E> asList(JsonRenderer renderer, Class<T> clazz) {
+        List<E> list = new ArrayList<E>();
         for(Object object: myArrayList) {
-            list.add((T)renderer.fromJson(clazz, object));
+            list.add((E)renderer.fromJson(clazz, object));
         }
         return list;
     }

@@ -426,7 +426,7 @@ public class JSONTokener {
                 return (T) Long.valueOf(l);
             } catch (NumberFormatException f) {
                 try {
-                    return (T) new Double(v);
+                    return (T) Double.valueOf(v);
                 }  catch (Exception g) {
                     return (T) s;
                 }

@@ -24,7 +24,7 @@ public class NumberJsonRenderer<T extends Number> implements JsonRenderer<T> {
      * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
      */
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
-        return (K) new Long(value.toString());
+        return (K) Long.valueOf(value.toString());
     }
 
 }
