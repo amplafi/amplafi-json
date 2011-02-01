@@ -24,7 +24,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import java.util.Iterator;
 
 /**
  * Convert a web browser cookie list string to a JSONObject and back.
@@ -70,11 +69,8 @@ public class CookieList {
      */
     public static String toString(JSONObject o) throws JSONException {
         boolean      b = false;
-        Iterator<String>     keys = o.keys().iterator();
-        String       s;
         StringBuffer sb = new StringBuffer();
-        while (keys.hasNext()) {
-            s = keys.next().toString();
+        for(String s: o.keys()) {
             if (!o.isNull(s)) {
                 if (b) {
                     sb.append(';');
