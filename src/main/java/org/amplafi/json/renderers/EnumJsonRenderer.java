@@ -24,11 +24,14 @@ public class EnumJsonRenderer<T extends Enum<T>> implements JsonRenderer<T> {
     public <K> K fromJson(Class<K> clazz, Object value, Object...parameters) {
         if ( value == null ) {
             return null;
-        }
-        try {
-            return (K) Enum.valueOf((Class<? extends Enum>) clazz, value.toString());
-        } catch (IllegalArgumentException e) {
-            throw new JSONException(e);
-        }
-    }
+        } else if ( clazz.isAssignableFrom(value.getClass())) {
+        	return (K) value;
+        } else {
+	        try {
+	            return (K) Enum.valueOf((Class<? extends Enum>) clazz, value.toString());
+	        } catch (IllegalArgumentException e) {
+	            throw new JSONException(e);
+	        }
+	    }
+	}
 }
