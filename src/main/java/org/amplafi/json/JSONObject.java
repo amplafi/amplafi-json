@@ -327,13 +327,13 @@ public class JSONObject implements JsonConstruct {
      * @throws   JSONException if the key is not found or
      *  if the value is not a JSONArray.
      */
-    public JSONArray getJSONArray(String key) throws JSONException {
+    @SuppressWarnings("unchecked")
+    public <T> JSONArray<T> getJSONArray(String key) throws JSONException {
         Object o = get(key);
         if (o instanceof JSONArray) {
-            return (JSONArray)o;
+            return (JSONArray<T>)o;
         }
-        throw new JSONException("JSONObject[" + quote(key) +
-        "] is not a JSONArray.");
+        throw new JSONException("JSONObject[" + quote(key) + "] is not a JSONArray.");
     }
 
 
