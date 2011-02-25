@@ -338,7 +338,12 @@ public class JSONWriter implements IJsonWriter {
     public boolean isInObjectMode() {
         return mode == OBJECT_MODE;
     }
-
+    /**
+     * @see org.amplafi.json.IJsonWriter#isInInitialMode()
+     */
+    public boolean isInInitialMode() {
+        return mode == INITIAL_MODE;
+    }
 
     /**
      * Pop an array or object scope.

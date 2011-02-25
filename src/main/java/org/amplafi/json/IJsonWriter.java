@@ -101,7 +101,7 @@ public interface IJsonWriter {
     public abstract <K, V> IJsonWriter keyValue(K key, V value);
 
     /**
-     * @return true if creating an {@link JSONObject} and expecting a key.
+     * @return true if creating an {@link JSONObject} and expecting a value.
      */
     public abstract boolean isInKeyMode();
 
@@ -122,10 +122,13 @@ public interface IJsonWriter {
     public abstract boolean isInArrayMode();
 
     /**
-     * @return true if expecting a key for the object.
+     * @return true if expecting a value, a call to {@link #object()}, or {@link #array()}
      */
     public abstract boolean isInObjectMode();
-
+    /**
+     * @return true if expecting a value, a call to {@link #object()}, or {@link #array()}
+     */
+    public abstract boolean isInInitialMode();
     /**
      * Append either the value <code>true</code> or the value
      * <code>false</code>.

@@ -2,9 +2,9 @@ package org.amplafi.json;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.sworddance.beans.MapByClass;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Delegates everything apart from
@@ -43,6 +43,9 @@ public class DelegatingJSONWriter implements IJsonWriter {
     }
     public boolean isInKeyMode() {
         return realWriter.isInKeyMode();
+    }
+    public boolean isInInitialMode() {
+        return realWriter.isInInitialMode();
     }
     public IJsonWriter object() throws JSONException {
         realWriter.object();
