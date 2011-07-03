@@ -122,6 +122,10 @@ public class JSONWriter implements IJsonWriter {
         this.addRenderer(BooleanJsonRenderer.INSTANCE);
         this.addRenderer(ClassJsonRenderer.INSTANCE);
         this.addRenderer(CalendarJsonRenderer.INSTANCE);
+        //TO_KONSTA: There are 10 renderers in the renderers package. What is the reason they are not all added in this initialization phase?
+        //For example these two.
+        //this.addRenderer(MapJsonRenderer.ALLOW_NULLS_INSTANCE);
+        //this.addRenderer(IterableJsonOutputRenderer.INSTANCE);
     }
 
     /**
