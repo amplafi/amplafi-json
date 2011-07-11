@@ -8,6 +8,14 @@ import static org.testng.Assert.*;
 
 public class TestJsonRendererUtil {
 
+    /**
+     * Uses the renderer to first convert the obj to JSON and then back again.
+     * 
+     * @param <T> object type
+     * @param renderer renderer to use for this object
+     * @param obj object to render(serialize)
+     * @return the object after having been converted to JSON, and back again.
+     */
     @SuppressWarnings("unchecked")
     static <T> T toFromJson(JsonRenderer<T> renderer, T obj)
     {
@@ -17,6 +25,12 @@ public class TestJsonRendererUtil {
         String serializedData = jsonWriter.toString();
         return (T) renderer.fromJson(renderer.getClass(), JSONObject.toJsonObject(serializedData));
     }
+
+    /**
+     * Just like {@link TestJsonRendererUtil#toFromJson(JsonRenderer, Object)} only the obj is
+     * placed in an array before being serialized to JSON.
+     * 
+     */
     static <T> T toFromJsonInArray(JsonRenderer<T> renderer, T obj)
     {
         JSONStringer jsonWriter = new JSONStringer();
