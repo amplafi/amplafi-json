@@ -7,6 +7,8 @@ import java.io.Writer;
 import org.amplafi.json.renderers.BooleanJsonRenderer;
 import org.amplafi.json.renderers.CalendarJsonRenderer;
 import org.amplafi.json.renderers.ClassJsonRenderer;
+import org.amplafi.json.renderers.IterableJsonOutputRenderer;
+import org.amplafi.json.renderers.MapJsonRenderer;
 import org.amplafi.json.renderers.NumberJsonRenderer;
 import org.amplafi.json.renderers.StringJSONOutputRenderer;
 
@@ -122,10 +124,8 @@ public class JSONWriter implements IJsonWriter {
         this.addRenderer(BooleanJsonRenderer.INSTANCE);
         this.addRenderer(ClassJsonRenderer.INSTANCE);
         this.addRenderer(CalendarJsonRenderer.INSTANCE);
-        //TO_KONSTA: There are 10 renderers in the renderers package. What is the reason they are not all added in this initialization phase?
-        //For example these two.
-        //this.addRenderer(MapJsonRenderer.ALLOW_NULLS_INSTANCE);
-        //this.addRenderer(IterableJsonOutputRenderer.INSTANCE);
+        this.addRenderer(MapJsonRenderer.ALLOW_NULLS_INSTANCE);
+        this.addRenderer(IterableJsonOutputRenderer.INSTANCE);
     }
 
     /**
