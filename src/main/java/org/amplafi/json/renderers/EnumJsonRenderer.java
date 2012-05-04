@@ -18,7 +18,12 @@ public class EnumJsonRenderer<T extends Enum<T>> implements JsonRenderer<T> {
         return Enum.class;
     }
     public IJsonWriter toJson(IJsonWriter jsonWriter, Enum o) {
-        return jsonWriter.append(o.name());
+    	if (jsonWriter.isInKeyMode()) {
+    		jsonWriter.key(o.toString());
+    	} else {
+    		jsonWriter.value(o.toString());
+    	}
+        return jsonWriter;
     }
 
     public <K> K fromJson(Class<K> clazz, Object value, Object...parameters) {
