@@ -101,7 +101,7 @@ public interface IJsonWriter {
     public abstract <K, V> IJsonWriter keyValue(K key, V value);
 
     /**
-     * @return true if creating an {@link JSONObject} and expecting a value.
+     * @return true if creating an {@link JSONObject} and expecting a key.
      */
     public abstract boolean isInKeyMode();
 
