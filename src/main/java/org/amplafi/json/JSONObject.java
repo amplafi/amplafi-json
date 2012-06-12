@@ -1021,7 +1021,7 @@ public class JSONObject implements JsonConstruct {
                 for (i = 0; i < newindent; i += 1) {
                     sb.append(' ');
                 }
-                sb.append(quote(o.toString()));
+                sb.append(quote(String.valueOf(o)));
                 sb.append(": ");
                 sb.append(valueToString(this.myLinkedHashMap.get(o), indentFactor,
                                         newindent));
