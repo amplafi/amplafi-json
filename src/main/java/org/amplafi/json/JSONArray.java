@@ -973,4 +973,20 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
         return myArrayList.iterator();
     }
 
+    /**
+     * This is useful for cases where the data is stored as a json string in the db but we want to treat it as a List<String> in the code.
+     * @param testedArray
+     * @param rawJsonString
+     * @return if (testedArray != null) return testedArray otherwise return the parsed json string converted to a List<String>
+     */
+    public static List<String> toListIfNeeded(List<String> testedArray, String rawJsonString) {
+        if ( testedArray != null) {
+            return testedArray;
+        } else if (isBlank(rawJsonString)) {
+            return null;
+        } else {
+            return JSONArray.<String>toJsonArray(rawJsonString).asList();
+        }
+    }
+
 }
