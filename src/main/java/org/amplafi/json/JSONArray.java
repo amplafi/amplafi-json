@@ -930,6 +930,8 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
             return null;
         } else if ( value instanceof JSONArray) {
             return (JSONArray<T>)value;
+        } else if ( value instanceof Collection ) {
+            return new JSONArray<T>((Collection<T>)value);
         } else {
             String string = value.toString();
             return new JSONArray<T>(string);

@@ -332,8 +332,11 @@ public class JSONObject implements JsonConstruct {
         Object o = get(key);
         if (o instanceof JSONArray) {
             return (JSONArray<T>)o;
+        } else if ( o == null) {
+            throw new JSONException("JSONObject[" + quote(key) + "] is null");
+        } else {
+            throw new JSONException("JSONObject[" + quote(key) + "] is a "+o.getClass()+" not a JSONArray.");
         }
-        throw new JSONException("JSONObject[" + quote(key) + "] is not a JSONArray.");
     }
 
 
@@ -620,7 +623,7 @@ public class JSONObject implements JsonConstruct {
      * @param key   A key string.
      * @return      A JSONArray which is the value.
      */
-    public JSONArray optJSONArray(String key) {
+    public <T> JSONArray<T> optJSONArray(String key) {
         Object o = opt(key);
         return o instanceof JSONArray ? (JSONArray)o : null;
     }
