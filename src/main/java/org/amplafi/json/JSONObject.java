@@ -92,12 +92,10 @@ public class JSONObject implements JsonConstruct {
 
     private static final String STRINGED_NULL = "null";
 
-
 	/**
      * The hash map where the JSONObject's properties are kept.
-     * LinkedHashMap makes testing easier (particularly when converting to strings)
      */
-    private LinkedHashMap<String, Object> myLinkedHashMap;
+    private Map<String, Object> myLinkedHashMap;
 
 
     /**
@@ -113,7 +111,15 @@ public class JSONObject implements JsonConstruct {
      * Construct an empty JSONObject.
      */
     public JSONObject() {
+        // LinkedHashMap makes testing easier (particularly when converting to strings)
         this.myLinkedHashMap = new LinkedHashMap<String, Object>();
+    }
+    /**
+     * The passed map is NOT copied (useful when it has some other properties - i.e. TreeMap)
+     * @param myLinkedHashMap
+     */
+    public JSONObject(Map<String, ? extends Object> myLinkedHashMap) {
+        this.myLinkedHashMap = (Map<String, Object>) myLinkedHashMap;
     }
 
 
@@ -191,17 +197,6 @@ public class JSONObject implements JsonConstruct {
             }
         }
     }
-
-
-    /**
-     * Construct a JSONObject from a Map.
-     * @param map A map object that can be used to initialize the contents of
-     *  the JSONObject.
-     */
-    public JSONObject(Map<String, Object> map) {
-        this.myLinkedHashMap = new LinkedHashMap<String, Object>(map);
-    }
-
 
     /**
      * Construct a JSONObject from a string.
