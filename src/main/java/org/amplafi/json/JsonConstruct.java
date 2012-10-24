@@ -27,7 +27,10 @@ public interface JsonConstruct extends Serializable {
          */
         public static final class Null implements Serializable {
 
-            /**
+		private static final long serialVersionUID = -1225253953875177600L;
+
+
+			/**
              * There is only intended to be a single instance of the NULL object,
              * so the clone method returns itself.
              * @return     NULL.
@@ -72,4 +75,6 @@ public interface JsonConstruct extends Serializable {
      * @return true if there is no data present.
      */
     public boolean isEmpty();
+
+	String toString(int indentationLevel);
 }
