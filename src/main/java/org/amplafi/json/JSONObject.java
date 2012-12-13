@@ -26,9 +26,11 @@ SOFTWARE.
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -1216,6 +1218,14 @@ public class JSONObject implements JsonConstruct {
 	public Map<String,Object> asMap() {
         return this.myLinkedHashMap;
     }
+	
+    public Map<String, String> asStrinsMap() {
+        Map<String, String> stringsMap = new HashMap<String, String>();
+        for (Entry<String, Object> entry : myLinkedHashMap.entrySet()) {
+            stringsMap.put(entry.getKey(), String.valueOf(entry.getValue()));
+        }
+        return stringsMap;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -1256,4 +1266,5 @@ public class JSONObject implements JsonConstruct {
     public boolean isEmpty() {
         return this.myLinkedHashMap.isEmpty();
     }
+ 
 }
