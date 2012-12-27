@@ -460,6 +460,57 @@ public class JSONObject implements JsonConstruct {
         }
         return ja.length() == 0 ? null : ja;
     }
+    
+    /**
+     * This method lookup for the nested value according to the field path. The field path
+     * should have the form field1.field2.field3. The current implementation does not support 
+     * the array.
+     * @param fieldPath
+     * @return null or a string value
+     */
+    public String getStringByPath(String fieldPath) {
+        if (fieldPath == null) {
+            return null ;
+        }
+        String[] path = fieldPath.split("\\.");
+        String value = null;
+        int idx = 0;
+        JSONObject jsonObject = this ;
+        for (String name : path) {
+            if (idx == path.length - 1) {
+                //last field and found the value
+                value = jsonObject.getString(name);
+            } else {
+                if (jsonObject.has(name)) {
+                    jsonObject = jsonObject.getJSONObject(name);
+                } else {
+                    //do not find the matched field, the value will be null
+                    break;
+                }
+            }
+            idx++;
+        }
+        return value ;
+    }
+    
+	/**
+	 * @return flattened version of the object.. all the internal objects mapped to the top level trough pathlike keys.
+	 */
+	public JSONObject flatten() {
+		JSONObject jsonObject = new JSONObject();
+		for (Entry<String, Object> entry : asMap().entrySet()) {
+			if (entry.getValue() instanceof JSONObject) {
+				JSONObject flatten = ((JSONObject)entry.getValue()).flatten();
+				Map<String, Object> map = flatten.asMap();
+				for (Entry<String, Object> e : map.entrySet()) {
+					jsonObject.put(entry.getKey() + "." + e.getKey(), e.getValue());
+				}
+			} else {
+				jsonObject.put(entry.getKey(), entry.getValue());
+			}
+		}
+		return jsonObject;
+	}
 
     /**
      * Produce a string from a number.
