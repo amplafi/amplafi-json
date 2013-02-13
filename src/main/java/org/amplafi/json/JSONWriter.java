@@ -206,7 +206,7 @@ public class JSONWriter implements IJsonWriter {
     private IJsonWriter end(char m, char c) throws JSONException {
         if (mode != m) {
             throw new JSONException(m == OBJECT_MODE ? "Misplaced endObject." :
-            "Misplaced endArray.");
+            "Misplaced endArray." + writer.toString());
         }
         this.pop(m);
         try {
