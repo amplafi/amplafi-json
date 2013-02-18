@@ -468,7 +468,7 @@ public class JSONObject implements JsonConstruct {
      * @param fieldPath
      * @return null or a string value
      */
-    public String getStringByPath(String fieldPath) {
+    public String optStringByPath(String fieldPath) {
         if (fieldPath == null) {
             return null ;
         }
@@ -479,6 +479,9 @@ public class JSONObject implements JsonConstruct {
         for (String name : path) {
             if (idx == path.length - 1) {
                 //last field and found the value
+                if(!jsonObject.has(name)) {
+                    return null ;
+                }
                 value = jsonObject.getString(name);
             } else {
                 if (jsonObject.has(name)) {
