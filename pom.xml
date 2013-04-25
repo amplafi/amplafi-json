@@ -3,11 +3,11 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>amplafi-json</artifactId>
-    <version>1.0.9</version>
+    <version>1.0.10</version>
     <parent>
         <groupId>org.amplafi</groupId>
         <artifactId>amplafi-opensource-parent</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.6</version>
         <relativePath>../amplafi-opensource-parent/pom.xml</relativePath>
     </parent>
     <name>Amplafi Json</name>
