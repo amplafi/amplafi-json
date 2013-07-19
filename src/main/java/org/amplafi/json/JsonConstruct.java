@@ -69,6 +69,22 @@ public interface JsonConstruct extends Serializable {
                 return "null";
             }
         }
+        
+        public static final class Parser {
+            
+            public static JsonConstruct toJsonConstruct(String serialized) {
+                if (serialized == null) {
+                    return null;
+                } else if (serialized.startsWith("{")) {
+                    return JSONObject.toJsonObject(serialized);
+                } else if (serialized.startsWith("[")) {
+                    return JSONArray.toJsonArray(serialized);
+                } else {
+                    return null;
+                }
+            }
+            
+        }
 
     /**
      *
