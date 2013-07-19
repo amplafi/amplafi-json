@@ -42,8 +42,6 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>${testng-build}</version>
-
             <scope>test</scope>
             <optional>true</optional>
         </dependency>
@@ -53,7 +51,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin-build}</version>
                 <configuration>
                     <source>${android-java-build}</source>
                     <target>${android-java-build}</target>
