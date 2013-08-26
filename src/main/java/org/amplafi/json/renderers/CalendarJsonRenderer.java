@@ -29,20 +29,24 @@ public class CalendarJsonRenderer implements JsonRenderer<Calendar> {
         if (value == null) {
             return null;
         }
-        Calendar cal = Calendar.getInstance();
-        String strValue = (String) value;
-        if (strValue.startsWith("{")) {
+        Calendar cal;
+        if (value instanceof JSONObject || ((String)value).startsWith("{")) {
             JSONObject jsonObject = JSONObject.toJsonObject(value);
             long millis = jsonObject.getLong(TIME_IN_MILLIS);
             // TODO: shouldn't TimezoneFlowTranslator mean this is not needed?
-            String timeZoneId = jsonObject.getString(TIMEZONE_ID);
+            String timeZoneId = jsonObject.optString(TIMEZONE_ID);
+            if (timeZoneId == null) {
+                timeZoneId = "GMT";
+            }
+            cal = Calendar.getInstance(TimeZone.getTimeZone(timeZoneId));
             cal.setTimeInMillis(millis);
-            cal.setTimeZone(TimeZone.getTimeZone(timeZoneId));
         } else {
+            cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+            cal.clear();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             // HACK (Bruno): using Date as an intermediate is a hack.
             try {
-                Date d = dateFormat.parse(strValue);
+                Date d = dateFormat.parse((String)value);
                 cal.setTime(d);
             } catch (Exception e) {
                 return null;
