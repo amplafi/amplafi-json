@@ -1110,6 +1110,12 @@ public class JSONObject implements JsonConstruct {
         if (value instanceof Number) {
             return numberToString((Number) value);
         }
+        if (value instanceof String) {
+            JsonConstruct jsonConstruct = JsonConstruct.Parser.toJsonConstruct((String) value);
+            if (jsonConstruct != null) {
+                return valueToString(jsonConstruct);
+            }
+        }
         if (value instanceof Boolean || value instanceof JSONObject ||
                 value instanceof JSONArray) {
             return value.toString();
@@ -1136,6 +1142,12 @@ public class JSONObject implements JsonConstruct {
     throws JSONException {
         if (value == null || value.equals(null)) { //see JSONObject.NULL
             return STRINGED_NULL;
+        }
+        if (value instanceof String) {
+            JsonConstruct jsonConstruct = JsonConstruct.Parser.toJsonConstruct((String) value);
+            if (jsonConstruct != null) {
+                return valueToString(jsonConstruct, indentFactor, indent);
+            }
         }
         if (value instanceof Number) {
             return numberToString((Number) value);
