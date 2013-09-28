@@ -1285,7 +1285,7 @@ public class JSONObject implements JsonConstruct {
         return this.myLinkedHashMap;
     }
 	
-    public Map<String, String> asStrinsMap() {
+    public Map<String, String> asStringMap() {
         Map<String, String> stringsMap = new HashMap<String, String>();
         for (Entry<String, Object> entry : myLinkedHashMap.entrySet()) {
             stringsMap.put(entry.getKey(), String.valueOf(entry.getValue()));
