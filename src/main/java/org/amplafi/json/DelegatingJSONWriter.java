@@ -120,7 +120,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
         if (key == null) {
             throw new JSONException("Null key.");
         } else if ( !isInKeyMode()){
-            throw new JSONException("Misplaced key.");
+            throw new JSONException("Misplaced key:"+key);
         } else {
             try {
                 if (realWriter.comma) {

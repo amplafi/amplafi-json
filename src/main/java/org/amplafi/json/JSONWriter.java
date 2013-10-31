@@ -237,7 +237,7 @@ public class JSONWriter implements IJsonWriter {
         if (o == null) {
             throw new JSONException("Null key.");
         } else if ( !isInKeyMode()){
-            throw new JSONException("Misplaced key.");
+            throw new JSONException("Misplaced key. :" +o);
         } else {
             try {
                 if (comma) {
