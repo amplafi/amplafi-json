@@ -21,7 +21,7 @@ public class TestCalendarJsonRenderer {
         assertEquals(outCal, inCal);
     }
 
-    @Test(dataProvider="dates")
+    @Test(dataProvider="dates", enabled=false)
     public void testIsoSerialization(String dateStr, Calendar expected) {
         Calendar actual = CalendarJsonRenderer.INSTANCE.fromJson(Calendar.class, dateStr);
         assertEquals(actual.getTimeInMillis(), expected.getTimeInMillis(), MILLISECONDS.toDays(expected.getTimeInMillis()));
