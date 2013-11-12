@@ -160,8 +160,7 @@ public class JSONTokener {
     public char next(char c) throws JSONException {
         char n = next();
         if (n != c) {
-            throw syntaxError("Expected '" + c + "' and instead saw '" +
-                    n + "'.");
+            throw syntaxError("Expected '" + c + "'", n);
         }
         return n;
     }
@@ -180,7 +179,7 @@ public class JSONTokener {
          int i = this.myIndex;
          int j = i + n;
          if (j >= this.mySource.length()) {
-            throw syntaxError("Substring bounds error");
+            throw syntaxError("Substring bounds error "+j+">"+this.mySource.length());
          }
          this.myIndex += n;
          return this.mySource.substring(i, j);
@@ -207,7 +206,7 @@ public class JSONTokener {
                     for (;;) {
                         c = next();
                         if (c == 0) {
-                            throw syntaxError("Unclosed comment.");
+                            throw syntaxError("Unclosed comment.", c);
                         }
                         if (c == '*') {
                             if (next() == '/') {
@@ -245,14 +244,14 @@ public class JSONTokener {
      */
     public String nextString(char quote) throws JSONException {
         char c;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (;;) {
             c = next();
             switch (c) {
             case 0:
             case '\n':
             case '\r':
-                throw syntaxError("Unterminated string");
+                throw syntaxError("Unterminated string", c);
             case '\\':
                 c = next();
                 switch (c) {
@@ -298,7 +297,7 @@ public class JSONTokener {
      * @return   A string.
      */
     public String nextTo(char d) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (;;) {
             char c = next();
             if (c == d || c == 0 || c == '\n' || c == '\r') {
@@ -320,7 +319,7 @@ public class JSONTokener {
      */
     public String nextTo(String delimiters) {
         char c;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (;;) {
             c = next();
             if (delimiters.indexOf(c) >= 0 || c == 0 ||
@@ -342,6 +341,7 @@ public class JSONTokener {
      *
      * @return An object.
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public <T>T nextValue() throws JSONException {
         char c = nextClean();
         String s;
@@ -367,7 +367,7 @@ public class JSONTokener {
          * formatting character.
          */
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         char b = c;
         while (c >= ' ' && ",:]}/\\\"[{;=#".indexOf(c) < 0) {
             sb.append(c);
@@ -381,7 +381,7 @@ public class JSONTokener {
 
         s = sb.toString().trim();
         if (s.equals("")) {
-            throw syntaxError("Missing value.");
+            throw syntaxError("Missing value.", c);
         }
         if (s.equalsIgnoreCase("true")) {
             return (T) Boolean.TRUE;
@@ -479,12 +479,20 @@ public class JSONTokener {
      * Make a JSONException to signal a syntax error.
      *
      * @param message The error message.
+     * @param actual TODO
      * @return  A JSONException object, suitable for throwing
      */
+    public JSONException syntaxError(String message, char actual) {
+        if ( actual == 0) {
+            return new JSONException(message + toString()+" Got: nothing (ran out of characters)");
+        } else {
+            return new JSONException(message + toString()+" Got: '"+actual+"'");
+        }
+    }
+
     public JSONException syntaxError(String message) {
         return new JSONException(message + toString());
     }
-
 
     /**
      * Make a printable string of this JSONTokener.

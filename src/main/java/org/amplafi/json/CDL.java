@@ -95,8 +95,7 @@ public class CDL {
                     if (c == '\n' || c == '\r' || c == 0) {
                         return ja;
                     }
-                    throw x.syntaxError("Bad character '" + c + "' (" +
-                            (int)c + ").");
+                    throw x.syntaxError("Bad character", c);
                 }
             }
         }

@@ -147,13 +147,13 @@ public class XML {
                         return false;
                     }
                 }
-                throw x.syntaxError("Expected 'CDATA['");
+                throw x.syntaxError("Expected 'CDATA['", c);
             }
             i = 1;
             do {
                 t = x.nextMeta();
                 if (t == null) {
-                    throw x.syntaxError("Missing '>' after '<!'.");
+                    throw x.syntaxError("Missing '>' after '<!'.", c);
                 } else if (t == LT) {
                     i += 1;
                 } else if (t == GT) {
@@ -180,7 +180,7 @@ public class XML {
             return true;
 
         } else if (t instanceof Character) {
-            throw x.syntaxError("Misshaped tag");
+            throw x.syntaxError("Misshaped tag", ((Character)t).charValue());
 
 // Open tag <
 

@@ -152,7 +152,7 @@ public class JSONObject implements JsonConstruct {
         String key;
 
         if ((c = x.nextClean()) != '{') {
-            throw x.syntaxError("A JSONObject text must begin with '{' but was '"+c+"'");
+            throw x.syntaxError("A JSONObject text must begin with '{'", c);
         }
         for (;;) {
             c = x.nextClean();
@@ -163,7 +163,7 @@ public class JSONObject implements JsonConstruct {
                 return;
             default:
                 x.back();
-            key = x.nextValue().toString();
+                key = x.nextValue().toString();
             }
 
             /*
@@ -176,7 +176,7 @@ public class JSONObject implements JsonConstruct {
                     x.back();
                 }
             } else if (c != ':') {
-                throw x.syntaxError("Expected a ':' after a key but was '"+c+"'");
+                throw x.syntaxError("Expected a ':' after a key", c);
             }
             this.myLinkedHashMap.put(key, x.nextValue());
 
@@ -195,7 +195,7 @@ public class JSONObject implements JsonConstruct {
             case '}':
                 return;
             default:
-                throw x.syntaxError("Expected a ',' or '}' but was '"+c+"'");
+                throw x.syntaxError("Expected a ',' or '}'", c);
             }
         }
     }
@@ -460,10 +460,10 @@ public class JSONObject implements JsonConstruct {
         }
         return ja.length() == 0 ? null : ja;
     }
-    
+
     /**
      * This method lookup for the nested value according to the field path. The field path
-     * should have the form field1.field2.field3. The current implementation does not support 
+     * should have the form field1.field2.field3. The current implementation does not support
      * the array.
      * @param fieldPath
      * @return null or a string value
@@ -495,24 +495,33 @@ public class JSONObject implements JsonConstruct {
         }
         return value ;
     }
-    
+
 	/**
 	 * @return flattened version of the object.. all the internal objects mapped to the top level trough pathlike keys.
 	 */
 	public JSONObject flatten() {
 		JSONObject jsonObject = new JSONObject();
 		for (Entry<String, Object> entry : asMap().entrySet()) {
-			if (entry.getValue() instanceof JSONObject) {
-				JSONObject flatten = ((JSONObject)entry.getValue()).flatten();
-				Map<String, Object> map = flatten.asMap();
-				for (Entry<String, Object> e : map.entrySet()) {
-					jsonObject.put(entry.getKey() + "." + e.getKey(), e.getValue());
+			Object value = entry.getValue();
+            if (value instanceof JsonConstruct) {
+				Object flatten = ((JsonConstruct)value).flatten();
+				if ( flatten instanceof JSONObject ) {
+    				Map<String, Object> map = ((JSONObject)flatten).asMap();
+    				for (Entry<String, Object> e : map.entrySet()) {
+    					jsonObject.put(entry.getKey() + "." + e.getKey(), e.getValue());
+    				}
+				} else if ( flatten != null){
+				    jsonObject.put(entry.getKey(), flatten);
 				}
 			} else {
-				jsonObject.put(entry.getKey(), entry.getValue());
+				jsonObject.put(entry.getKey(), value);
 			}
 		}
-		return jsonObject;
+		if ( jsonObject.isEmpty()) {
+		    return null;
+		} else {
+		    return jsonObject;
+		}
 	}
 
     /**
@@ -1284,7 +1293,7 @@ public class JSONObject implements JsonConstruct {
 	public Map<String,Object> asMap() {
         return this.myLinkedHashMap;
     }
-	
+
     public Map<String, String> asStringMap() {
         Map<String, String> stringsMap = new HashMap<String, String>();
         for (Entry<String, Object> entry : myLinkedHashMap.entrySet()) {
@@ -1332,5 +1341,5 @@ public class JSONObject implements JsonConstruct {
     public boolean isEmpty() {
         return this.myLinkedHashMap.isEmpty();
     }
- 
+
 }

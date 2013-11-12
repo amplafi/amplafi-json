@@ -17,80 +17,78 @@ import java.io.Serializable;
 
 /**
  * @author patmoore
- *
  */
 public interface JsonConstruct extends Serializable {
     /**
-         * JSONObject.NULL is equivalent to the value that JavaScript calls null,
-         * whilst Java's null is equivalent to the value that JavaScript calls
-         * undefined.
+     * JSONObject.NULL is equivalent to the value that JavaScript calls null, whilst Java's null is
+     * equivalent to the value that JavaScript calls undefined.
+     */
+    public static final class Null implements Serializable {
+
+        private static final long serialVersionUID = -1225253953875177600L;
+
+        /**
+         * There is only intended to be a single instance of the NULL object, so the clone method
+         * returns itself.
+         *
+         * @return NULL.
          */
-        public static final class Null implements Serializable {
+        @Override
+        protected final Object clone() {
+            return this;
+        }
 
-		private static final long serialVersionUID = -1225253953875177600L;
+        /**
+         * A Null object is equal to the null value and to itself.
+         *
+         * @param object An object to test for nullness.
+         * @return true if the object parameter is the JSONObject.NULL object or null.
+         */
+        @Override
+        public boolean equals(Object object) {
+            return object == null || object == this
+            // to avoid serialization possibly resulting in more than 1 Null
+                || object instanceof Null;
+        }
 
+        @Override
+        public int hashCode() {
+            return 1;
+        }
 
-			/**
-             * There is only intended to be a single instance of the NULL object,
-             * so the clone method returns itself.
-             * @return     NULL.
-             */
-            @Override
-            protected final Object clone() {
-                return this;
-            }
+        /**
+         * Get the "null" string value.
+         *
+         * @return The string "null".
+         */
+        @Override
+        public String toString() {
+            return "null";
+        }
+    }
 
+    public static final class Parser {
 
-            /**
-             * A Null object is equal to the null value and to itself.
-             * @param object    An object to test for nullness.
-             * @return true if the object parameter is the JSONObject.NULL object
-             *  or null.
-             */
-            @Override
-            public boolean equals(Object object) {
-                return object == null || object == this
-                    // to avoid serialization possibly resulting in more than 1 Null
-                    || object instanceof Null;
-            }
-
-            @Override
-			public int hashCode() {
-            	return 1;
-            }
-
-
-            /**
-             * Get the "null" string value.
-             * @return The string "null".
-             */
-            @Override
-            public String toString() {
-                return "null";
+        public static JsonConstruct toJsonConstruct(String serialized) {
+            if (serialized == null) {
+                return null;
+            } else if (serialized.startsWith("{")) {
+                return JSONObject.toJsonObject(serialized);
+            } else if (serialized.startsWith("[")) {
+                return JSONArray.toJsonArray(serialized);
+            } else {
+                return null;
             }
         }
-        
-        public static final class Parser {
-            
-            public static JsonConstruct toJsonConstruct(String serialized) {
-                if (serialized == null) {
-                    return null;
-                } else if (serialized.startsWith("{")) {
-                    return JSONObject.toJsonObject(serialized);
-                } else if (serialized.startsWith("[")) {
-                    return JSONArray.toJsonArray(serialized);
-                } else {
-                    return null;
-                }
-            }
-            
-        }
+
+    }
 
     /**
-     *
      * @return true if there is no data present.
      */
     public boolean isEmpty();
 
-	String toString(int indentationLevel);
+    String toString(int indentationLevel);
+
+    Object flatten();
 }

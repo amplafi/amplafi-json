@@ -67,7 +67,7 @@ public class XMLTokener extends JSONTokener {
         for (;;) {
             c = next();
             if (c == 0) {
-                throw syntaxError("Unclosed CDATA.");
+                throw syntaxError("Unclosed CDATA.", c);
             }
             sb.append(c);
             i = sb.length() - 3;
@@ -133,7 +133,7 @@ public class XMLTokener extends JSONTokener {
             } else if (c == ';') {
                 break;
             } else {
-                throw syntaxError("Missing ';' in XML entity: &" + sb);
+                throw syntaxError("Missing ';' in XML entity: &" + sb, c);
             }
         }
         String s = sb.toString();
@@ -159,7 +159,7 @@ public class XMLTokener extends JSONTokener {
         } while (Character.isWhitespace(c));
         switch (c) {
         case 0:
-            throw syntaxError("Misshaped meta tag.");
+            throw syntaxError("Misshaped meta tag.", c);
         case '<':
             return XML.LT;
         case '>':
@@ -178,7 +178,7 @@ public class XMLTokener extends JSONTokener {
             for (;;) {
                 c = next();
                 if (c == 0) {
-                    throw syntaxError("Unterminated string.");
+                    throw syntaxError("Unterminated string.", c);
                 }
                 if (c == q) {
                     return Boolean.TRUE;
@@ -225,9 +225,9 @@ public class XMLTokener extends JSONTokener {
         } while (Character.isWhitespace(c));
         switch (c) {
         case 0:
-            throw syntaxError("Misshaped element.");
+            throw syntaxError("Misshaped element.", c);
         case '<':
-            throw syntaxError("Misplaced '<'.");
+            throw syntaxError("Misplaced '<'.", c);
         case '>':
             return XML.GT;
         case '/':
@@ -248,7 +248,7 @@ public class XMLTokener extends JSONTokener {
             for (;;) {
                 c = next();
                 if (c == 0) {
-                    throw syntaxError("Unterminated string.");
+                    throw syntaxError("Unterminated string.", c);
                 }
                 if (c == q) {
                     return sb.toString();
@@ -284,7 +284,7 @@ public class XMLTokener extends JSONTokener {
                 case '<':
                 case '"':
                 case '\'':
-                    throw syntaxError("Bad character in a name.");
+                    throw syntaxError("Bad character in a name.", c);
                 }
             }
         }

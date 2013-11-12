@@ -89,11 +89,12 @@ public class Cookie {
         x.next();
         while (x.more()) {
             n = unescape(x.nextTo("=;"));
-            if (x.next() != '=') {
+            char c;
+            if ((c=x.next()) != '=') {
                 if (n.equals("secure")) {
                     v = Boolean.TRUE;
                 } else {
-                    throw x.syntaxError("Missing '=' in cookie parameter.");
+                    throw x.syntaxError("Missing '=' in cookie parameter.", c);
                 }
             } else {
                 v = unescape(x.nextTo(';'));

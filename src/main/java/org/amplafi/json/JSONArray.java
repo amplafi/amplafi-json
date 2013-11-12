@@ -128,7 +128,8 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
                 x.back();
                 myArrayList.add((T)x.nextValue());
             }
-            switch (x.nextClean()) {
+            char c;
+            switch (c=x.nextClean()) {
             case ';':
             case ',':
                 if (x.nextClean() == ']') {
@@ -139,7 +140,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
             case ']':
                 return;
             default:
-                throw x.syntaxError("Expected a ',' or ']'");
+                throw x.syntaxError("Expected a ',' or ']'", c);
             }
         }
     }
@@ -988,6 +989,35 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
             return null;
         } else {
             return JSONArray.<String>toJsonArray(rawJsonString).asList();
+        }
+    }
+
+    public Object flatten() {
+        switch( size() ) {
+        case 0:
+            return null;
+        case 1:
+            // if only one element then drop the array
+            if ( this.get(0) instanceof JsonConstruct) {
+                return ((JsonConstruct)this.get(0)).flatten();
+            } else {
+                return this.get(0);
+            }
+        default:
+            JSONArray jsonArray = new JSONArray();
+            for(Object object: this.myArrayList) {
+                if ( object instanceof JsonConstruct) {
+                    object = ((JsonConstruct)object).flatten();
+                }
+                if ( object != null) {
+                    jsonArray.put(object);
+                }
+            }
+            if ( jsonArray.isEmpty()) {
+                return null;
+            } else {
+                return jsonArray;
+            }
         }
     }
 

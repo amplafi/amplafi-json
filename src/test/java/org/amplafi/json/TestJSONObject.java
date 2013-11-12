@@ -1,7 +1,6 @@
 package org.amplafi.json;
 
 import java.io.StringWriter;
-
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -84,5 +83,21 @@ public class TestJSONObject extends Assert {
     	JSONObject json = new JSONObject("{a:1}");
     	assertEquals(json.optInteger("a", 2), Integer.valueOf(1));
     	assertEquals(json.optInteger("b", 2), Integer.valueOf(2));
+    }
+
+    @Test(dataProvider="toFlatten")
+    public void testFlatten(JSONObject toFlatten, Object expected) {
+        Object actual = toFlatten.flatten();
+        assertEquals(actual, expected);
+    }
+
+    @DataProvider(name="toFlatten")
+    public Object[][] getToFlatten() {
+        return new Object[][] {
+            // empty objects are flattened to nothing
+            new Object[] { JSONObject.toJsonObject(null), null },
+            new Object[] { JSONObject.toJsonObject("{'key': []}"), null },
+            new Object[] { JSONObject.toJsonObject("{'key': {}"), null },
+        };
     }
 }
