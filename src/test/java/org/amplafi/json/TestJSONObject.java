@@ -97,7 +97,7 @@ public class TestJSONObject extends Assert {
             // empty objects are flattened to nothing
             new Object[] { JSONObject.toJsonObject(null), null },
             new Object[] { JSONObject.toJsonObject("{'key': []}"), null },
-            new Object[] { JSONObject.toJsonObject("{'key': {}"), null },
+            new Object[] { JSONObject.toJsonObject("{'key': {}}"), null },
         };
     }
 }
