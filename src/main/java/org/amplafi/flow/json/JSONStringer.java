@@ -1,4 +1,4 @@
-package org.amplafi.json;
+package org.amplafi.flow.json;
 
 /*
 Copyright (c) 2006 JSON.org
@@ -26,9 +26,9 @@ SOFTWARE.
 
 import java.io.StringWriter;
 
-import org.amplafi.json.renderers.EnumJsonRenderer;
-import org.amplafi.json.renderers.IterableJsonOutputRenderer;
-import org.amplafi.json.renderers.MapJsonRenderer;
+import org.amplafi.flow.json.renderers.EnumJsonRenderer;
+import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
+import org.amplafi.flow.json.renderers.MapJsonRenderer;
 
 import com.sworddance.beans.MapByClass;
 

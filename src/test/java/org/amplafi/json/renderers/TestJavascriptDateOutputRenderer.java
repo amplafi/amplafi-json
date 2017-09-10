@@ -11,8 +11,8 @@ import java.io.Writer;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.amplafi.json.JSONWriter;
-import org.amplafi.json.renderers.JavascriptDateOutputRenderer;
+import org.amplafi.flow.json.JSONWriter;
+import org.amplafi.flow.json.renderers.JavascriptDateOutputRenderer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

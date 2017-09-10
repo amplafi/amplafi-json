@@ -1,4 +1,4 @@
-package org.amplafi.json;
+package org.amplafi.flow.json;
 
 /**
  * The JSONException is thrown by the JSON.org classes then things are amiss.

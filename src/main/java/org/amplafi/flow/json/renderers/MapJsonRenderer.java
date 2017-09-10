@@ -11,13 +11,13 @@
  * the specific language governing permissions and limitations under the
  * License.
  */
-package org.amplafi.json.renderers;
+package org.amplafi.flow.json.renderers;
 
 import java.util.Map;
 
-import org.amplafi.json.IJsonWriter;
-import org.amplafi.json.JSONObject;
-import org.amplafi.json.JsonRenderer;
+import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.json.JSONObject;
+import org.amplafi.flow.json.JsonRenderer;
 
 /**
  * Render a map of objects as a json map. Keys and values of the Map can be JsonSelfRenderer
@@ -61,7 +61,7 @@ public class MapJsonRenderer<T,V> implements JsonRenderer<Map<T,V>> {
     }
 
     /**
-     * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
+     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
      */
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
         JSONObject jsonObject = JSONObject.toJsonObject(value);

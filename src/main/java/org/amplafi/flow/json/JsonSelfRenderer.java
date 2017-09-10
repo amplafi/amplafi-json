@@ -1,15 +1,18 @@
-package org.amplafi.json;
+package org.amplafi.flow.json;
 
 /**
  * implementer will produce a JSON representation of the class in question.
  *
  * Roughly equivalent to java.io.Externalizable
  *
- * see a bunch of notes on {@link org.amplafi.json.JsonRenderer}.
+ * see a bunch of notes on {@link org.amplafi.flow.json.JsonRenderer}.
  *
  * @author Patrick Moore
  *
  */
+//this is bad because it encourages the developer to serialize directly to an output format.
+// however, in this case json is a nice generic format
+@Deprecated
 public interface JsonSelfRenderer {
     public IJsonWriter toJson(IJsonWriter jsonWriter);
     /**

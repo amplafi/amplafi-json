@@ -1,13 +1,13 @@
-package org.amplafi.json.renderers;
+package org.amplafi.flow.json.renderers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.amplafi.json.IJsonWriter;
-import org.amplafi.json.JSONArray;
-import org.amplafi.json.JsonRenderer;
+import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.json.JSONArray;
+import org.amplafi.flow.json.JsonRenderer;
 
 /**
  * Convert any {@link Iterable} to a json array.
@@ -46,7 +46,7 @@ public class IterableJsonOutputRenderer<T extends Iterable> implements JsonRende
     }
 
     /**
-     * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
+     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
      */
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
         JSONArray array = JSONArray.toJsonArray(value);

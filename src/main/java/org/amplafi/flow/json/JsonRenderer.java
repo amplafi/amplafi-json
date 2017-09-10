@@ -2,7 +2,7 @@
  * Created on Jun 4, 2006
  * Copyright 2006 by Patrick Moore
  */
-package org.amplafi.json;
+package org.amplafi.flow.json;
 
 /**
  * Implementers will generate a JSON representation of a class instance.

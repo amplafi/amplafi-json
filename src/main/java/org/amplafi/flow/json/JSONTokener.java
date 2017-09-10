@@ -1,4 +1,4 @@
-package org.amplafi.json;
+package org.amplafi.flow.json;
 
 import java.io.BufferedReader;
 import java.io.IOException;

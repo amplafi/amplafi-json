@@ -1,4 +1,4 @@
-package org.amplafi.json;
+package org.amplafi.flow.json;
 
 import java.io.IOException;
 
@@ -103,13 +103,13 @@ public class DelegatingJSONWriter implements IJsonWriter {
 
 
     /**
-     * @see org.amplafi.json.IJsonWriter#addRenderer(java.lang.Class, org.amplafi.json.JsonRenderer)
+     * @see org.amplafi.flow.json.IJsonWriter#addRenderer(java.lang.Class, org.amplafi.flow.json.JsonRenderer)
      */
     public void addRenderer(Class<?> name, JsonRenderer<?> renderer) {
         renderers.put(name, renderer);
     }
     /**
-     * @see org.amplafi.json.IJsonWriter#addRenderer(org.amplafi.json.JsonRenderer)
+     * @see org.amplafi.flow.json.IJsonWriter#addRenderer(org.amplafi.flow.json.JsonRenderer)
      */
     public void addRenderer(JsonRenderer<?> renderer) {
         this.addRenderer(renderer.getClassToRender(), renderer);
@@ -158,7 +158,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
 
     /**
      *
-     * @see org.amplafi.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.Object, java.lang.String)
+     * @see org.amplafi.flow.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.Object, java.lang.String)
      */
     public <K> IJsonWriter keyValueIfNotBlankValue(K key, String value) {
         if ( !StringUtils.isBlank(value)) {
@@ -169,7 +169,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
 
     /**
      *
-     * @see org.amplafi.json.IJsonWriter#keyValueIfNotNullValue(java.lang.Object, java.lang.Object)
+     * @see org.amplafi.flow.json.IJsonWriter#keyValueIfNotNullValue(java.lang.Object, java.lang.Object)
      */
     public <K,V> IJsonWriter keyValueIfNotNullValue(K key, V value) {
         if ( value != null) {
@@ -180,7 +180,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
 
     /**
      *
-     * @see org.amplafi.json.IJsonWriter#keyValue(java.lang.Object, java.lang.Object)
+     * @see org.amplafi.flow.json.IJsonWriter#keyValue(java.lang.Object, java.lang.Object)
      */
     public <K,V> IJsonWriter keyValue(K key, V value) {
         this.key(key).value(value);

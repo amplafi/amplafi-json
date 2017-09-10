@@ -9,7 +9,7 @@ import static org.testng.Assert.*;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.amplafi.json.JSONJavascriptStringer;
+import org.amplafi.flow.json.JSONJavascriptStringer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

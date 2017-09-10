@@ -8,9 +8,9 @@ import static org.testng.Assert.assertEquals;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.amplafi.json.JSONObject;
-import org.amplafi.json.JSONStringer;
-import org.amplafi.json.renderers.MapJsonRenderer;
+import org.amplafi.flow.json.JSONObject;
+import org.amplafi.flow.json.JSONStringer;
+import org.amplafi.flow.json.renderers.MapJsonRenderer;
 import org.testng.annotations.Test;
 
 public class TestMapJsonRenderer {

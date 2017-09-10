@@ -1,4 +1,4 @@
-package org.amplafi.json;
+package org.amplafi.flow.json;
 
 /*
 Copyright (c) 2002 JSON.org

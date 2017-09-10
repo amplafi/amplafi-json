@@ -3,8 +3,8 @@ package org.amplafi.json.renderers;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.amplafi.json.JSONStringer;
-import org.amplafi.json.renderers.IterableJsonOutputRenderer;
+import org.amplafi.flow.json.JSONStringer;
+import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;

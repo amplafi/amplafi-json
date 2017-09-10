@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import static java.util.concurrent.TimeUnit.*;
 
-import org.amplafi.json.renderers.CalendarJsonRenderer;
+import org.amplafi.flow.json.renderers.CalendarJsonRenderer;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

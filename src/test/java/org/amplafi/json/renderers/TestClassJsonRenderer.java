@@ -15,6 +15,7 @@ package org.amplafi.json.renderers;
 
 import static org.testng.Assert.*;
 
+import org.amplafi.flow.json.renderers.ClassJsonRenderer;
 import org.testng.annotations.Test;
 
 /**

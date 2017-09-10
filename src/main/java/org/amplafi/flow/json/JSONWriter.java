@@ -1,19 +1,18 @@
-package org.amplafi.json;
+package org.amplafi.flow.json;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import org.amplafi.json.renderers.BooleanJsonRenderer;
-import org.amplafi.json.renderers.CalendarJsonRenderer;
-import org.amplafi.json.renderers.ClassJsonRenderer;
-import org.amplafi.json.renderers.IterableJsonOutputRenderer;
-import org.amplafi.json.renderers.MapJsonRenderer;
-import org.amplafi.json.renderers.NumberJsonRenderer;
-import org.amplafi.json.renderers.StringJSONOutputRenderer;
-
 import com.sworddance.beans.MapByClass;
 
+import org.amplafi.flow.json.renderers.BooleanJsonRenderer;
+import org.amplafi.flow.json.renderers.CalendarJsonRenderer;
+import org.amplafi.flow.json.renderers.ClassJsonRenderer;
+import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
+import org.amplafi.flow.json.renderers.MapJsonRenderer;
+import org.amplafi.flow.json.renderers.NumberJsonRenderer;
+import org.amplafi.flow.json.renderers.StringJSONOutputRenderer;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -142,7 +141,7 @@ public class JSONWriter implements IJsonWriter {
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#append(java.lang.String)
+     * @see org.amplafi.flow.json.IJsonWriter#append(java.lang.String)
      */
     public IJsonWriter append(String s) throws JSONException {
         if (s == null) {
@@ -184,7 +183,7 @@ public class JSONWriter implements IJsonWriter {
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#array()
+     * @see org.amplafi.flow.json.IJsonWriter#array()
      */
     public IJsonWriter array() throws JSONException {
         if (mode == INITIAL_MODE || isInObjectMode() || isInArrayMode()) {
@@ -219,14 +218,14 @@ public class JSONWriter implements IJsonWriter {
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#endArray()
+     * @see org.amplafi.flow.json.IJsonWriter#endArray()
      */
     public IJsonWriter endArray() throws JSONException {
         return this.end(ARRAY_MODE, ']');
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#endObject()
+     * @see org.amplafi.flow.json.IJsonWriter#endObject()
      */
     public IJsonWriter endObject() throws JSONException {
         return this.end(KEY_MODE, '}');
@@ -275,7 +274,7 @@ public class JSONWriter implements IJsonWriter {
 
     /**
      *
-     * @see org.amplafi.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.Object, java.lang.String)
+     * @see org.amplafi.flow.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.Object, java.lang.String)
      */
     public <K> IJsonWriter keyValueIfNotBlankValue(K key, String value) {
         if ( !StringUtils.isBlank(value)) {
@@ -286,7 +285,7 @@ public class JSONWriter implements IJsonWriter {
 
     /**
      *
-     * @see org.amplafi.json.IJsonWriter#keyValueIfNotNullValue(java.lang.Object, java.lang.Object)
+     * @see org.amplafi.flow.json.IJsonWriter#keyValueIfNotNullValue(java.lang.Object, java.lang.Object)
      */
     public <K,V> IJsonWriter keyValueIfNotNullValue(K key, V value) {
         if ( value != null) {
@@ -297,7 +296,7 @@ public class JSONWriter implements IJsonWriter {
 
     /**
      *
-     * @see org.amplafi.json.IJsonWriter#keyValue(java.lang.Object, java.lang.Object)
+     * @see org.amplafi.flow.json.IJsonWriter#keyValue(java.lang.Object, java.lang.Object)
      */
     public <K,V> IJsonWriter keyValue(K key, V value) {
         this.key(key).value(value);
@@ -305,7 +304,7 @@ public class JSONWriter implements IJsonWriter {
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#isInKeyMode()
+     * @see org.amplafi.flow.json.IJsonWriter#isInKeyMode()
      */
     public boolean isInKeyMode() {
         return mode == KEY_MODE;
@@ -313,7 +312,7 @@ public class JSONWriter implements IJsonWriter {
 
 
     /**
-     * @see org.amplafi.json.IJsonWriter#object()
+     * @see org.amplafi.flow.json.IJsonWriter#object()
      */
     public JSONWriter object() throws JSONException {
         if (mode == INITIAL_MODE) {
@@ -330,20 +329,20 @@ public class JSONWriter implements IJsonWriter {
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#isInArrayMode()
+     * @see org.amplafi.flow.json.IJsonWriter#isInArrayMode()
      */
     public boolean isInArrayMode() {
         return mode == ARRAY_MODE;
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#isInObjectMode()
+     * @see org.amplafi.flow.json.IJsonWriter#isInObjectMode()
      */
     public boolean isInObjectMode() {
         return mode == OBJECT_MODE;
     }
     /**
-     * @see org.amplafi.json.IJsonWriter#isInInitialMode()
+     * @see org.amplafi.flow.json.IJsonWriter#isInInitialMode()
      */
     public boolean isInInitialMode() {
         return mode == INITIAL_MODE;
@@ -378,21 +377,21 @@ public class JSONWriter implements IJsonWriter {
 
 
     /**
-     * @see org.amplafi.json.IJsonWriter#value(boolean)
+     * @see org.amplafi.flow.json.IJsonWriter#value(boolean)
      */
     public IJsonWriter value(boolean b) throws JSONException {
         return this.value(Boolean.valueOf(b));
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#value(double)
+     * @see org.amplafi.flow.json.IJsonWriter#value(double)
      */
     public IJsonWriter value(double d) throws JSONException {
         return this.value(Double.valueOf(d));
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#value(long)
+     * @see org.amplafi.flow.json.IJsonWriter#value(long)
      */
     public IJsonWriter value(long l) throws JSONException {
         return this.value(Long.valueOf(l));
@@ -422,13 +421,13 @@ public class JSONWriter implements IJsonWriter {
     }
 
     /**
-     * @see org.amplafi.json.IJsonWriter#addRenderer(java.lang.Class, org.amplafi.json.JsonRenderer)
+     * @see org.amplafi.flow.json.IJsonWriter#addRenderer(java.lang.Class, org.amplafi.flow.json.JsonRenderer)
      */
     public void addRenderer(Class<?> name, JsonRenderer<?> renderer) {
         renderers.put(name, renderer);
     }
     /**
-     * @see org.amplafi.json.IJsonWriter#addRenderer(org.amplafi.json.JsonRenderer)
+     * @see org.amplafi.flow.json.IJsonWriter#addRenderer(org.amplafi.flow.json.JsonRenderer)
      */
     public void addRenderer(JsonRenderer<?> renderer) {
         this.addRenderer(renderer.getClassToRender(), renderer);

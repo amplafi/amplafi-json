@@ -1,20 +1,21 @@
 package org.amplafi.json;
 
 import java.util.Iterator;
+
+import org.amplafi.flow.json.CDL;
+import org.amplafi.flow.json.Cookie;
+import org.amplafi.flow.json.CookieList;
+import org.amplafi.flow.json.HTTP;
+import org.amplafi.flow.json.JSONArray;
+import org.amplafi.flow.json.JSONObject;
+import org.amplafi.flow.json.JSONStringer;
+import org.amplafi.flow.json.JSONTokener;
+import org.amplafi.flow.json.XML;
+
 import java.io.StringWriter;
 
-import org.amplafi.json.CDL;
-import org.amplafi.json.Cookie;
-import org.amplafi.json.CookieList;
-import org.amplafi.json.HTTP;
-import org.amplafi.json.JSONArray;
-import org.amplafi.json.JSONObject;
-import org.amplafi.json.JSONStringer;
-import org.amplafi.json.JSONTokener;
-import org.amplafi.json.XML;
-
 /**
- * Test class. This file is not formally a member of the org.amplafi.json library.
+ * Test class. This file is not formally a member of the org.amplafi.flow.json library.
  * It is just a casual test tool.
  */
 public class TestJSON {
@@ -30,7 +31,7 @@ public class TestJSON {
         JSONStringer jj;
         String s;
         try {
-            j = XML.toJSONObject("<![CDATA[This is a collection of test patterns and examples for org.amplafi.json.]]>");
+            j = XML.toJSONObject("<![CDATA[This is a collection of test patterns and examples for org.amplafi.flow.json.]]>");
             System.out.println(j.toString());
 
             jj = new JSONStringer();

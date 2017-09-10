@@ -11,12 +11,12 @@
  * the specific language governing permissions and limitations under the
  * License.
  */
-package org.amplafi.json.renderers;
+package org.amplafi.flow.json.renderers;
 
 import java.net.URI;
 
-import org.amplafi.json.IJsonWriter;
-import org.amplafi.json.JsonRenderer;
+import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.json.JsonRenderer;
 import org.apache.commons.lang.ObjectUtils;
 
 import com.sworddance.util.UriFactoryImpl;
@@ -29,7 +29,7 @@ public class UriJsonRenderer implements JsonRenderer<URI> {
 
     public static final UriJsonRenderer INSTANCE = new UriJsonRenderer();
     /**
-     * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
+     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
      */
     @SuppressWarnings("unchecked")
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
@@ -41,7 +41,7 @@ public class UriJsonRenderer implements JsonRenderer<URI> {
     }
 
     /**
-     * @see org.amplafi.json.JsonRenderer#getClassToRender()
+     * @see org.amplafi.flow.json.JsonRenderer#getClassToRender()
      */
     public Class<? extends URI> getClassToRender() {
         return URI.class;

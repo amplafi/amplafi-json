@@ -1,11 +1,13 @@
 package org.amplafi.json;
 
+import static org.amplafi.flow.json.JSONObject.*;
+
 import java.io.StringWriter;
+
+import org.amplafi.flow.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import static org.amplafi.json.JSONObject.*;
 
 /**
  * Tests {@link JSONObject}.

@@ -1,8 +1,8 @@
 package org.amplafi.json.renderers;
 
-import org.amplafi.json.IJsonWriter;
-import org.amplafi.json.JSONObject;
-import org.amplafi.json.JsonSelfRenderer;
+import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.json.JSONObject;
+import org.amplafi.flow.json.JsonSelfRenderer;
 
 public class SampleJsonData implements JsonSelfRenderer {
 

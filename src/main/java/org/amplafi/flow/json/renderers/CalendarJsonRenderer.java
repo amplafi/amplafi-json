@@ -1,4 +1,4 @@
-package org.amplafi.json.renderers;
+package org.amplafi.flow.json.renderers;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -6,9 +6,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.amplafi.json.IJsonWriter;
-import org.amplafi.json.JSONObject;
-import org.amplafi.json.JsonRenderer;
+import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.json.JSONObject;
+import org.amplafi.flow.json.JsonRenderer;
 
 public class CalendarJsonRenderer implements JsonRenderer<Calendar> {
 

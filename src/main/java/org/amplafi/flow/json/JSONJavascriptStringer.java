@@ -2,11 +2,11 @@
  * Created on Jun 24, 2006
  * Copyright 2006 by Patrick Moore
  */
-package org.amplafi.json;
+package org.amplafi.flow.json;
 
 import java.util.Calendar;
 
-import org.amplafi.json.renderers.JavascriptDateOutputRenderer;
+import org.amplafi.flow.json.renderers.JavascriptDateOutputRenderer;
 
 // should have all renderers added by JSONRenderRegistry.
 @Deprecated

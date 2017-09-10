@@ -11,7 +11,7 @@
  * the specific language governing permissions and limitations under the
  * License.
  */
-package org.amplafi.json;
+package org.amplafi.flow.json;
 
 /*
  * @author patmoore

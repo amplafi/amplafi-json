@@ -1,10 +1,11 @@
 package org.amplafi.json.renderers;
 
-import org.amplafi.json.JSONArray;
-import org.amplafi.json.JSONObject;
-import org.amplafi.json.JSONStringer;
-import org.amplafi.json.JsonRenderer;
 import static org.testng.Assert.*;
+
+import org.amplafi.flow.json.JSONArray;
+import org.amplafi.flow.json.JSONObject;
+import org.amplafi.flow.json.JSONStringer;
+import org.amplafi.flow.json.JsonRenderer;
 
 public class TestJsonRendererUtil {
 

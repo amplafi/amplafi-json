@@ -11,10 +11,10 @@
  * the specific language governing permissions and limitations under the
  * License.
  */
-package org.amplafi.json.renderers;
+package org.amplafi.flow.json.renderers;
 
-import org.amplafi.json.IJsonWriter;
-import org.amplafi.json.JsonRenderer;
+import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.json.JsonRenderer;
 import org.apache.commons.lang.ObjectUtils;
 
 public class BooleanJsonRenderer implements JsonRenderer<Boolean> {

@@ -1,8 +1,8 @@
-package org.amplafi.json.renderers;
+package org.amplafi.flow.json.renderers;
 
-import org.amplafi.json.IJsonWriter;
-import org.amplafi.json.JSONException;
-import org.amplafi.json.JsonRenderer;
+import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.json.JSONException;
+import org.amplafi.flow.json.JsonRenderer;
 
 /**
  * default implementation to output {@link Enum}.

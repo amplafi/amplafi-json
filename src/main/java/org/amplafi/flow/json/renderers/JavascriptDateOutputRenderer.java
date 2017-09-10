@@ -2,13 +2,13 @@
  * Created on Jun 4, 2006
  * Copyright 2006 by Patrick Moore
  */
-package org.amplafi.json.renderers;
+package org.amplafi.flow.json.renderers;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import org.amplafi.json.IJsonWriter;
-import org.amplafi.json.JsonRenderer;
+import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.json.JsonRenderer;
 
 /**
  * Render date and calendar object in the form of a javascript object.
@@ -40,7 +40,7 @@ public class JavascriptDateOutputRenderer implements JsonRenderer {
     }
 
     /**
-     * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
+     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
      */
     public Object fromJson(Class clazz, Object value, Object...parameters) {
         throw new UnsupportedOperationException();

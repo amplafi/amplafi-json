@@ -11,10 +11,10 @@
  * the specific language governing permissions and limitations under the
  * License.
  */
-package org.amplafi.json.renderers;
+package org.amplafi.flow.json.renderers;
 
-import org.amplafi.json.IJsonWriter;
-import org.amplafi.json.JsonRenderer;
+import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.json.JsonRenderer;
 
 /**
  * @author patmoore
@@ -25,7 +25,7 @@ public class ClassJsonRenderer implements JsonRenderer<Class<?>> {
     public static final ClassJsonRenderer INSTANCE = new ClassJsonRenderer();
 
     /**
-     * @see org.amplafi.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, java.lang.Object[])
+     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, java.lang.Object[])
      */
     @SuppressWarnings("unchecked")
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
@@ -41,7 +41,7 @@ public class ClassJsonRenderer implements JsonRenderer<Class<?>> {
     }
 
     /**
-     * @see org.amplafi.json.JsonRenderer#getClassToRender()
+     * @see org.amplafi.flow.json.JsonRenderer#getClassToRender()
      */
     @SuppressWarnings("unchecked")
     public Class/*<? extends Class<?>>*/ getClassToRender() {
@@ -49,7 +49,7 @@ public class ClassJsonRenderer implements JsonRenderer<Class<?>> {
     }
 
     /**
-     * @see org.amplafi.json.JsonRenderer#toJson(org.amplafi.json.IJsonWriter, java.lang.Object)
+     * @see org.amplafi.flow.json.JsonRenderer#toJson(org.amplafi.flow.json.IJsonWriter, java.lang.Object)
      */
     public IJsonWriter toJson(IJsonWriter jsonWriter, Class<?> o) {
         jsonWriter.value(o.getCanonicalName());
