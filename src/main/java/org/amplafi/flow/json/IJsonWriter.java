@@ -13,10 +13,12 @@
  */
 package org.amplafi.flow.json;
 
+import org.amplafi.flow.translator.SerializationWriter;
+
 /*
  * @author patmoore
  */
-public interface IJsonWriter {
+public interface IJsonWriter extends SerializationWriter {
 
     /**
      * Append a value.

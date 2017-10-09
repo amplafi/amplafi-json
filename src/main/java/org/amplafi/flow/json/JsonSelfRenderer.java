@@ -1,5 +1,7 @@
 package org.amplafi.flow.json;
 
+import org.amplafi.flow.FlowSelfRenderer;
+
 /**
  * implementer will produce a JSON representation of the class in question.
  *
@@ -13,7 +15,7 @@ package org.amplafi.flow.json;
 //this is bad because it encourages the developer to serialize directly to an output format.
 // however, in this case json is a nice generic format
 @Deprecated
-public interface JsonSelfRenderer {
+public interface JsonSelfRenderer extends FlowSelfRenderer {
     public IJsonWriter toJson(IJsonWriter jsonWriter);
     /**
      * @param <T> class returned.
