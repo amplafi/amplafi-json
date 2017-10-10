@@ -16,7 +16,6 @@ package org.amplafi.flow.translator;
 import org.amplafi.flow.FlowPropertyDefinition;
 import org.amplafi.flow.DataClassDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.JSONObject;
 import org.amplafi.flow.json.JSONStringer;
 import org.amplafi.flow.validation.FlowValidationException;
@@ -58,9 +57,8 @@ public class CharSequenceFlowTranslator<T> extends AbstractFlowTranslator<T> {
         return (T) JSONObject.unquote(serializedObject.toString());
     }
     @Override
-    public IJsonWriter getJsonWriter() {
-        super.
-        return new JSONStringer();
+    public <W extends SerializationWriter> W getSerializationWriter() {
+        return (W) new JSONStringer();
     }
 
 }

@@ -16,8 +16,6 @@ package org.amplafi.flow.translator;
 import org.amplafi.flow.DataClassDefinition;
 import org.amplafi.flow.FlowPropertyDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
-import org.amplafi.flow.json.IJsonWriter;
-import org.amplafi.flow.json.renderers.NumberJsonRenderer;
 import org.amplafi.flow.validation.FlowValidationException;
 import org.amplafi.flow.validation.InconsistencyTracking;
 
@@ -26,7 +24,7 @@ import org.amplafi.flow.validation.InconsistencyTracking;
 public class ShortFlowTranslator extends AbstractFlowTranslator<Short> {
 
     public ShortFlowTranslator() {
-        super(NumberJsonRenderer.INSTANCE);
+        super(NumberFlowRenderer.INSTANCE);
         this.addSerializedFormClasses(Number.class, int.class, long.class, short.class);
         this.addDeserializedFormClasses(short.class);
     }
@@ -48,7 +46,7 @@ public class ShortFlowTranslator extends AbstractFlowTranslator<Short> {
     }
 
     @Override
-    protected IJsonWriter doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, IJsonWriter jsonWriter, Short object) {
+    protected <W extends SerializationWriter> W doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, W jsonWriter, Short object) {
         jsonWriter.value(object);
         return jsonWriter;
     }

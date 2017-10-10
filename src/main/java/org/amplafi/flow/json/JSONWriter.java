@@ -8,12 +8,12 @@ import com.sworddance.beans.MapByClass;
 
 import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.json.renderers.CalendarJsonRenderer;
-import org.amplafi.flow.json.renderers.ClassJsonRenderer;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 import org.amplafi.flow.json.renderers.MapJsonRenderer;
-import org.amplafi.flow.json.renderers.NumberJsonRenderer;
 import org.amplafi.flow.json.renderers.StringJSONOutputRenderer;
 import org.amplafi.flow.translator.BooleanJsonRenderer;
+import org.amplafi.flow.translator.ClassFlowRenderer;
+import org.amplafi.flow.translator.NumberFlowRenderer;
 import org.amplafi.flow.translator.SerializationWriter;
 import org.apache.commons.lang.StringUtils;
 
@@ -120,10 +120,10 @@ public class JSONWriter implements IJsonWriter {
      */
     public JSONWriter(Writer w) {
         this(w, new MapByClass<FlowRenderer<?>>());
-        this.addRenderer(NumberJsonRenderer.INSTANCE);
+        this.addRenderer(NumberFlowRenderer.INSTANCE);
         this.addRenderer(StringJSONOutputRenderer.INSTANCE);
         this.addRenderer(BooleanJsonRenderer.INSTANCE);
-        this.addRenderer(ClassJsonRenderer.INSTANCE);
+        this.addRenderer(ClassFlowRenderer.INSTANCE);
         this.addRenderer(CalendarJsonRenderer.INSTANCE);
         this.addRenderer(MapJsonRenderer.ALLOW_NULLS_INSTANCE);
         this.addRenderer(IterableJsonOutputRenderer.INSTANCE);

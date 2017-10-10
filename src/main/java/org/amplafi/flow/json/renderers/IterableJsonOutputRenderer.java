@@ -5,9 +5,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.json.JSONArray;
-import org.amplafi.flow.json.JsonRenderer;
+import org.amplafi.flow.translator.SerializationWriter;
 
 /**
  * Convert any {@link Iterable} to a json array.
@@ -15,7 +15,7 @@ import org.amplafi.flow.json.JsonRenderer;
  * @author Owner
  */
 @SuppressWarnings("unchecked")
-public class IterableJsonOutputRenderer<T extends Iterable> implements JsonRenderer<T> {
+public class IterableJsonOutputRenderer<T extends Iterable> implements FlowRenderer<T> {
     public static final IterableJsonOutputRenderer DISALLOW_NULLS_INSTANCE = new IterableJsonOutputRenderer(false);
     public static final IterableJsonOutputRenderer INSTANCE = new IterableJsonOutputRenderer();
     private boolean allowNullValues;
@@ -35,20 +35,16 @@ public class IterableJsonOutputRenderer<T extends Iterable> implements JsonRende
     public Class getClassToRender() {
         return Iterable.class;
     }
-    public IJsonWriter toJson(IJsonWriter jsonWriter, T iter) {
-        jsonWriter.array();
+    public <W extends SerializationWriter> W toSerialization(W serializationWriter, T iter) {
+        serializationWriter.array();
         for (Object obj : iter) {
             if ( allowNullValues || obj != null ) {
-                jsonWriter.value(obj);
+                serializationWriter.value(obj);
             }
         }
-        return jsonWriter.endArray();
-    }
-
-    /**
-     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
-     */
-    public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
+        return serializationWriter.endArray();
+    }
+    public <K> K fromSerialization(Class<K> clazz, Object value, Object... parameters) {
         JSONArray array = JSONArray.toJsonArray(value);
         K result = null;
         if ( array != null && !array.isEmpty() ) {

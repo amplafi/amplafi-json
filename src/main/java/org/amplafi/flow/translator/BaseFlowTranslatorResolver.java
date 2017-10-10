@@ -203,7 +203,7 @@ public class BaseFlowTranslatorResolver implements FlowTranslatorResolver {
         }
     }
     @Override
-    public IJsonWriter getJsonWriter() {
+    public SerializationWriter getSerializationWriter() {
         MapByClass<JsonRenderer<?>>jsonRenderers = this.translators.values().stream()
                 .filter(translator -> translator.getFlowRenderer() != null)
                 .map(translator -> translator.getFlowRenderer())

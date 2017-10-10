@@ -16,17 +16,13 @@ package org.amplafi.flow.translator;
 import org.amplafi.flow.DataClassDefinition;
 import org.amplafi.flow.FlowPropertyDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
-import org.amplafi.flow.json.IJsonWriter;
-import org.amplafi.flow.json.renderers.NumberJsonRenderer;
 import org.amplafi.flow.validation.FlowValidationException;
 import org.amplafi.flow.validation.InconsistencyTracking;
-
-
 
 public class LongFlowTranslator extends AbstractFlowTranslator<Long> {
 
     public LongFlowTranslator() {
-        super(NumberJsonRenderer.INSTANCE);
+        super(NumberFlowRenderer.INSTANCE);
         this.addSerializedFormClasses(Number.class, int.class, long.class, short.class);
         this.addDeserializedFormClasses(long.class);
     }
@@ -47,8 +43,8 @@ public class LongFlowTranslator extends AbstractFlowTranslator<Long> {
     }
 
     @Override
-    protected IJsonWriter doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, IJsonWriter jsonWriter, Long object) {
-        return jsonWriter.value(object);
+    protected <W extends SerializationWriter> W doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, W serializationWriter, Long object) {
+        return serializationWriter.value(object);
     }
 
     @Override

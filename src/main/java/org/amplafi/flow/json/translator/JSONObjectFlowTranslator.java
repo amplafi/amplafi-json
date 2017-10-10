@@ -16,9 +16,9 @@ package org.amplafi.flow.json.translator;
 import org.amplafi.flow.FlowPropertyDefinition;
 import org.amplafi.flow.DataClassDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.JSONObject;
 import org.amplafi.flow.translator.AbstractFlowTranslator;
+import org.amplafi.flow.translator.SerializationWriter;
 import org.amplafi.flow.validation.FlowValidationException;
 
 public class JSONObjectFlowTranslator extends AbstractFlowTranslator<JSONObject> {
@@ -29,8 +29,8 @@ public class JSONObjectFlowTranslator extends AbstractFlowTranslator<JSONObject>
 
     @Override
     @SuppressWarnings("unused")
-    protected IJsonWriter doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition,
-        IJsonWriter jsonWriter, JSONObject object) {
+    protected <W extends SerializationWriter> W doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition,
+        W jsonWriter, JSONObject object) {
         // empty json are appended as null but here we want to preserve them, so write them as {}
         if (object!=null && object.equals(null)) {
             jsonWriter.object();

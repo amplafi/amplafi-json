@@ -18,10 +18,10 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.amplafi.flow.FlowPropertyDefinition;
+import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.FlowState;
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.JsonConstruct;
-import org.amplafi.flow.json.JsonRenderer;
+import org.amplafi.flow.translator.SerializationWriter;
 
 import static com.sworddance.util.CUtilities.*;
 
@@ -30,7 +30,7 @@ import static com.sworddance.util.CUtilities.*;
  * used to render a flow state as part of the api / flow service functionality.
  * @author Patrick Moore
  */
-public class FlowStateJsonRenderer implements JsonRenderer<FlowState> {
+public class FlowStateJsonRenderer implements FlowRenderer<FlowState> {
 
     public static final FlowStateJsonRenderer INSTANCE = new FlowStateJsonRenderer();
     public static final String FS_PARAMETERS = "fsParameters";
@@ -44,13 +44,13 @@ public class FlowStateJsonRenderer implements JsonRenderer<FlowState> {
     }
 
     @Override
-    public IJsonWriter toJson(IJsonWriter jsonWriter, FlowState flowState) {
+    public <W extends SerializationWriter> W toSerialization(W jsonWriter, FlowState flowState) {
         renderState(jsonWriter, flowState);
         return jsonWriter;
     }
 
 
-    protected void renderState(IJsonWriter jsonWriter, FlowState flowState) {
+    protected <W extends SerializationWriter> void renderState(W jsonWriter, FlowState flowState) {
         Map<String, FlowPropertyDefinition> propertyDefinitionsMap = flowState.getPropertyDefinitions();
         if ( isNotEmpty(propertyDefinitionsMap) ) {
             Collection<FlowPropertyDefinition> propertyDefinitions = propertyDefinitionsMap.values();
@@ -64,7 +64,7 @@ public class FlowStateJsonRenderer implements JsonRenderer<FlowState> {
         }
     }
 
-	protected void renderProperty(IJsonWriter jsonWriter, FlowState flowState,
+	protected <W extends SerializationWriter> void renderProperty(W jsonWriter, FlowState flowState,
 			FlowPropertyDefinition flowPropertyDefinition) {
 	    String propertyName = flowPropertyDefinition.getName();
 	    try {
@@ -76,7 +76,7 @@ public class FlowStateJsonRenderer implements JsonRenderer<FlowState> {
 	        // when property was passed as part of the request.
     	    Object property = flowState.getRawProperty(propertyName);
     	    //Only request property from flow state when there is no raw (already serialized) property available.
-    	    //Avoids re-serealization overhead and allows JsonSelfRenderers not to implement from json.
+    	    //Avoids re-serialization overhead and allows JsonSelfRenderers not to implement from json.
     	    if (property == null) {
     	        //Only get the value if not serialized yet.
     	        property = flowState.getProperty(propertyName);
@@ -100,11 +100,8 @@ public class FlowStateJsonRenderer implements JsonRenderer<FlowState> {
 	    }
 	}
 
-    /**
-     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
-     */
     @Override
-    public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
+    public <K> K fromSerialization(Class<K> clazz, Object value, Object... parameters) {
         throw new UnsupportedOperationException();
     }
 

@@ -19,7 +19,6 @@ import java.util.Set;
 import org.amplafi.flow.FlowPropertyDefinition;
 import org.amplafi.flow.DataClassDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 
 
@@ -31,7 +30,7 @@ public class SetFlowTranslator<T> extends FlowCollectionTranslator<Set<? extends
     @Override
     public Set<? extends T> deserialize(FlowPropertyProvider flowPropertyProvider, FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, Object serialized) {
         if ( serialized != null) {
-            Set<T> set = new LinkedHashSet<T>();
+            Set<T> set = new LinkedHashSet<>();
             super.deserialize(flowPropertyProvider, flowPropertyDefinition, dataClassDefinition, set, serialized);
             return set;
         } else {
@@ -40,7 +39,7 @@ public class SetFlowTranslator<T> extends FlowCollectionTranslator<Set<? extends
     }
 
     @Override
-    public IJsonWriter doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, IJsonWriter jsonWriter, Set<? extends T> object) {
+    public <W extends SerializationWriter> W doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, W jsonWriter, Set<? extends T> object) {
         return super.doSerialize(flowPropertyDefinition, dataClassDefinition, jsonWriter, object);
     }
 
@@ -51,7 +50,7 @@ public class SetFlowTranslator<T> extends FlowCollectionTranslator<Set<? extends
 
     @Override
     public Set<? extends T> getDefaultObject(FlowPropertyProvider flowPropertyProvider) {
-        return new LinkedHashSet<T>();
+        return new LinkedHashSet<>();
     }
 
 }

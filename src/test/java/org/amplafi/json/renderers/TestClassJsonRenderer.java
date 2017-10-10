@@ -15,7 +15,7 @@ package org.amplafi.json.renderers;
 
 import static org.testng.Assert.*;
 
-import org.amplafi.flow.json.renderers.ClassJsonRenderer;
+import org.amplafi.flow.translator.ClassFlowRenderer;
 import org.testng.annotations.Test;
 
 /**
@@ -27,7 +27,7 @@ public class TestClassJsonRenderer {
     @Test
     public void testBasic() {
 
-        Class<?> outCal = TestJsonRendererUtil.toFromJsonInArray(new ClassJsonRenderer(), String.class);
+        Class<?> outCal = TestJsonRendererUtil.toFromJsonInArray(new ClassFlowRenderer(), String.class);
         assertEquals(outCal, String.class);
     }
 }

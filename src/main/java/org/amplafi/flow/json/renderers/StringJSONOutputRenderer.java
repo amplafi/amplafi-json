@@ -4,17 +4,18 @@
  */
 package org.amplafi.flow.json.renderers;
 
-import org.amplafi.flow.json.IJsonWriter;
-import org.amplafi.flow.json.JSONObject;
-import org.amplafi.flow.json.JsonRenderer;
-import org.apache.commons.lang.ObjectUtils;
+import java.util.Objects;
 
-public class StringJSONOutputRenderer implements JsonRenderer<CharSequence> {
+import org.amplafi.flow.FlowRenderer;
+import org.amplafi.flow.json.JSONObject;
+import org.amplafi.flow.translator.SerializationWriter;
+
+public class StringJSONOutputRenderer implements FlowRenderer<CharSequence> {
 
     public static StringJSONOutputRenderer INSTANCE = new StringJSONOutputRenderer();
 
-    public IJsonWriter toJson(IJsonWriter jsonWriter, CharSequence o) {
-        return jsonWriter.append(JSONObject.quote(ObjectUtils.toString(o)));
+    public <W extends SerializationWriter> W toSerialization(W jsonWriter, CharSequence o) {
+        return jsonWriter.append(JSONObject.quote(Objects.toString(o)));
     }
 
     public Class<CharSequence> getClassToRender() {
@@ -25,8 +26,8 @@ public class StringJSONOutputRenderer implements JsonRenderer<CharSequence> {
      * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
      */
     @SuppressWarnings("unchecked")
-    public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
-        return (K) ObjectUtils.toString(value);
+    public <K> K fromSerialization(Class<K> clazz, Object value, Object... parameters) {
+        return (K) Objects.toString(value);
     }
 
 }

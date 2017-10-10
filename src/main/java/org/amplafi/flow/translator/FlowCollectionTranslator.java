@@ -16,11 +16,10 @@ package org.amplafi.flow.translator;
 import java.util.Collection;
 
 import org.amplafi.flow.FlowPropertyDefinition;
+import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.DataClassDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.JSONArray;
-import org.amplafi.flow.json.JsonRenderer;
 import org.amplafi.flow.validation.FlowValidationException;
 import org.apache.commons.lang.ObjectUtils;
 
@@ -37,7 +36,7 @@ public abstract class FlowCollectionTranslator<C extends Iterable<? extends T>, 
     /**
      * @param jsonRenderer
      */
-    public FlowCollectionTranslator(JsonRenderer<C> jsonRenderer) {
+    public FlowCollectionTranslator(FlowRenderer<C> jsonRenderer) {
         super(jsonRenderer);
         this.addSerializedFormClasses(JSONArray.class);
     }
@@ -55,7 +54,7 @@ public abstract class FlowCollectionTranslator<C extends Iterable<? extends T>, 
         }
     }
     @Override
-    protected IJsonWriter doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, IJsonWriter jsonWriter, C object) {
+    protected <W extends SerializationWriter> W doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, W jsonWriter, C object) {
         jsonWriter.array();
         try {
             for(T element: object) {
