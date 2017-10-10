@@ -16,13 +16,13 @@ package org.amplafi.flow.translator;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.amplafi.flow.json.renderers.CalendarJsonRenderer;
+import org.amplafi.flow.json.renderers.CalendarFlowRenderer;
 
 
 public class CalendarFlowTranslator extends AbstractFlowTranslator<Calendar> {
 
     public CalendarFlowTranslator() {
-        super(CalendarJsonRenderer.INSTANCE);
+        super(CalendarFlowRenderer.INSTANCE);
         this.addDeserializedFormClasses(Calendar.class, Date.class);
     }
 

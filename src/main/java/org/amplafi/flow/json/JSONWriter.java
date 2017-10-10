@@ -7,7 +7,7 @@ import java.io.Writer;
 import com.sworddance.beans.MapByClass;
 
 import org.amplafi.flow.FlowRenderer;
-import org.amplafi.flow.json.renderers.CalendarJsonRenderer;
+import org.amplafi.flow.json.renderers.CalendarFlowRenderer;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 import org.amplafi.flow.json.renderers.MapJsonRenderer;
 import org.amplafi.flow.json.renderers.StringJSONOutputRenderer;
@@ -124,7 +124,7 @@ public class JSONWriter implements IJsonWriter {
         this.addRenderer(StringJSONOutputRenderer.INSTANCE);
         this.addRenderer(BooleanJsonRenderer.INSTANCE);
         this.addRenderer(ClassFlowRenderer.INSTANCE);
-        this.addRenderer(CalendarJsonRenderer.INSTANCE);
+        this.addRenderer(CalendarFlowRenderer.INSTANCE);
         this.addRenderer(MapJsonRenderer.ALLOW_NULLS_INSTANCE);
         this.addRenderer(IterableJsonOutputRenderer.INSTANCE);
     }

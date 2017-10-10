@@ -17,7 +17,7 @@ package org.amplafi.flow.translator;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import org.amplafi.flow.json.renderers.CalendarJsonRenderer;
+import org.amplafi.flow.json.renderers.CalendarFlowRenderer;
 import org.amplafi.flow.translator.CalendarFlowTranslator;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -53,8 +53,8 @@ public class TestCalendarFlowTranslator extends AbstractTestFlowTranslators {
         calendar1.clear();
         calendar1.set(2008, 10, 9, 11, 57, 0);
         return new Object[][] {
-            new Object[] { calendar, "{\""+CalendarJsonRenderer.TIME_IN_MILLIS+"\":1226231820000,\""+CalendarJsonRenderer.TIMEZONE_ID+"\":\""+"GMT"+"\"}" },
-            new Object[] { calendar1, "{\""+CalendarJsonRenderer.TIME_IN_MILLIS+"\":1226260620000,\""+CalendarJsonRenderer.TIMEZONE_ID+"\":\""+"America/Los_Angeles"+"\"}" },
+            new Object[] { calendar, "{\""+CalendarFlowRenderer.TIME_IN_MILLIS+"\":1226231820000,\""+CalendarFlowRenderer.TIMEZONE_ID+"\":\""+"GMT"+"\"}" },
+            new Object[] { calendar1, "{\""+CalendarFlowRenderer.TIME_IN_MILLIS+"\":1226260620000,\""+CalendarFlowRenderer.TIMEZONE_ID+"\":\""+"America/Los_Angeles"+"\"}" },
         };
     }
 

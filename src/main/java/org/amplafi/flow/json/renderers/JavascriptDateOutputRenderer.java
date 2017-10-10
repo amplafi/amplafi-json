@@ -7,18 +7,18 @@ package org.amplafi.flow.json.renderers;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.amplafi.flow.json.IJsonWriter;
-import org.amplafi.flow.json.JsonRenderer;
+import org.amplafi.flow.FlowRenderer;
+import org.amplafi.flow.translator.SerializationWriter;
 
 /**
  * Render date and calendar object in the form of a javascript object.
  *
  * @author Patrick Moore
  */
-public class JavascriptDateOutputRenderer implements JsonRenderer {
+public class JavascriptDateOutputRenderer implements FlowRenderer<Object> {
     public static final JavascriptDateOutputRenderer INSTANCE = new JavascriptDateOutputRenderer();
 
-    public IJsonWriter toJson(IJsonWriter jsonWriter, Object o) {
+    public <W extends SerializationWriter> W toSerialization(W jsonWriter, Object o) {
         Calendar cal;
         if ( o instanceof Date ) {
             cal = Calendar.getInstance();
@@ -42,7 +42,7 @@ public class JavascriptDateOutputRenderer implements JsonRenderer {
     /**
      * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
      */
-    public Object fromJson(Class clazz, Object value, Object...parameters) {
+    public Object fromSerialization(Class clazz, Object value, Object...parameters) {
         throw new UnsupportedOperationException();
     }
 }

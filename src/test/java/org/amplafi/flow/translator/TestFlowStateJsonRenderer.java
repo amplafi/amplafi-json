@@ -23,7 +23,6 @@ import org.amplafi.flow.flowproperty.FlowPropertyDefinitionBuilder;
 import org.amplafi.flow.flowproperty.PropertyUsage;
 import org.amplafi.flow.impl.FlowActivityImpl;
 import org.amplafi.flow.impl.FlowStateImpl;
-import org.amplafi.flow.json.FlowValidationTrackingJsonRenderer;
 import org.amplafi.flow.json.JSONStringer;
 import org.amplafi.flow.json.JSONWriter;
 import org.amplafi.flow.json.renderers.FlowStateJsonRenderer;
@@ -100,7 +99,7 @@ public class TestFlowStateJsonRenderer extends Assert {
         MapJsonRenderer mapJsonRenderer = new MapJsonRenderer();
         JSONWriter jsonWriter = new JSONStringer();
         jsonWriter.addRenderer(FlowValidationResultFlowRenderer.INSTANCE);
-        jsonWriter.addRenderer(FlowValidationTrackingJsonRenderer.INSTANCE);
+        jsonWriter.addRenderer(FlowValidationTrackingFlowRenderer.INSTANCE);
         jsonWriter.addRenderer(new FlowStateJsonRenderer());
         jsonWriter.addRenderer(mapJsonRenderer);
         return jsonWriter;

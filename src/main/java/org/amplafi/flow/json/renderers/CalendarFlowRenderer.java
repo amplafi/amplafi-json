@@ -6,11 +6,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.amplafi.flow.json.IJsonWriter;
+import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.json.JSONObject;
-import org.amplafi.flow.json.JsonRenderer;
+import org.amplafi.flow.translator.SerializationWriter;
 
-public class CalendarJsonRenderer implements JsonRenderer<Calendar> {
+public class CalendarFlowRenderer implements FlowRenderer<Calendar> {
 
     /**
      *
@@ -22,10 +22,10 @@ public class CalendarJsonRenderer implements JsonRenderer<Calendar> {
      */
     public static final String TIME_IN_MILLIS = "timeInMillis";
 
-    public static final CalendarJsonRenderer INSTANCE = new CalendarJsonRenderer();
+    public static final CalendarFlowRenderer INSTANCE = new CalendarFlowRenderer();
 
     @SuppressWarnings("unchecked")
-    public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
+    public <K> K fromSerialization(Class<K> clazz, Object value, Object... parameters) {
         if (value == null) {
             return null;
         }
@@ -59,7 +59,7 @@ public class CalendarJsonRenderer implements JsonRenderer<Calendar> {
         return Calendar.class;
     }
 
-    public IJsonWriter toJson(IJsonWriter jsonWriter, Calendar cal) {
+    public <W extends SerializationWriter> W toSerialization(W jsonWriter, Calendar cal) {
         jsonWriter.object();
         jsonWriter.keyValue(TIME_IN_MILLIS, cal.getTimeInMillis());
         jsonWriter.keyValue(TIMEZONE_ID, cal.getTimeZone().getID());

@@ -14,7 +14,6 @@
 
 package org.amplafi.flow.translator;
 
-import org.amplafi.flow.json.FlowValidationTrackingJsonRenderer;
 import org.amplafi.flow.json.JSONStringer;
 import org.amplafi.flow.json.JSONWriter;
 import org.amplafi.flow.validation.FlowValidationTracking;
@@ -27,7 +26,7 @@ import org.testng.annotations.Test;
 public class TestFlowValidationResultJsonRenderer extends Assert {
 
     private FlowValidationResultFlowRenderer flowValidationResultFlowRenderer = new FlowValidationResultFlowRenderer();
-    private FlowValidationTrackingJsonRenderer flowValidationTrackingJsonRenderer = new FlowValidationTrackingJsonRenderer();
+    private FlowValidationTrackingFlowRenderer flowValidationTrackingFlowRenderer = new FlowValidationTrackingFlowRenderer();
 
     @Test
     public void testNoValidationErrors() throws Exception {
@@ -76,7 +75,7 @@ public class TestFlowValidationResultJsonRenderer extends Assert {
     private JSONWriter getJsonWriter() {
         JSONWriter jsonWriter = new JSONStringer();
         jsonWriter.addRenderer(flowValidationResultFlowRenderer);
-        jsonWriter.addRenderer(flowValidationTrackingJsonRenderer);
+        jsonWriter.addRenderer(flowValidationTrackingFlowRenderer);
         return jsonWriter;
     }
 
