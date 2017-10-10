@@ -38,7 +38,7 @@ public class CharSequenceFlowTranslator<T> extends AbstractFlowTranslator<T> {
     }
 
     @Override
-    public IJsonWriter doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, IJsonWriter jsonWriter, T object) {
+    public <W extends SerializationWriter> W doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, W jsonWriter, T object) {
         return jsonWriter.value(object);
     }
 
@@ -59,6 +59,7 @@ public class CharSequenceFlowTranslator<T> extends AbstractFlowTranslator<T> {
     }
     @Override
     public IJsonWriter getJsonWriter() {
+        super.
         return new JSONStringer();
     }
 

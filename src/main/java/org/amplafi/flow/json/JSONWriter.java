@@ -6,13 +6,15 @@ import java.io.Writer;
 
 import com.sworddance.beans.MapByClass;
 
-import org.amplafi.flow.json.renderers.BooleanJsonRenderer;
+import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.json.renderers.CalendarJsonRenderer;
 import org.amplafi.flow.json.renderers.ClassJsonRenderer;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 import org.amplafi.flow.json.renderers.MapJsonRenderer;
 import org.amplafi.flow.json.renderers.NumberJsonRenderer;
 import org.amplafi.flow.json.renderers.StringJSONOutputRenderer;
+import org.amplafi.flow.translator.BooleanJsonRenderer;
+import org.amplafi.flow.translator.SerializationWriter;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -71,7 +73,7 @@ SOFTWARE.
  */
 public class JSONWriter implements IJsonWriter {
     private static final int maxdepth = 20;
-    private MapByClass<JsonRenderer<?>> renderers;
+    private MapByClass<FlowRenderer<?>> renderers;
 
     /**
      * The comma flag determines if a comma should be output before the next
@@ -117,7 +119,7 @@ public class JSONWriter implements IJsonWriter {
      * @param w a writer to be wrapped
      */
     public JSONWriter(Writer w) {
-        this(w, new MapByClass<JsonRenderer<?>>());
+        this(w, new MapByClass<FlowRenderer<?>>());
         this.addRenderer(NumberJsonRenderer.INSTANCE);
         this.addRenderer(StringJSONOutputRenderer.INSTANCE);
         this.addRenderer(BooleanJsonRenderer.INSTANCE);
@@ -131,7 +133,7 @@ public class JSONWriter implements IJsonWriter {
      * @param w a writer to be wrapped
      * @param renderers
      */
-    public JSONWriter(Writer w, MapByClass<JsonRenderer<?>> renderers) {
+    public JSONWriter(Writer w, MapByClass<FlowRenderer<?>> renderers) {
         this.renderers = renderers;
         comma = false;
         mode = INITIAL_MODE;
@@ -143,7 +145,7 @@ public class JSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.flow.json.IJsonWriter#append(java.lang.String)
      */
-    public IJsonWriter append(String s) throws JSONException {
+    public <W extends SerializationWriter> W append(String s) {
         if (s == null) {
             throw new JSONException("Null pointer");
         }
@@ -155,7 +157,7 @@ public class JSONWriter implements IJsonWriter {
             }
             // initial object so we are immediately done.
             mode = 'd';
-            return this;
+            return (W) this;
         }
         if (isInObjectMode() || isInArrayMode()) {
             try {
@@ -170,14 +172,14 @@ public class JSONWriter implements IJsonWriter {
                 mode = KEY_MODE;
             }
             comma = true;
-            return this;
+            return (W) this;
         } else if ( isInKeyMode()) {
             try {
                 writer.write(s);
             } catch (IOException e) {
                 throw new JSONException(e);
             }
-            return this;
+            return (W) this;
         }
         throw new JSONException("Value out of sequence.");
     }
@@ -185,12 +187,12 @@ public class JSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.flow.json.IJsonWriter#array()
      */
-    public IJsonWriter array() throws JSONException {
+    public <W extends SerializationWriter> W array() throws JSONException {
         if (mode == INITIAL_MODE || isInObjectMode() || isInArrayMode()) {
             this.push(ARRAY_MODE);
             this.append("[");
             comma = false;
-            return this;
+            return (W) this;
         }
         throw new JSONException("Misplaced array.");
     }
@@ -202,7 +204,7 @@ public class JSONWriter implements IJsonWriter {
      * @return this
      * @throws JSONException If unbalanced.
      */
-    private IJsonWriter end(char m, char c) throws JSONException {
+    private JSONWriter end(char m, char c) {
         if (mode != m) {
             throw new JSONException(m == OBJECT_MODE ? "Misplaced endObject." :
             "Misplaced endArray." + writer.toString());
@@ -220,19 +222,21 @@ public class JSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.flow.json.IJsonWriter#endArray()
      */
-    public IJsonWriter endArray() throws JSONException {
-        return this.end(ARRAY_MODE, ']');
+    @SuppressWarnings("unchecked")
+    public <W extends SerializationWriter> W endArray() {
+        return (W) this.end(ARRAY_MODE, ']');
     }
 
     /**
      * @see org.amplafi.flow.json.IJsonWriter#endObject()
      */
-    public IJsonWriter endObject() throws JSONException {
-        return this.end(KEY_MODE, '}');
+    @SuppressWarnings("unchecked")
+    public <W extends SerializationWriter> W endObject() {
+        return (W) this.end(KEY_MODE, '}');
     }
 
     @SuppressWarnings("unchecked")
-    public <K> IJsonWriter key(K o) throws JSONException {
+    public <K, W extends SerializationWriter> W key(K o) {
         if (o == null) {
             throw new JSONException("Null key.");
         } else if ( !isInKeyMode()){
@@ -247,7 +251,7 @@ public class JSONWriter implements IJsonWriter {
                     if ( o instanceof JsonSelfRenderer) {
                     // we check after looking in map so that it has a chance to have been overridden.
                         ((JsonSelfRenderer) o).toJson(this);
-                        return this;
+                        return (W) this;
                     } else {
                         // o.k. go search for a loose match.
                         renderer = (JsonRenderer<K>) renderers.get(o.getClass());
@@ -255,7 +259,7 @@ public class JSONWriter implements IJsonWriter {
                 }
                 if ( renderer != null ) {
                     renderer.toJson(this, o);
-                    return this;
+                    return (W) this;
                 }
                 return this.append(JSONObject.valueToString(o));
             } catch (IOException e) {
@@ -276,31 +280,31 @@ public class JSONWriter implements IJsonWriter {
      *
      * @see org.amplafi.flow.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.Object, java.lang.String)
      */
-    public <K> IJsonWriter keyValueIfNotBlankValue(K key, String value) {
+    public <K, W extends SerializationWriter> W keyValueIfNotBlankValue(K key, String value) {
         if ( !StringUtils.isBlank(value)) {
             this.keyValue(key, value);
         }
-        return this;
+        return (W) this;
     }
 
     /**
      *
      * @see org.amplafi.flow.json.IJsonWriter#keyValueIfNotNullValue(java.lang.Object, java.lang.Object)
      */
-    public <K,V> IJsonWriter keyValueIfNotNullValue(K key, V value) {
+    public <K,V, W extends SerializationWriter> W keyValueIfNotNullValue(K key, V value) {
         if ( value != null) {
             this.keyValue(key, value);
         }
-        return this;
+        return (W) this;
     }
 
     /**
      *
      * @see org.amplafi.flow.json.IJsonWriter#keyValue(java.lang.Object, java.lang.Object)
      */
-    public <K,V> IJsonWriter keyValue(K key, V value) {
+    public <K,V, W extends SerializationWriter> W keyValue(K key, V value) {
         this.key(key).value(value);
-        return this;
+        return (W) this;
     }
 
     /**
@@ -314,7 +318,7 @@ public class JSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.flow.json.IJsonWriter#object()
      */
-    public JSONWriter object() throws JSONException {
+    public <W extends SerializationWriter> W object() {
         if (mode == INITIAL_MODE) {
             mode = OBJECT_MODE;
         }
@@ -322,10 +326,9 @@ public class JSONWriter implements IJsonWriter {
             this.append("{");
             this.push(KEY_MODE);
             comma = false;
-            return this;
+            return (W) this;
         }
         throw new JSONException("Misplaced object.");
-
     }
 
     /**
@@ -379,33 +382,33 @@ public class JSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.flow.json.IJsonWriter#value(boolean)
      */
-    public IJsonWriter value(boolean b) throws JSONException {
+    public <W extends SerializationWriter> W value(boolean b) throws JSONException {
         return this.value(Boolean.valueOf(b));
     }
 
     /**
      * @see org.amplafi.flow.json.IJsonWriter#value(double)
      */
-    public IJsonWriter value(double d) throws JSONException {
+    public <W extends SerializationWriter> W value(double d) throws JSONException {
         return this.value(Double.valueOf(d));
     }
 
     /**
      * @see org.amplafi.flow.json.IJsonWriter#value(long)
      */
-    public IJsonWriter value(long l) throws JSONException {
+    public <W extends SerializationWriter> W value(long l) throws JSONException {
         return this.value(Long.valueOf(l));
     }
 
     @SuppressWarnings("unchecked")
-    public <T> IJsonWriter value(T o) throws JSONException {
+    public <T, W extends SerializationWriter> W value(T o) throws JSONException {
         if ( o != null ) {
             JsonRenderer<T> renderer = (JsonRenderer<T>) renderers.getRaw(o.getClass());
             if ( renderer == null) {
                 if (o instanceof JsonSelfRenderer) {
                     // we check after looking in map so that it has a chance to have been overridden.
                     ((JsonSelfRenderer) o).toJson(this);
-                    return this;
+                    return (W) this;
                 } else {
                     // o.k. go search for a loose match.
                     renderer = (JsonRenderer<T>) renderers.get(o.getClass());
@@ -413,7 +416,7 @@ public class JSONWriter implements IJsonWriter {
             }
             if ( renderer != null ) {
                 renderer.toJson(this, o);
-                return this;
+                return (W) this;
             }
         }
 
@@ -423,13 +426,13 @@ public class JSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.flow.json.IJsonWriter#addRenderer(java.lang.Class, org.amplafi.flow.json.JsonRenderer)
      */
-    public void addRenderer(Class<?> name, JsonRenderer<?> renderer) {
+    public void addRenderer(Class<?> name, FlowRenderer<?> renderer) {
         renderers.put(name, renderer);
     }
     /**
      * @see org.amplafi.flow.json.IJsonWriter#addRenderer(org.amplafi.flow.json.JsonRenderer)
      */
-    public void addRenderer(JsonRenderer<?> renderer) {
+    public void addRenderer(FlowRenderer<?> renderer) {
         this.addRenderer(renderer.getClassToRender(), renderer);
     }
 

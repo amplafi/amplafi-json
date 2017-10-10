@@ -4,6 +4,8 @@
  */
 package org.amplafi.flow.json;
 
+import org.amplafi.flow.FlowRenderer;
+
 /**
  * Implementers will generate a JSON representation of a class instance.
  *
@@ -28,7 +30,7 @@ package org.amplafi.flow.json;
  * @author Patrick Moore
  * @param <T>
  */
-public interface JsonRenderer<T> {
+public interface JsonRenderer<T> extends FlowRenderer<T> {
     public IJsonWriter toJson(IJsonWriter jsonWriter, T o);
     /**
      *
@@ -39,5 +41,4 @@ public interface JsonRenderer<T> {
      * @return the object translated from the json object.
      */
     public <K> K fromJson(Class<K> clazz, Object value, Object... parameters);
-    public Class<? extends T> getClassToRender();
 }

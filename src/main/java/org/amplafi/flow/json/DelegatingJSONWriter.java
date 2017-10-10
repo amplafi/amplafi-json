@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import com.sworddance.beans.MapByClass;
 
+import org.amplafi.flow.FlowRenderer;
+import org.amplafi.flow.translator.SerializationWriter;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -19,7 +21,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DelegatingJSONWriter implements IJsonWriter {
 
-    private MapByClass<JsonRenderer<?>> renderers = new MapByClass<JsonRenderer<?>>();
+    private MapByClass<JsonRenderer<?>> renderers = new MapByClass<>();
     private JSONWriter realWriter;
 
     public DelegatingJSONWriter(IJsonWriter writer) {
@@ -105,7 +107,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
     /**
      * @see org.amplafi.flow.json.IJsonWriter#addRenderer(java.lang.Class, org.amplafi.flow.json.JsonRenderer)
      */
-    public void addRenderer(Class<?> name, JsonRenderer<?> renderer) {
+    public void addRenderer(Class<?> name, FlowRenderer<?> renderer) {
         renderers.put(name, renderer);
     }
     /**
@@ -116,7 +118,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
     }
 
     @SuppressWarnings("unchecked")
-    public <K> IJsonWriter key(K key) throws JSONException {
+    public <K, W extends SerializationWriter> W key(K key) throws JSONException {
         if (key == null) {
             throw new JSONException("Null key.");
         } else if ( !isInKeyMode()){
@@ -131,7 +133,7 @@ public class DelegatingJSONWriter implements IJsonWriter {
                     if ( key instanceof JsonSelfRenderer) {
                     // we check after looking in map so that it has a chance to have been overridden.
                         ((JsonSelfRenderer) key).toJson(this);
-                        return this;
+                        return (W) this;
                     } else {
                         // o.k. go search for a loose match.
                         renderer = (JsonRenderer<K>) renderers.get(key.getClass());

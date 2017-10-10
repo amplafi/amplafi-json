@@ -26,9 +26,9 @@ SOFTWARE.
 
 import java.io.StringWriter;
 
-import org.amplafi.flow.json.renderers.EnumJsonRenderer;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 import org.amplafi.flow.json.renderers.MapJsonRenderer;
+import org.amplafi.flow.translator.EnumFlowRenderer;
 
 import com.sworddance.beans.MapByClass;
 
@@ -75,7 +75,7 @@ public class JSONStringer extends JSONWriter {
      */
     public JSONStringer(boolean addStandard) {
         this();
-        addRenderer(EnumJsonRenderer.INSTANCE);
+        addRenderer(EnumFlowRenderer.INSTANCE);
         addRenderer(MapJsonRenderer.INSTANCE);
         addRenderer(IterableJsonOutputRenderer.INSTANCE);
     }

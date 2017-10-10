@@ -14,8 +14,6 @@
 
 package org.amplafi.flow.translator;
 
-import org.amplafi.flow.json.renderers.EnumJsonRenderer;
-
 /**
  * @author patmoore
  * @param <T>
@@ -27,13 +25,13 @@ public class EnumFlowTranslator<T> extends AbstractFlowTranslator<T> implements 
 
     @SuppressWarnings("unchecked")
     public EnumFlowTranslator() {
-        super(EnumJsonRenderer.INSTANCE);
+        super(EnumFlowRenderer.INSTANCE);
         this.translatedClass = (Class<T>) Enum.class;
     }
     @SuppressWarnings("unchecked")
     public EnumFlowTranslator(EnumFlowTranslator<?> original, Class<T> translatedClass) {
         super(original);
-        this.setJsonRenderer(EnumJsonRenderer.INSTANCE);
+        this.setJsonRenderer(EnumFlowRenderer.INSTANCE);
         this.translatedClass = translatedClass;
     }
 

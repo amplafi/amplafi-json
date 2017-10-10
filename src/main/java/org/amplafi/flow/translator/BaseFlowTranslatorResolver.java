@@ -205,8 +205,8 @@ public class BaseFlowTranslatorResolver implements FlowTranslatorResolver {
     @Override
     public IJsonWriter getJsonWriter() {
         MapByClass<JsonRenderer<?>>jsonRenderers = this.translators.values().stream()
-                .filter(translator -> translator.getJsonRenderer() != null)
-                .map(translator -> translator.getJsonRenderer())
+                .filter(translator -> translator.getFlowRenderer() != null)
+                .map(translator -> translator.getFlowRenderer())
                 .collect(Collectors.toMap(jsonRenderer -> jsonRenderer.getClassToRender(),
                     jsonRenderer -> jsonRenderer,
                     (first, last) -> last, MapByClass::new)
