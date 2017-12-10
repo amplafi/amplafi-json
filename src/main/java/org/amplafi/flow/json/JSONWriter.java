@@ -6,13 +6,13 @@ import java.io.Writer;
 
 import com.sworddance.beans.MapByClass;
 
-import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.json.renderers.CalendarFlowRenderer;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 import org.amplafi.flow.json.renderers.MapJsonRenderer;
 import org.amplafi.flow.json.renderers.StringJSONOutputRenderer;
 import org.amplafi.flow.translator.BooleanJsonRenderer;
 import org.amplafi.flow.translator.ClassFlowRenderer;
+import org.amplafi.flow.translator.FlowRenderer;
 import org.amplafi.flow.translator.NumberFlowRenderer;
 import org.amplafi.flow.translator.SerializationWriter;
 import org.apache.commons.lang.StringUtils;
@@ -250,7 +250,7 @@ public class JSONWriter implements IJsonWriter {
                 if ( renderer == null ) {
                     if ( o instanceof JsonSelfRenderer) {
                     // we check after looking in map so that it has a chance to have been overridden.
-                        ((JsonSelfRenderer) o).toJson(this);
+                        ((JsonSelfRenderer) o).toSerialization(this);
                         return (W) this;
                     } else {
                         // o.k. go search for a loose match.
@@ -258,7 +258,7 @@ public class JSONWriter implements IJsonWriter {
                     }
                 }
                 if ( renderer != null ) {
-                    renderer.toJson(this, o);
+                    renderer.toSerialization(this, o);
                     return (W) this;
                 }
                 return this.append(JSONObject.valueToString(o));
@@ -407,7 +407,7 @@ public class JSONWriter implements IJsonWriter {
             if ( renderer == null) {
                 if (o instanceof JsonSelfRenderer) {
                     // we check after looking in map so that it has a chance to have been overridden.
-                    ((JsonSelfRenderer) o).toJson(this);
+                    ((JsonSelfRenderer) o).toSerialization(this);
                     return (W) this;
                 } else {
                     // o.k. go search for a loose match.
@@ -415,7 +415,7 @@ public class JSONWriter implements IJsonWriter {
                 }
             }
             if ( renderer != null ) {
-                renderer.toJson(this, o);
+                renderer.toSerialization(this, o);
                 return (W) this;
             }
         }

@@ -17,7 +17,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.amplafi.flow.FlowPropertyDefinition;
-import org.amplafi.flow.DataClassDefinition;
+import org.amplafi.flow.flowproperty.DataClassDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 

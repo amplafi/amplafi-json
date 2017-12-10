@@ -24,7 +24,7 @@ public class TestJsonRendererUtil {
         jsonWriter.addRenderer(renderer);
         jsonWriter.value(obj);
         String serializedData = jsonWriter.toString();
-        return (T) renderer.fromJson(renderer.getClass(), JSONObject.toJsonObject(serializedData));
+        return (T) renderer.fromSerialization(renderer.getClass(), JSONObject.toJsonObject(serializedData));
     }
 
     /**
@@ -43,7 +43,7 @@ public class TestJsonRendererUtil {
         JSONArray jsonArray = JSONArray.toJsonArray(serializedData);
         assertNotNull(jsonArray);
         assertEquals(jsonArray.size(), 1);
-        T result = (T) renderer.fromJson(renderer.getClass(), jsonArray.get(0));
+        T result = (T) renderer.fromSerialization(renderer.getClass(), jsonArray.get(0));
         return result;
     }
 }

@@ -4,7 +4,6 @@
  */
 package org.amplafi.flow.translator;
 
-import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.json.JSONObject;
 
 public class NumberFlowRenderer<T extends Number> implements FlowRenderer<T> {
@@ -20,7 +19,7 @@ public class NumberFlowRenderer<T extends Number> implements FlowRenderer<T> {
     }
 
     /**
-     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
+     * @see org.amplafi.flow.json.JsonRenderer#fromSerialization(java.lang.Class, java.lang.Object, Object...)
      */
     public <K> K fromSerialization(Class<K> clazz, Object value, Object... parameters) {
         return (K) Long.valueOf(value.toString());

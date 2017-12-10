@@ -18,7 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.amplafi.flow.FlowPropertyDefinition;
-import org.amplafi.flow.DataClassDefinition;
+import org.amplafi.flow.flowproperty.DataClassDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
 import org.amplafi.flow.json.JSONObject;
 import org.amplafi.flow.json.renderers.MapJsonRenderer;

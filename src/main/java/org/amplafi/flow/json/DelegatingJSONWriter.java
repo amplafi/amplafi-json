@@ -4,7 +4,8 @@ import java.io.IOException;
 
 import com.sworddance.beans.MapByClass;
 
-import org.amplafi.flow.FlowRenderer;
+import org.amplafi.flow.FlowSelfRenderer;
+import org.amplafi.flow.translator.FlowRenderer;
 import org.amplafi.flow.translator.SerializationWriter;
 import org.apache.commons.lang.StringUtils;
 
@@ -21,27 +22,27 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DelegatingJSONWriter implements IJsonWriter {
 
-    private MapByClass<JsonRenderer<?>> renderers = new MapByClass<>();
+    private MapByClass<FlowRenderer<?>> renderers = new MapByClass<>();
     private JSONWriter realWriter;
 
     public DelegatingJSONWriter(IJsonWriter writer) {
         this.realWriter = (JSONWriter) writer;
     }
-    public IJsonWriter append(String s) throws JSONException {
+    public <W extends SerializationWriter> W append(String s) throws JSONException {
         realWriter.append(s);
-        return this;
+        return (W) this;
     }
-    public IJsonWriter array() throws JSONException {
+    public <W extends SerializationWriter> W array() throws JSONException {
         realWriter.array();
-        return this;
+        return (W) this;
     }
-    public IJsonWriter endArray() throws JSONException {
+    public <W extends SerializationWriter> W endArray() throws JSONException {
         realWriter.endArray();
-        return this;
+        return (W) this;
     }
-    public IJsonWriter endObject() throws JSONException {
+    public <W extends SerializationWriter> W endObject() throws JSONException {
         realWriter.endObject();
-        return this;
+        return (W) this;
     }
     public boolean isInKeyMode() {
         return realWriter.isInKeyMode();
@@ -49,9 +50,9 @@ public class DelegatingJSONWriter implements IJsonWriter {
     public boolean isInInitialMode() {
         return realWriter.isInInitialMode();
     }
-    public IJsonWriter object() throws JSONException {
+    public <W extends SerializationWriter> W object() throws JSONException {
         realWriter.object();
-        return this;
+        return (W) this;
     }
     public boolean isInArrayMode() {
         return realWriter.isInArrayMode();
@@ -59,42 +60,43 @@ public class DelegatingJSONWriter implements IJsonWriter {
     public boolean isInObjectMode() {
         return realWriter.isInObjectMode();
     }
-    public IJsonWriter value(boolean b) throws JSONException {
+    public <W extends SerializationWriter> W value(boolean b) throws JSONException {
         realWriter.value(b);
-        return this;
+        return (W) this;
     }
-    public IJsonWriter value(double d) throws JSONException {
+    public <W extends SerializationWriter> W value(double d) throws JSONException {
         realWriter.value(d);
-        return this;
-    }
-    public IJsonWriter value(long l) throws JSONException {
-        realWriter.value(l);
-        return this;
+        return (W) this;
     }
     @SuppressWarnings("unchecked")
-    public <T> IJsonWriter value(T o) throws JSONException {
+    public <W extends SerializationWriter> W value(long l) throws JSONException {
+        realWriter.value(l);
+        return (W) this;
+    }
+    @SuppressWarnings("unchecked")
+    public <T, W extends SerializationWriter> W value(T o) throws JSONException {
         if ( o != null ) {
-            JsonRenderer<T> renderer = (JsonRenderer<T>) renderers.getRaw(o.getClass());
+            FlowRenderer<T> renderer = (FlowRenderer<T>) renderers.getRaw(o.getClass());
             if ( renderer == null) {
-                if (o instanceof JsonSelfRenderer) {
+                if (o instanceof FlowSelfRenderer) {
                     // we check after looking in map so that it has a chance to have been overridden.
-                    ((JsonSelfRenderer) o).toJson(realWriter);
-                    return this;
+                    ((FlowSelfRenderer) o).toSerialization(realWriter);
+                    return (W) this;
                 } else {
                     // o.k. go search for a loose match.
                     renderer = (JsonRenderer<T>) renderers.get(o.getClass());
                 }
             }
             if ( renderer != null ) {
-                renderer.toJson(this, o);
-                return this;
+                renderer.toSerialization(this, o);
+                return (W) this;
             } else {
                 realWriter.value(o);
-                return this;
+                return (W) this;
             }
         } else {
             realWriter.append(JSONObject.valueToString(o));
-            return this;
+            return (W) this;
         }
     }
 
@@ -105,15 +107,15 @@ public class DelegatingJSONWriter implements IJsonWriter {
 
 
     /**
-     * @see org.amplafi.flow.json.IJsonWriter#addRenderer(java.lang.Class, org.amplafi.flow.json.JsonRenderer)
+     * @see org.amplafi.flow.json.<W extends SerializationWriter> W#addRenderer(java.lang.Class, org.amplafi.flow.json.JsonRenderer)
      */
     public void addRenderer(Class<?> name, FlowRenderer<?> renderer) {
         renderers.put(name, renderer);
     }
     /**
-     * @see org.amplafi.flow.json.IJsonWriter#addRenderer(org.amplafi.flow.json.JsonRenderer)
+     * @see org.amplafi.flow.json.<W extends SerializationWriter> W#addRenderer(org.amplafi.flow.json.JsonRenderer)
      */
-    public void addRenderer(JsonRenderer<?> renderer) {
+    public void addRenderer(FlowRenderer<?> renderer) {
         this.addRenderer(renderer.getClassToRender(), renderer);
     }
 
@@ -130,9 +132,9 @@ public class DelegatingJSONWriter implements IJsonWriter {
                 }
                 JsonRenderer<K> renderer = (JsonRenderer<K>) renderers.getRaw(key.getClass());
                 if ( renderer == null ) {
-                    if ( key instanceof JsonSelfRenderer) {
+                    if ( key instanceof FlowSelfRenderer) {
                     // we check after looking in map so that it has a chance to have been overridden.
-                        ((JsonSelfRenderer) key).toJson(this);
+                        ((FlowSelfRenderer) key).toSerialization(this);
                         return (W) this;
                     } else {
                         // o.k. go search for a loose match.
@@ -140,10 +142,10 @@ public class DelegatingJSONWriter implements IJsonWriter {
                     }
                 }
                 if ( renderer != null ) {
-                    renderer.toJson(this, key);
-                    return this;
+                    renderer.toSerialization(this, key);
+                    return (W) this;
                 }
-                return this.append(JSONObject.valueToString(key));
+                return (W) this.append(JSONObject.valueToString(key));
             } catch (IOException e) {
                 throw new JSONException(e);
             } finally {
@@ -160,32 +162,35 @@ public class DelegatingJSONWriter implements IJsonWriter {
 
     /**
      *
-     * @see org.amplafi.flow.json.IJsonWriter#keyValueIfNotBlankValue(java.lang.Object, java.lang.String)
+     * @see org.amplafi.flow.json.<W extends SerializationWriter> W#keyValueIfNotBlankValue(java.lang.Object, java.lang.String)
      */
-    public <K> IJsonWriter keyValueIfNotBlankValue(K key, String value) {
+    @SuppressWarnings("unchecked")
+    public <K, W extends SerializationWriter> W keyValueIfNotBlankValue(K key, String value) {
         if ( !StringUtils.isBlank(value)) {
             this.keyValue(key, value);
         }
-        return this;
+        return (W) this;
     }
 
     /**
      *
-     * @see org.amplafi.flow.json.IJsonWriter#keyValueIfNotNullValue(java.lang.Object, java.lang.Object)
+     * @see org.amplafi.flow.json.<W extends SerializationWriter> W#keyValueIfNotNullValue(java.lang.Object, java.lang.Object)
      */
-    public <K,V> IJsonWriter keyValueIfNotNullValue(K key, V value) {
+    @SuppressWarnings("unchecked")
+    public <K,V, W extends SerializationWriter> W keyValueIfNotNullValue(K key, V value) {
         if ( value != null) {
             this.keyValue(key, value);
         }
-        return this;
+        return (W) this;
     }
 
     /**
      *
-     * @see org.amplafi.flow.json.IJsonWriter#keyValue(java.lang.Object, java.lang.Object)
+     * @see org.amplafi.flow.json.<W extends SerializationWriter> W#keyValue(java.lang.Object, java.lang.Object)
      */
-    public <K,V> IJsonWriter keyValue(K key, V value) {
+    @SuppressWarnings("unchecked")
+    public <K, V, W extends SerializationWriter> W keyValue(K key, V value) {
         this.key(key).value(value);
-        return this;
+        return (W) this;
     }
 }

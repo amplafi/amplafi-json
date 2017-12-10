@@ -111,12 +111,12 @@ public class TestMapJsonRenderer {
     public void testFromJsonBasic() {
         MapJsonRenderer<String, String> renderer = new MapJsonRenderer<String, String>(false);
         String input = "{\"foo\":true,\"bar\":{},\"str\":\"'\\\":);\"}";
-        Map<String, String> map = renderer.fromJson(Map.class, JSONObject.toJsonObject(input));
+        Map<String, String> map = renderer.fromSerialization(Map.class, JSONObject.toJsonObject(input));
         assertEquals(map.entrySet().size(), 3);
         assertEquals(map.get("foo"), Boolean.TRUE);
         assertEquals(map.get("str"), "\'\":);");
         Object obj = map.get("bar");
-        Map<String, String> mapElement = renderer.fromJson(Map.class, obj);
+        Map<String, String> mapElement = renderer.fromSerialization(Map.class, obj);
         assertEquals(mapElement.entrySet().size(), 0);
     }
 }

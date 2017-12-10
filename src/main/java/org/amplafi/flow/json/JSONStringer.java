@@ -29,6 +29,7 @@ import java.io.StringWriter;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 import org.amplafi.flow.json.renderers.MapJsonRenderer;
 import org.amplafi.flow.translator.EnumFlowRenderer;
+import org.amplafi.flow.translator.FlowRenderer;
 
 import com.sworddance.beans.MapByClass;
 
@@ -83,7 +84,7 @@ public class JSONStringer extends JSONWriter {
     /**
      * @param renderers
      */
-    public JSONStringer(MapByClass<JsonRenderer<?>> renderers) {
+    public JSONStringer(MapByClass<FlowRenderer<?>> renderers) {
         super(new StringWriter(), renderers);
     }
 

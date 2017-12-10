@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.amplafi.flow.FlowPropertyDefinition;
-import org.amplafi.flow.DataClassDefinition;
+import org.amplafi.flow.flowproperty.DataClassDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 
@@ -29,7 +29,7 @@ public class ListFlowTranslator<T> extends FlowCollectionTranslator<List<? exten
     @Override
     public List<? extends T> deserialize(FlowPropertyProvider flowPropertyProvider, FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, Object serializedObject) {
         if ( serializedObject != null ) {
-            List<T> list = new ArrayList<T>();
+            List<T> list = new ArrayList<>();
             super.deserialize(flowPropertyProvider, flowPropertyDefinition, dataClassDefinition, list, serializedObject);
             return list;
         } else {
@@ -44,7 +44,6 @@ public class ListFlowTranslator<T> extends FlowCollectionTranslator<List<? exten
 
     @Override
     public List<? extends T> getDefaultObject(FlowPropertyProvider flowPropertyProvider) {
-        return new ArrayList<T>();
+        return new ArrayList<>();
     }
-
 }

@@ -14,9 +14,9 @@
 
 package org.amplafi.flow.json.translator;
 
-import org.amplafi.flow.DataClassDefinition;
 import org.amplafi.flow.FlowPropertyDefinition;
 import org.amplafi.flow.FlowSelfRenderer;
+import org.amplafi.flow.flowproperty.DataClassDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
 import org.amplafi.flow.translator.AbstractFlowTranslator;
 import org.amplafi.flow.translator.SerializationWriter;
@@ -50,8 +50,8 @@ public class JsonSelfRendererFlowTranslator<T> extends AbstractFlowTranslator<T>
         try {
             Class<?> dataClass = dataClassDefinition.getDataClass();
             ApplicationIllegalStateException.checkState(!dataClass.isInterface()&&!dataClass.isEnum()&&!dataClass.isAnnotation(), dataClass,": Cannot create new instance of an interface, enum or annotation");
-            FlowSelfRenderer jsonSelfRenderer = (FlowSelfRenderer) dataClass.newInstance();
-            return (T) jsonSelfRenderer.fromSerialization(serializedObject);
+            FlowSelfRenderer flowSelfRenderer = (FlowSelfRenderer) dataClass.newInstance();
+            return (T) flowSelfRenderer.fromSerialization(serializedObject);
         } catch (InstantiationException e) {
             throw new ApplicationIllegalStateException(e);
         } catch (IllegalAccessException e) {

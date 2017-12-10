@@ -6,8 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.json.JSONObject;
+import org.amplafi.flow.translator.FlowRenderer;
 import org.amplafi.flow.translator.SerializationWriter;
 
 public class CalendarFlowRenderer implements FlowRenderer<Calendar> {

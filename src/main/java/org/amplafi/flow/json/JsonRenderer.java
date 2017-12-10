@@ -4,7 +4,7 @@
  */
 package org.amplafi.flow.json;
 
-import org.amplafi.flow.FlowRenderer;
+import org.amplafi.flow.translator.FlowRenderer;
 
 /**
  * Implementers will generate a JSON representation of a class instance.
@@ -31,14 +31,4 @@ import org.amplafi.flow.FlowRenderer;
  * @param <T>
  */
 public interface JsonRenderer<T> extends FlowRenderer<T> {
-    public IJsonWriter toJson(IJsonWriter jsonWriter, T o);
-    /**
-     *
-     * @param <K>
-     * @param clazz the class of the object that is the expected output ( not necessarily <K> as the result may be something else (for example an id))
-     * @param value json representation of some sort, JSONObject, JSONArray, string, etc.
-     * @param parameters optional additional parameters
-     * @return the object translated from the json object.
-     */
-    public <K> K fromJson(Class<K> clazz, Object value, Object... parameters);
 }

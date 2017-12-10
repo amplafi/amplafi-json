@@ -15,8 +15,8 @@ package org.amplafi.flow.json.renderers;
 
 import java.net.URI;
 
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.JsonRenderer;
+import org.amplafi.flow.translator.SerializationWriter;
 import org.apache.commons.lang.ObjectUtils;
 
 import com.sworddance.util.UriFactoryImpl;
@@ -29,10 +29,10 @@ public class UriJsonRenderer implements JsonRenderer<URI> {
 
     public static final UriJsonRenderer INSTANCE = new UriJsonRenderer();
     /**
-     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
+     * @see org.amplafi.flow.json.JsonRenderer#fromSerialization(java.lang.Class, java.lang.Object, Object...)
      */
     @SuppressWarnings("unchecked")
-    public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
+    public <K> K fromSerialization(Class<K> clazz, Object value, Object... parameters) {
         if ( value == null) {
             return null;
         } else {
@@ -46,8 +46,8 @@ public class UriJsonRenderer implements JsonRenderer<URI> {
     public Class<? extends URI> getClassToRender() {
         return URI.class;
     }
-    public IJsonWriter toJson(IJsonWriter jsonWriter, URI o) {
-        return jsonWriter.value(ObjectUtils.toString(o, null));
+    public <W extends SerializationWriter> W toSerialization(W serializationWriter, URI o) {
+        return serializationWriter.value(ObjectUtils.toString(o, null));
     }
 
 }

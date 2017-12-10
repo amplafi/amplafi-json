@@ -18,9 +18,9 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.amplafi.flow.FlowPropertyDefinition;
-import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.FlowState;
 import org.amplafi.flow.json.JsonConstruct;
+import org.amplafi.flow.translator.FlowRenderer;
 import org.amplafi.flow.translator.SerializationWriter;
 
 import static com.sworddance.util.CUtilities.*;

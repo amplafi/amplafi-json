@@ -864,7 +864,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
                     inst = (E) object;
                 } else if (JsonSelfRenderer.class.isAssignableFrom(clazz)) {
                     inst = clazz.newInstance();
-                    inst = (E)((JsonSelfRenderer)inst).fromJson(object);
+                    inst = (E)((JsonSelfRenderer)inst).fromSerialization(object);
                 } else {
                     throw new JSONException(object.getClass()+ " cannot be converted to "+clazz);
                 }
@@ -882,7 +882,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
     public <E> List<E> asList(JsonRenderer renderer, Class<T> clazz) {
         List<E> list = new ArrayList<E>();
         for(Object object: myArrayList) {
-            list.add((E)renderer.fromJson(clazz, object));
+            list.add((E)renderer.fromSerialization(clazz, object));
         }
         return list;
     }

@@ -7,7 +7,7 @@ package org.amplafi.flow.json.renderers;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.amplafi.flow.FlowRenderer;
+import org.amplafi.flow.translator.FlowRenderer;
 import org.amplafi.flow.translator.SerializationWriter;
 
 /**
@@ -40,7 +40,7 @@ public class JavascriptDateOutputRenderer implements FlowRenderer<Object> {
     }
 
     /**
-     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
+     * @see org.amplafi.flow.json.JsonRenderer#fromSerialization(java.lang.Class, java.lang.Object, Object...)
      */
     public Object fromSerialization(Class clazz, Object value, Object...parameters) {
         throw new UnsupportedOperationException();

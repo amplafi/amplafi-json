@@ -18,7 +18,6 @@ import org.amplafi.flow.FlowException;
 import org.amplafi.flow.FlowExecutionException;
 import org.amplafi.flow.FlowManagement;
 import org.amplafi.flow.FlowPropertyDefinition;
-import org.amplafi.flow.FlowStateRenderer;
 import org.amplafi.flow.FlowState;
 import org.amplafi.flow.FlowStepDirection;
 import org.amplafi.flow.ServicesConstants;
@@ -29,6 +28,7 @@ import org.amplafi.flow.json.JSONWriter;
 import org.amplafi.flow.json.JsonConstruct;
 import org.amplafi.flow.json.renderers.FlowStateJsonRenderer;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
+import org.amplafi.flow.translator.FlowStateRenderer;
 import org.amplafi.flow.validation.FlowValidationException;
 import org.amplafi.flow.validation.FlowValidationResult;
 import org.amplafi.flow.validation.FlowValidationTracking;
@@ -128,7 +128,7 @@ public class JsonFlowRenderer implements FlowStateRenderer {
                 jsonWriter.keyValueIfNotBlankValue("exception", flowException.getMessage());
 
                 IJsonWriter jsonWriterForLog = getFlowStateWriter();
-                FlowStateJsonRenderer.INSTANCE.toJson(jsonWriterForLog, flowException.getFlowState());
+                FlowStateJsonRenderer.INSTANCE.toSerialization(jsonWriterForLog, flowException.getFlowState());
 
                 getLog().error("A FlowException terminated flow execution:"+jsonWriterForLog, flowException);
             } else if (exception != null){
@@ -204,7 +204,7 @@ public class JsonFlowRenderer implements FlowStateRenderer {
             List<String> orderedList = new ArrayList<>(flowTypes);
             Collections.sort(orderedList);
             JSONWriter jWriter = new JSONWriter();
-            IterableJsonOutputRenderer.INSTANCE.toJson(jWriter, orderedList);
+            IterableJsonOutputRenderer.INSTANCE.toSerialization(jWriter, orderedList);
             writer.append(jWriter.toString());
         } catch (IOException e) {
             throw new FlowExecutionException(e);

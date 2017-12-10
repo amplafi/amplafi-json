@@ -15,9 +15,9 @@ package org.amplafi.flow.json.renderers;
 
 import java.util.Map;
 
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.JSONObject;
 import org.amplafi.flow.json.JsonRenderer;
+import org.amplafi.flow.translator.SerializationWriter;
 
 /**
  * Render a map of objects as a json map. Keys and values of the Map can be JsonSelfRenderer
@@ -46,7 +46,7 @@ public class MapJsonRenderer<T,V> implements JsonRenderer<Map<T,V>> {
     public Class getClassToRender() {
         return Map.class;
     }
-    public IJsonWriter toJson(IJsonWriter jsonWriter, Map map) {
+    public <W extends SerializationWriter> W toSerialization(W jsonWriter, Map<T, V> map) {
         jsonWriter.object();
         if ( map != null ) {
             for(Object entry: map.entrySet()) {
@@ -61,9 +61,9 @@ public class MapJsonRenderer<T,V> implements JsonRenderer<Map<T,V>> {
     }
 
     /**
-     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
+     * @see org.amplafi.flow.json.JsonRenderer#fromSerialization(java.lang.Class, java.lang.Object, Object...)
      */
-    public <K> K fromJson(Class<K> clazz, Object value, Object... parameters) {
+    public <K> K fromSerialization(Class<K> clazz, Object value, Object... parameters) {
         JSONObject jsonObject = JSONObject.toJsonObject(value);
         return (K) jsonObject.asMap();
     }

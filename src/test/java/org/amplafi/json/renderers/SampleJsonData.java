@@ -1,8 +1,8 @@
 package org.amplafi.json.renderers;
 
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.JSONObject;
 import org.amplafi.flow.json.JsonSelfRenderer;
+import org.amplafi.flow.translator.SerializationWriter;
 
 public class SampleJsonData implements JsonSelfRenderer {
 
@@ -16,22 +16,22 @@ public class SampleJsonData implements JsonSelfRenderer {
     }
 
     public SampleJsonData(JSONObject object) {
-        fromJson(object);
+        fromSerialization(object);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T fromJson(Object object) {
+    public <T> T fromSerialization(Object object) {
         JSONObject json = JSONObject.toJsonObject(object);
         this.name = json.getString("name");
         this.age = json.getInt("age");
         return (T) this;
     }
-    public IJsonWriter toJson(IJsonWriter jsonWriter) {
-        jsonWriter.object();
-        jsonWriter.keyValue("name", this.name);
-        jsonWriter.keyValue("age", this.age);
-        jsonWriter.endObject();
-        return jsonWriter;
+    public <W extends SerializationWriter> W toSerialization(W serializationWriter) {
+        serializationWriter.object();
+        serializationWriter.keyValue("name", this.name);
+        serializationWriter.keyValue("age", this.age);
+        serializationWriter.endObject();
+        return serializationWriter;
     }
 
     @Override

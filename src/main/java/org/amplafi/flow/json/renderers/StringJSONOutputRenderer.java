@@ -6,8 +6,8 @@ package org.amplafi.flow.json.renderers;
 
 import java.util.Objects;
 
-import org.amplafi.flow.FlowRenderer;
 import org.amplafi.flow.json.JSONObject;
+import org.amplafi.flow.translator.FlowRenderer;
 import org.amplafi.flow.translator.SerializationWriter;
 
 public class StringJSONOutputRenderer implements FlowRenderer<CharSequence> {
@@ -23,7 +23,7 @@ public class StringJSONOutputRenderer implements FlowRenderer<CharSequence> {
     }
 
     /**
-     * @see org.amplafi.flow.json.JsonRenderer#fromJson(java.lang.Class, java.lang.Object, Object...)
+     * @see org.amplafi.flow.json.JsonRenderer#fromSerialization(java.lang.Class, java.lang.Object, Object...)
      */
     @SuppressWarnings("unchecked")
     public <K> K fromSerialization(Class<K> clazz, Object value, Object... parameters) {

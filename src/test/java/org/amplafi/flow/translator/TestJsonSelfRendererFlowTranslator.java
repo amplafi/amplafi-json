@@ -2,8 +2,8 @@ package org.amplafi.flow.translator;
 
 import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
+import org.amplafi.flow.FlowSelfRenderer;
 import org.amplafi.flow.flowproperty.DataClassDefinitionImpl;
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.JSONObject;
 import org.amplafi.flow.json.JsonSelfRenderer;
 import org.amplafi.flow.json.translator.JsonSelfRendererFlowTranslator;
@@ -39,7 +39,7 @@ public class TestJsonSelfRendererFlowTranslator extends AbstractTestFlowTranslat
         };
     }
 
-    public static class Subject implements JsonSelfRenderer {
+    public static class Subject implements FlowSelfRenderer {
 
         private String name;
 
@@ -59,12 +59,12 @@ public class TestJsonSelfRendererFlowTranslator extends AbstractTestFlowTranslat
         }
 
         @Override
-        public IJsonWriter toJson(IJsonWriter jsonWriter) {
-            return jsonWriter.object().keyValue("name", getName()).endObject();
+        public <W extends SerializationWriter> W toSerialization(W serializationWriter) {
+            return serializationWriter.object().keyValue("name", getName()).endObject();
         }
 
         @Override
-        public <T> T fromJson(Object object) {
+        public <T> T fromSerialization(Object object) {
             JSONObject obj = new JSONObject((String) object);
             setName(obj.getString("name"));
             return (T) this;

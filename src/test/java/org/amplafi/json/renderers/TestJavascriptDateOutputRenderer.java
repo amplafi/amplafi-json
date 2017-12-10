@@ -34,7 +34,7 @@ public class TestJavascriptDateOutputRenderer {
 
     public void testToJSONDate() {
         jsonWriter.object().key("test1");
-        renderer.toJson(jsonWriter, new Date(106, 7, 20));
+        renderer.toSerialization(jsonWriter, new Date(106, 7, 20));
         jsonWriter.endObject();
         assertEquals(result.toString(), "{\"test1\":new Date(2006,7,20,0,0)}");
     }
@@ -44,7 +44,7 @@ public class TestJavascriptDateOutputRenderer {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         jsonWriter.object().key("test1");
-        renderer.toJson(jsonWriter, cal);
+        renderer.toSerialization(jsonWriter, cal);
         jsonWriter.endObject();
         assertEquals(result.toString(), "{\"test1\":new Date(2006,7,20,0,0)}");
     }

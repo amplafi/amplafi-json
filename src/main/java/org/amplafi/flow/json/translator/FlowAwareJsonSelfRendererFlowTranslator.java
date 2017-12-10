@@ -14,13 +14,12 @@
 
 package org.amplafi.flow.json.translator;
 
-import org.amplafi.flow.DataClassDefinition;
 import org.amplafi.flow.FlowPropertyDefinition;
+import org.amplafi.flow.flowproperty.DataClassDefinition;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
 import org.amplafi.flow.flowproperty.FlowPropertyProviderWithValues;
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.translator.AbstractFlowTranslator;
-import org.amplafi.flow.translator.FlowTranslator;
+import org.amplafi.flow.translator.SerializationWriter;
 import org.amplafi.flow.validation.FlowValidationException;
 
 import com.sworddance.util.ApplicationIllegalStateException;
@@ -31,7 +30,7 @@ import com.sworddance.util.ApplicationIllegalStateException;
  *
  */
 @Deprecated // narrow use case that needs to be handled outside
-public class FlowAwareJsonSelfRendererFlowTranslator extends AbstractFlowTranslator {
+public class FlowAwareJsonSelfRendererFlowTranslator extends AbstractFlowTranslator<Object> {
 
     /**
      * @see org.amplafi.flow.translator.FlowTranslator#getTranslatedClass()
@@ -42,11 +41,11 @@ public class FlowAwareJsonSelfRendererFlowTranslator extends AbstractFlowTransla
     }
 
     /**
-     * @see org.amplafi.flow.translator.FlowTranslator#serialize(org.amplafi.flow.FlowPropertyDefinition, org.amplafi.flow.DataClassDefinition , java.lang.Object, java.lang.Object)
+     * @see org.amplafi.flow.translator.FlowTranslator#serialize(org.amplafi.flow.FlowPropertyDefinition, org.amplafi.flow.flowproperty.DataClassDefinition , java.lang.Object, java.lang.Object)
      */
     @Override
-    protected IJsonWriter doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition, IJsonWriter jsonWriter,
-        Object object) {
+    protected <W extends SerializationWriter> W doSerialize(FlowPropertyDefinition flowPropertyDefinition, DataClassDefinition dataClassDefinition,
+            W jsonWriter, Object object) {
         return jsonWriter.value(object);
     }
 
@@ -57,7 +56,7 @@ public class FlowAwareJsonSelfRendererFlowTranslator extends AbstractFlowTransla
             ApplicationIllegalStateException.checkState(!dataClass.isInterface()&&!dataClass.isEnum()&&!dataClass.isAnnotation(), dataClass,": Cannot create new instance of an interface, enum or annotation");
             FlowAwareJsonSelfRenderer jsonSelfRenderer = (FlowAwareJsonSelfRenderer) dataClass.newInstance();
             jsonSelfRenderer.setValuesProvider((FlowPropertyProviderWithValues) flowPropertyProvider);
-            return jsonSelfRenderer.fromJson(serializedObject);
+            return jsonSelfRenderer.fromSerialization(serializedObject);
         } catch (InstantiationException e) {
             throw new ApplicationIllegalStateException(e);
         } catch (IllegalAccessException e) {
