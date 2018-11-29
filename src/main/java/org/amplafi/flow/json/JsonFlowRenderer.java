@@ -23,7 +23,6 @@ import org.amplafi.flow.FlowStepDirection;
 import org.amplafi.flow.ServicesConstants;
 import org.amplafi.flow.flowproperty.FlowPropertyDefinitionImplementor;
 import org.amplafi.flow.impl.FlowStateImplementor;
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.JSONWriter;
 import org.amplafi.flow.json.JsonConstruct;
 import org.amplafi.flow.json.renderers.FlowStateJsonRenderer;
@@ -127,7 +126,7 @@ public class JsonFlowRenderer implements FlowStateRenderer {
                 FlowException flowException = (FlowException) exception;
                 jsonWriter.keyValueIfNotBlankValue("exception", flowException.getMessage());
 
-                IJsonWriter jsonWriterForLog = getFlowStateWriter();
+                JSONWriter jsonWriterForLog = getFlowStateWriter();
                 FlowStateJsonRenderer.INSTANCE.toSerialization(jsonWriterForLog, flowException.getFlowState());
 
                 getLog().error("A FlowException terminated flow execution:"+jsonWriterForLog, flowException);

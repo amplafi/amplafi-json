@@ -20,12 +20,12 @@ import org.apache.commons.lang.StringUtils;
  *
  * @author Andreas Andreou
  */
-public class DelegatingJSONWriter implements IJsonWriter {
+public class DelegatingJSONWriter implements SerializationWriter {
 
     private MapByClass<FlowRenderer<?>> renderers = new MapByClass<>();
     private JSONWriter realWriter;
 
-    public DelegatingJSONWriter(IJsonWriter writer) {
+    public DelegatingJSONWriter(SerializationWriter writer) {
         this.realWriter = (JSONWriter) writer;
     }
     public <W extends SerializationWriter> W append(String s) throws JSONException {

@@ -6,6 +6,7 @@ import java.io.Writer;
 
 import com.sworddance.beans.MapByClass;
 
+import org.amplafi.flow.FlowSelfRenderer;
 import org.amplafi.flow.json.renderers.CalendarFlowRenderer;
 import org.amplafi.flow.json.renderers.IterableJsonOutputRenderer;
 import org.amplafi.flow.json.renderers.MapJsonRenderer;
@@ -71,7 +72,7 @@ SOFTWARE.
  * @author JSON.org
  * @version 2
  */
-public class JSONWriter implements IJsonWriter {
+public class JSONWriter implements SerializationWriter {
     private static final int maxdepth = 20;
     private MapByClass<FlowRenderer<?>> renderers;
 
@@ -248,9 +249,9 @@ public class JSONWriter implements IJsonWriter {
                 }
                 JsonRenderer<K> renderer = (JsonRenderer<K>) renderers.getRaw(o.getClass());
                 if ( renderer == null ) {
-                    if ( o instanceof JsonSelfRenderer) {
+                    if ( o instanceof FlowSelfRenderer) {
                     // we check after looking in map so that it has a chance to have been overridden.
-                        ((JsonSelfRenderer) o).toSerialization(this);
+                        ((FlowSelfRenderer) o).toSerialization(this);
                         return (W) this;
                     } else {
                         // o.k. go search for a loose match.
@@ -405,9 +406,9 @@ public class JSONWriter implements IJsonWriter {
         if ( o != null ) {
             JsonRenderer<T> renderer = (JsonRenderer<T>) renderers.getRaw(o.getClass());
             if ( renderer == null) {
-                if (o instanceof JsonSelfRenderer) {
+                if (o instanceof FlowSelfRenderer<?>) {
                     // we check after looking in map so that it has a chance to have been overridden.
-                    ((JsonSelfRenderer) o).toSerialization(this);
+                    ((FlowSelfRenderer) o).toSerialization(this);
                     return (W) this;
                 } else {
                     // o.k. go search for a loose match.

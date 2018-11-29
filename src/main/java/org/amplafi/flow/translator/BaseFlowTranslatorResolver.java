@@ -30,7 +30,6 @@ import org.amplafi.flow.flowproperty.FlowPropertyDefinitionBuilder;
 import org.amplafi.flow.flowproperty.FlowPropertyDefinitionImplementor;
 import org.amplafi.flow.flowproperty.FlowPropertyProvider;
 import org.amplafi.flow.flowproperty.Resolvable;
-import org.amplafi.flow.json.IJsonWriter;
 import org.amplafi.flow.json.JSONStringer;
 import org.amplafi.flow.json.JsonRenderer;
 import org.amplafi.flow.json.translator.FlowAwareJsonSelfRendererFlowTranslator;
@@ -202,18 +201,7 @@ public class BaseFlowTranslatorResolver implements FlowTranslatorResolver {
             resolve(context, definition);
         }
     }
-    @Override
-    public SerializationWriter getSerializationWriter() {
-        MapByClass<JsonRenderer<?>>jsonRenderers = this.translators.values().stream()
-                .filter(translator -> translator.getFlowRenderer() != null)
-                .map(translator -> translator.getFlowRenderer())
-                .collect(Collectors.toMap(jsonRenderer -> jsonRenderer.getClassToRender(),
-                    jsonRenderer -> jsonRenderer,
-                    (first, last) -> last, MapByClass::new)
-                    );
-        IJsonWriter writer = new JSONStringer(jsonRenderers);
-        return writer;
-    }
+
     /**
      * @param flowTranslatorsList the flowTranslators to set
      */

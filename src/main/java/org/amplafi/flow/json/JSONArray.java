@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.amplafi.flow.FlowSelfRenderer;
 import org.apache.commons.collections.list.SetUniqueList;
 
 import static org.apache.commons.lang.StringUtils.*;
@@ -99,7 +100,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * Construct an empty JSONArray.
      */
     public JSONArray() {
-        myArrayList = new ArrayList<T>();
+        myArrayList = new ArrayList<>();
     }
 
     /**
@@ -163,7 +164,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
      * @param collection     A Collection.
      */
     public JSONArray(Collection<T> collection) {
-        myArrayList = new ArrayList<T>(collection);
+        myArrayList = new ArrayList<>(collection);
     }
 
 
@@ -854,7 +855,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
 
     @SuppressWarnings("unchecked")
     public <E> List<E> asList(Class<E> clazz) {
-        List<E> list = new ArrayList<E>();
+        List<E> list = new ArrayList<>();
         for(Object object: myArrayList) {
             E inst;
             try {
@@ -862,9 +863,9 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
                     inst = null;
                 } else if ( clazz.isAssignableFrom(object.getClass())) {
                     inst = (E) object;
-                } else if (JsonSelfRenderer.class.isAssignableFrom(clazz)) {
+                } else if (FlowAwareJsonSelfRenderer.class.isAssignableFrom(clazz)) {
                     inst = clazz.newInstance();
-                    inst = (E)((JsonSelfRenderer)inst).fromSerialization(object);
+                    inst = (E)((FlowSelfRenderer)inst).fromSerialization(object);
                 } else {
                     throw new JSONException(object.getClass()+ " cannot be converted to "+clazz);
                 }
@@ -880,7 +881,7 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
 
     @SuppressWarnings("unchecked")
     public <E> List<E> asList(JsonRenderer renderer, Class<T> clazz) {
-        List<E> list = new ArrayList<E>();
+        List<E> list = new ArrayList<>();
         for(Object object: myArrayList) {
             list.add((E)renderer.fromSerialization(clazz, object));
         }
@@ -932,10 +933,10 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
         } else if ( value instanceof JSONArray) {
             return (JSONArray<T>)value;
         } else if ( value instanceof Collection ) {
-            return new JSONArray<T>((Collection<T>)value);
+            return new JSONArray<>((Collection<T>)value);
         } else {
             String string = value.toString();
-            return new JSONArray<T>(string);
+            return new JSONArray<>(string);
         }
     }
 
