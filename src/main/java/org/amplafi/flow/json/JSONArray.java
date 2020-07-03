@@ -31,7 +31,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.amplafi.flow.FlowSelfRenderer;
+import org.amplafi.flow.json.translator.FlowAwareJsonSelfRenderer;
 import org.apache.commons.collections.list.SetUniqueList;
 
 import static org.apache.commons.lang.StringUtils.*;
@@ -972,7 +972,8 @@ public class JSONArray<T> implements JsonConstruct, Iterable<T> {
 
     /**
      * @see java.lang.Iterable#iterator()
-     */
+     */
+
     public Iterator<T> iterator() {
         return myArrayList.iterator();
     }

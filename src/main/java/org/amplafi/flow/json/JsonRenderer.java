@@ -4,7 +4,6 @@
  */
 package org.amplafi.flow.json;
 
-import org.amplafi.flow.translator.FlowRenderer;
 
 /**
  * Implementers will generate a JSON representation of a class instance.
